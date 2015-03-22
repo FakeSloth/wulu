@@ -50,4 +50,21 @@ exports.exportUsergroups = function(usergroups) {
       });
     });
   });
+  users = users.map(function(user) {
+    return user.name;
+  });
+  User.find({}, function(err, usersModel) {
+    if (err) return;
+    usersModel.forEach(function(user) {
+      if (users.indexOf(user.name) < 0) {
+        User.findOne({name: user.name}, function(err, user) {
+          if (err) return;
+          user.group = '';
+          user.save(function(err) {
+            if (err) return;
+          });
+        });
+      }
+    });
+  });
 };
