@@ -65,6 +65,8 @@ function exportUsergroups(usergroups) {
       userModel.save();
     });
   });
+
+  // Demote to regular user
   users = users.map((user) => user.name.toLowerCase());
   User.find({}, (err, usersModel) => {
     if (err) return;
