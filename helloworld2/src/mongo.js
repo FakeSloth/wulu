@@ -1,5 +1,10 @@
 import mongoose from 'mongoose';
 
+export default {
+  connect_database,
+  importUsergroups,
+  exportUsergroups
+};
 
 let userSchema = new mongoose.Schema({
   name: { type: String, lowercase: true },
@@ -7,12 +12,10 @@ let userSchema = new mongoose.Schema({
 });
 
 let User = mongoose.model('user', userSchema);
-export default {
-  connect_database,
-  importUsergroups,
-  exportUsergroups,
-  User
-};
+
+/**
+ * Connect to MongoDB Database.
+ */
 
 function connect_database() {
   let url = process.env.MONGODB || 'mongodb://localhost:27017/ps';
@@ -20,12 +23,25 @@ function connect_database() {
   mongoose.connection.on('error', () => console.error('MongoDB Connection Error. Make sure MongoDB is running.') );
 };
 
+/**
+ * Get usergroups from MongoDB.
+ *
+ * @param {Object} usergroups
+ * @param {Object} Config
+ */
+
 function importUsergroups(usergroups, Config) {
   User.find({}, (err, users) => {
     if (err) return;
     users.forEach((user) => usergroups[user.name] =  (user.group || Config.groupsranking[0]) + user.name );
   });
 };
+
+/**
+ * Save usergroups to MongoDB.
+ *
+ * @param {Object} usergroups
+ */
 
 function exportUsergroups(usergroups) {
   let users = [];
