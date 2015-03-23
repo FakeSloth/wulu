@@ -375,11 +375,12 @@ Users.socketReceive = function (worker, workerid, socketid, message) {
  *********************************************************/
 
 var usergroups = Users.usergroups = Object.create(null);
+
 function importUsergroups() {
 	// can't just say usergroups = {} because it's exported
 	for (var i in usergroups) delete usergroups[i];
 
-	Mongo.importUsergroups(usergroups, Config);
+	HelloWorld2.Mongo.importUsergroups(usergroups, Config);
 
 	// fs.readFile('config/usergroups.csv', function (err, data) {
 	// 	if (err) return;
@@ -393,8 +394,7 @@ function importUsergroups() {
 	// });
 }
 function exportUsergroups() {
-
-	Mongo.exportUsergroups(usergroups);
+	HelloWorld2.Mongo.exportUsergroups(usergroups);
 	// var buffer = '';
 	// for (var i in usergroups) {
 	// 	buffer += usergroups[i].substr(1).replace(/,/g, '') + ',' + usergroups[i].substr(0, 1) + "\n";

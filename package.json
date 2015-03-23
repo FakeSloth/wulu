@@ -1,6 +1,6 @@
 {
-  "name": "Pokemon-Showdown",
-  "version": "0.9.3",
+  "name": "helloworld2",
+  "version": "1.0.0",
   "dependencies": {
     "cloud-env": "0.1.0",
     "es6-shim": "0.27.1",
@@ -30,32 +30,19 @@
     "type": "git",
     "url": "https://github.com/Zarel/Pokemon-Showdown.git"
   },
-  "author": {
-    "name": "Guangcong Luo",
-    "email": "guangcongluo@gmail.com",
-    "url": "http://guangcongluo.com"
-  },
-  "contributors": [
-    {
-      "name": "Cathy J. Fitzpatrick",
-      "email": "cathy@cathyjf.com",
-      "url": "https://cathyjf.com"
-    },
-    {
-      "name": "Bill Meltsner",
-      "email": "bill@meltsner.com",
-      "url": "http://www.meltsner.com"
-    }
-  ],
+  "author": "Philip La <birkal@outlook.com>",
   "private": true,
   "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-babel": "^4.0.0",
+    "grunt-contrib-watch": "^0.6.1",
     "gulp": "~3.8.7",
-    "gulp-jshint": "git://github.com/spalger/gulp-jshint#c18df3a11",
     "gulp-jscs": "~1.4.0",
+    "gulp-jshint": "git://github.com/spalger/gulp-jshint#c18df3a11",
     "gulp-replace": "~0.5.1",
     "jshint-stylish": "~1.0.0",
-    "mocha": "~2.2.1",
     "lazypipe": "~0.2.2",
-    "merge-stream": "~0.1.7"
+    "merge-stream": "~0.1.7",
+    "mocha": "~2.2.1"
   }
 }
