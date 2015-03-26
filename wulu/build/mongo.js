@@ -4,18 +4,13 @@ var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["defau
 
 var mongoose = _interopRequire(require("mongoose"));
 
+var User = _interopRequire(require("./user"));
+
 module.exports = {
   connect_database: connect_database,
   importUsergroups: importUsergroups,
   exportUsergroups: exportUsergroups
 };
-
-var userSchema = new mongoose.Schema({
-  name: { type: String, lowercase: true },
-  group: String
-});
-
-var User = mongoose.model("user", userSchema);
 
 /**
  * Connect to MongoDB Database.

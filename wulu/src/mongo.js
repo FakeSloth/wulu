@@ -1,17 +1,11 @@
 import mongoose from 'mongoose';
+import User from './user';
 
 export default {
   connect_database,
   importUsergroups,
   exportUsergroups
 };
-
-let userSchema = new mongoose.Schema({
-  name: { type: String, lowercase: true },
-  group: String
-});
-
-let User = mongoose.model('user', userSchema);
 
 /**
  * Connect to MongoDB Database.
