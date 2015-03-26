@@ -3,9 +3,9 @@
 
   * Remove unncessary files in root
   * Remove chat-plugins
-  * Remove static folder
   * Move lib/ to config/
   * Move cidr.js and dnsbl.js to config folder
+  * Add chalk module
 
 1.1.0 / 2015-03-15
 ==================

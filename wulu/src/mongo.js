@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 import mongoose from 'mongoose';
 import User from './user';
 
@@ -14,8 +15,8 @@ export default {
 function connect_database() {
   let url = process.env.MONGODB || 'mongodb://localhost:27017/ps';
   mongoose.connect(url);
-  mongoose.connection.on('error', () => console.error('MongoDB Connection Error. Make sure MongoDB is running.') );
-};
+  mongoose.connection.on('error', () => console.error(chalk.red('MongoDB Connection Error. Make sure MongoDB is running.')) );
+}
 
 /**
  * Get usergroups from MongoDB.
@@ -29,7 +30,7 @@ function importUsergroups(usergroups, Config) {
     if (err) return;
     users.forEach((user) => usergroups[user.name] =  (user.group || Config.groupsranking[0]) + user.name );
   });
-};
+}
 
 /**
  * Save usergroups to MongoDB.
@@ -74,4 +75,4 @@ function exportUsergroups(usergroups) {
       }
     });
   });
-};
+}
