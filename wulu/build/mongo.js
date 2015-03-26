@@ -2,6 +2,8 @@
 
 var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
+var chalk = _interopRequire(require("chalk"));
+
 var mongoose = _interopRequire(require("mongoose"));
 
 var User = _interopRequire(require("./user"));
@@ -20,9 +22,9 @@ function connect_database() {
   var url = process.env.MONGODB || "mongodb://localhost:27017/ps";
   mongoose.connect(url);
   mongoose.connection.on("error", function () {
-    return console.error("MongoDB Connection Error. Make sure MongoDB is running.");
+    return console.error(chalk.red("MongoDB Connection Error. Make sure MongoDB is running."));
   });
-};
+}
 
 /**
  * Get usergroups from MongoDB.
@@ -38,7 +40,7 @@ function importUsergroups(usergroups, Config) {
       return usergroups[user.name] = (user.group || Config.groupsranking[0]) + user.name;
     });
   });
-};
+}
 
 /**
  * Save usergroups to MongoDB.
@@ -85,4 +87,4 @@ function exportUsergroups(usergroups) {
       }
     });
   });
-};
+}

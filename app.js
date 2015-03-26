@@ -338,12 +338,12 @@ global.string = function (str) {
 
 global.LoginServer = require('./loginserver.js');
 
-global.HelloWorld2 = require('./wulu/build/index');
+global.Wulu = require('./wulu/build/index');
 
 /**
  * Connect to MongoDB.
  */
-HelloWorld2.Mongo.connect_database();
+Wulu.Mongo.connect_database();
 
 global.Users = require('./users.js');
 
