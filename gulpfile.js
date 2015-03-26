@@ -144,7 +144,7 @@ jscsOptions.dataCompactAllIndented = util._extend(util._extend({}, jscsOptions.d
 
 var lintData = [
 	{
-		dirs: ['./*.js', './tournaments/*.js', './chat-plugins/*.js', './config/!(config).js', './**/scripts.js', './**/rulesets.js', './**/statuses.js'],
+		dirs: ['./*.js', './tournaments/*.js', './config/!(config).js', './**/scripts.js', './**/rulesets.js', './**/statuses.js'],
 		jsHint: jsHintOptions.base,
 		jscs: jscsOptions.base
 	}, {
