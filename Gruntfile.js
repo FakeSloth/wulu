@@ -9,10 +9,10 @@ module.exports = function(grunt) {
         files: (function() {
           var files = {};
 
-          var dir = fs.readdirSync('helloworld2/src');
+          var dir = fs.readdirSync('wulu/src');
 
           dir.forEach(function(file) {
-            files['helloworld2/build/' + file] = 'helloworld2/src/' + file;
+            files['wulu/build/' + file] = 'wulu/src/' + file;
           });
 
           return files;
@@ -22,7 +22,7 @@ module.exports = function(grunt) {
 
     watch: {
       babel: {
-        files: 'helloworld2/src/**/*.js',
+        files: 'wulu/src/**/*.js',
         tasks: ['babel']
       }
     }

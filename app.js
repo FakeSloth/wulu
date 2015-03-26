@@ -338,7 +338,7 @@ global.string = function (str) {
 
 global.LoginServer = require('./loginserver.js');
 
-global.HelloWorld2 = require('./helloworld2/build/index');
+global.HelloWorld2 = require('./wulu/build/index');
 
 /**
  * Connect to MongoDB.
@@ -390,8 +390,6 @@ if (Config.crashguard) {
  *********************************************************/
 
 global.Sockets = require('./sockets.js');
-
-global.Bot = require('./helloworld2/bot.js');
 
 /*********************************************************
  * Set up our last global
