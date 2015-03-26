@@ -359,12 +359,12 @@ global.Simulator = require('./simulator.js');
 global.Tournaments = require('./tournaments');
 
 try {
-	global.Dnsbl = require('./dnsbl.js');
+	global.Dnsbl = require('./config/dnsbl.js');
 } catch (e) {
 	global.Dnsbl = {query:function () {}};
 }
 
-global.Cidr = require('./cidr.js');
+global.Cidr = require('./config/cidr.js');
 
 if (Config.crashguard) {
 	// graceful crash - allow current battles to finish before restarting

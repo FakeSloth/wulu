@@ -130,7 +130,7 @@ if (cluster.isMaster) {
 
 	// It's optional if you don't need these features.
 
-	global.Cidr = require('./cidr');
+	global.Cidr = require('./config/cidr');
 
 	if (Config.crashguard) {
 		// graceful crash
