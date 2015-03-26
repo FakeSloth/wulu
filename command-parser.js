@@ -43,12 +43,6 @@ if (customCommands && customCommands.commands) {
 	Object.merge(commands, customCommands.commands);
 }
 
-// Install plug-in commands
-
-fs.readdirSync('./chat-plugins').forEach(function (file) {
-	if (file.substr(-3) === '.js') Object.merge(commands, require('./chat-plugins/' + file).commands);
-});
-
 /*********************************************************
  * Parser
  *********************************************************/
