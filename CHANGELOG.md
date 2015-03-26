@@ -2,6 +2,7 @@
 ==================
 
   * Remove unncessary files in root
+  * Remove chat-plugins
 
 1.1.0 / 2015-03-15
 ==================
