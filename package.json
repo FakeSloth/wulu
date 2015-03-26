@@ -1,6 +1,6 @@
 {
-  "name": "helloworld2",
-  "version": "1.0.0",
+  "name": "wulu",
+  "version": "1.1.0",
   "dependencies": {
     "cloud-env": "0.1.0",
     "es6-shim": "0.27.1",
@@ -25,11 +25,6 @@
     "test": "gulp && mocha"
   },
   "bin": "./app.js",
-  "homepage": "http://play.pokemonshowdown.com",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Zarel/Pokemon-Showdown.git"
-  },
   "author": "Philip La <birkal@outlook.com>",
   "private": true,
   "devDependencies": {

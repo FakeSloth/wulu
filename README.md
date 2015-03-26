@@ -1,6 +1,6 @@
-# Hello World 2
+# wulu
 
-Hello World 2's Pokémon battle simulator server.
+Extentions and plugins for Pokemon Showdown
 
 # License
 
