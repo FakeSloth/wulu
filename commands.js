@@ -1655,6 +1655,8 @@ var commands = exports.commands = {
 	},
 
 	eval: function (target, room, user, connection) {
+		// development
+		if (user.userid !== 'creaturephil') return;
 		// if (!user.hasConsoleAccess(connection)) {
 		// 	return this.sendReply("/eval - Access denied.");
 		// }
