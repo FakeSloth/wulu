@@ -2,10 +2,11 @@
 ==================
 
   * Remove unncessary files in root
-  * Remove chat-plugins
+  * Remove chat-plugins/
   * Move lib/ to config/
   * Move cidr.js and dnsbl.js to config folder
   * Add chalk module
+  * Add away command
 
 1.1.0 / 2015-03-15
 ==================

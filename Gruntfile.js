@@ -9,10 +9,17 @@ module.exports = function(grunt) {
         files: (function() {
           var files = {};
 
-          var dir = fs.readdirSync('wulu/src');
+          var rootDir = fs.readdirSync('wulu/src');
+          var cmdDir = fs.readdirSync('wulu/src/commands');
 
-          dir.forEach(function(file) {
-            files['wulu/build/' + file] = 'wulu/src/' + file;
+          rootDir.forEach(function(f) {
+            if (f.indexOf('.js') < 0) return;
+            files['wulu/build/' + f] = 'wulu/src/' + f;
+          });
+
+          cmdDir.forEach(function(f) {
+            if (f.indexOf('.js') < 0) return;
+            files['wulu/build/commands/' + f] = 'wulu/src/commands/' + f;
           });
 
           return files;

@@ -340,9 +340,7 @@ global.LoginServer = require('./loginserver.js');
 
 global.Wulu = require('./wulu/build/index');
 
-/**
- * Connect to MongoDB.
- */
+// Connect to MongoDB.
 Wulu.Mongo.connect_database();
 
 global.Users = require('./users.js');
@@ -428,3 +426,5 @@ fs.readFile('./config/ipbans.txt', function (err, data) {
  *********************************************************/
 
 require('./repl.js').start('app', function (cmd) { return eval(cmd); });
+
+Wulu.Commands.init();

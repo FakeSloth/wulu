@@ -66,13 +66,12 @@ function exportUsergroups(usergroups) {
   User.find({}, (err, usersModel) => {
     if (err) return;
     usersModel.forEach((user) => {
-      if (users.indexOf(user.name) < 0) {
-        User.findOne({name: user.name}, (err, user) => {
-          if (err) return;
-          user.group = '';
-          user.save();
-        });
-      }
+      if (users.indexOf(user.name) >= 0) return;
+      User.findOne({name: user.name}, (err, user) => {
+        if (err) return;
+        user.group = '';
+        user.save();
+      });
     });
   });
 }
