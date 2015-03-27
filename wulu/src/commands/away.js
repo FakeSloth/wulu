@@ -21,7 +21,7 @@ function away(message='\u0410\u051d\u0430\u0443') {
 
   let back = 'away', idle = 'away';
 
-  var commands = {
+  let commands = {
     back,
     idle,
     away(target, room, user) {
