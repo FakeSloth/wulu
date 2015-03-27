@@ -1,4 +1,4 @@
-1.2.0
+1.2.0 / 2015-03-26
 ==================
 
   * Remove unncessary files in root
@@ -6,7 +6,7 @@
   * Move lib/ to config/
   * Move cidr.js and dnsbl.js to config folder
   * Add chalk module
-  * Add away command
+  * Add away and poof command
 
 1.1.0 / 2015-03-15
 ==================
