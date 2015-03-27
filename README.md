@@ -7,14 +7,14 @@ Extentions and plugins for Pokemon Showdown
 Wulu is contain in modules. Currently, there are two modules: `mongo` and
 `Commands`
 
-## Mongo
+### Mongo
 
 Mongo contains functions to interact with a MongoDB database. The first
 function `connect_database` connects to a MongoDB database. 
 `importUsergroups` and `exportUsergroups` are MongoDB replacements of the
 original csv version of importUsergroups and exportUsergroups.
 
-## Commands
+### Commands
 
 Commands are modular as well. You can pick and choose which commands you would
 like to use. To use all of them use the `init` command:
