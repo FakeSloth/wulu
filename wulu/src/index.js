@@ -1,5 +1,5 @@
-import Commands from './commands';
-import Mongo from './mongo';
+import Commands from './build/commands';
+import Mongo from './build/mongo';
 
 export default {
   Mongo,

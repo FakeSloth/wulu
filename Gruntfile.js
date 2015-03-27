@@ -7,13 +7,15 @@ module.exports = function(grunt) {
     babel: {
       dist: {
         files: (function() {
-          var files = {};
+          var files = {
+            'wulu/index.js': 'wulu/src/index.js'
+          };
 
           var rootDir = fs.readdirSync('wulu/src');
           var cmdDir = fs.readdirSync('wulu/src/commands');
 
           rootDir.forEach(function(f) {
-            if (f.indexOf('.js') < 0) return;
+            if (f.indexOf('.js') < 0 || f === 'index.js') return;
             files['wulu/build/' + f] = 'wulu/src/' + f;
           });
 

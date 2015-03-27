@@ -338,7 +338,7 @@ global.string = function (str) {
 
 global.LoginServer = require('./loginserver.js');
 
-global.Wulu = require('./wulu/build/index');
+global.Wulu = require('./wulu/index');
 
 // Connect to MongoDB.
 Wulu.Mongo.connect_database();
