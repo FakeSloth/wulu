@@ -6,7 +6,7 @@ var mongoose = _interopRequire(require("mongoose"));
 
 var userSchema = new mongoose.Schema({
   name: { type: String, lowercase: true },
-  group: String,
+  group: { type: String, "default": "" },
   money: { type: Number, "default": 0 }
 });
 

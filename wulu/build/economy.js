@@ -16,7 +16,6 @@ module.exports = {
    *
    * @param {String} name
    * @param {Function} callback 
-   * @return {Number}
    */
   get: function get(name, callback) {
     User.findOne({ name: name }, function (err, user) {
@@ -33,19 +32,11 @@ module.exports = {
    * give(5).to('CreaturePhil')
    *
    * @param {Number} amount
+   * @return {Object}
    */
   give: function give(amount) {
     return {
-      /**
-       * @param {String} name
-       */
-      to: function to(name) {
-        User.findOne({ name: name }, function (err, user) {
-          if (err) return err;
-          user.money += amount;
-          user.save();
-        });
-      }
+      to: generator("+")
     };
   },
 
@@ -56,6 +47,7 @@ module.exports = {
    * take(5).from('CreaturePhil')
    *
    * @param {Number} amount
+   * @return {Object}
    */
   take: function take(amount) {
     return {
@@ -64,7 +56,7 @@ module.exports = {
        */
       from: function from(name) {
         User.findOne({ name: name }, function (err, user) {
-          if (err) return err;
+          if (err || !user) return err;
           user.money -= amount;
           user.save();
         });
@@ -72,3 +64,31 @@ module.exports = {
     };
   }
 };
+
+function generator(type) {
+  return function (amount) {
+    return {
+      from: handleGenerate("-"),
+      to: handleGenerate("+")
+    };
+  };
+}
+
+function handleGenerate(sign) {
+  return function (name) {
+    User.findOne({ name: name }, function (err, user) {
+      if (err || !user) return err;
+      if (sign === "+") {
+        user.money += amount;
+      } else {
+        user.money -= amount;
+      }
+      user.save(function (err) {
+        if (err) return err;
+        then();
+      });
+    });
+
+    return then;
+  };
+}

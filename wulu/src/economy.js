@@ -28,20 +28,11 @@ export default {
    * give(5).to('CreaturePhil')
    *
    * @param {Number} amount
-   * @return {Function} to
+   * @return {Object}
    */
   give(amount) {
     return {
-      /**
-       * @param {String} name
-       */
-      to(name) {
-        User.findOne({ name: name }, (err, user) => {
-          if (err) return err;
-          user.money += amount;
-          user.save();
-        });
-      }
+      to: generator('+')
     };
   },
 
@@ -52,7 +43,7 @@ export default {
    * take(5).from('CreaturePhil')
    *
    * @param {Number} amount
-   * @return {Function} from
+   * @return {Object}
    */
   take(amount) {
     return {
@@ -61,11 +52,39 @@ export default {
        */
       from(name) {
         User.findOne({ name: name }, (err, user) => {
-          if (err) return err;
+          if (err || !user) return err;
           user.money -= amount;
           user.save();
         });
-      } 
+      }
     };
   }
 };
+
+function generator(type) {
+  return (amount) => {
+    return {
+      from: handleGenerate('-'),
+      to: handleGenerate('+')
+    }
+  }
+}
+
+function handleGenerate(sign) {
+  return (name) => {
+    User.findOne({ name: name }, (err, user) => {
+      if (err || !user) return err;
+      if (sign === '+') {
+        user.money += amount;
+      } else {
+        user.money -= amount;
+      }
+      user.save((err) => {
+        if (err) return err;
+        then();
+      });
+    });
+  }
+}
+
+function then
