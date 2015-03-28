@@ -33,7 +33,7 @@ export default {
       if (err) return;
       if (!user) {
         user = new User({
-          name: toId(name),
+          name: name.toLowerCase(),
           money: amount
         });
         return user.save((err) => {
