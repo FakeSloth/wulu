@@ -52,7 +52,7 @@ function money() {
         return this.sendReply("You can't give less than one " + currency + ".");
       }if (amount >= 2) currency += "s";
 
-      Economy.give(toId(this.targetUsername), amount, (function (total) {
+      Economy.give(this.targetUsername.toLowerCase(), amount, (function (total) {
         this.sendReply("" + this.targetUsername + " was given " + amount + " " + currency + ". This user now has " + total + " " + currency + ".");
         Users.get(this.targetUsername).send("" + user.name + " has given you " + amount + " " + currency + ". You now have " + total + " " + currency + ".");
       }).bind(this));
@@ -78,7 +78,7 @@ function money() {
         return this.sendReply("You can't give less than one " + currency + ".");
       }if (amount >= 2) currency += "s";
 
-      Economy.take(toId(this.targetUsername), amount, (function (total) {
+      Economy.take(this.targetUsername.toLowerCase(), amount, (function (total) {
         this.sendReply("" + this.targetUsername + " was losted " + amount + " " + currency + ". This user now has " + total + " " + currency + ".");
         Users.get(this.targetUsername).send("" + user.name + " has taken " + amount + " " + currency + " from you. You now have " + total + " " + currency + ".");
       }).bind(this));
