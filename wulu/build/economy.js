@@ -26,69 +26,31 @@ module.exports = {
   },
 
   /**
-   * Give a user a certain amount of money
+   * Give a user a certain amount of money.
    *
-   * Example:
-   * give(5).to('CreaturePhil')
-   *
+   * @param {String} name
    * @param {Number} amount
-   * @return {Object}
+   * @param {Function} callback
    */
-  give: function give(amount) {
-    return {
-      to: generator("+")
-    };
-  },
-
-  /**
-   * Take a certain amount of money from a user
-   *
-   * Example:
-   * take(5).from('CreaturePhil')
-   *
-   * @param {Number} amount
-   * @return {Object}
-   */
-  take: function take(amount) {
-    return {
-      /**
-       * @param {String} name
-       */
-      from: function from(name) {
-        User.findOne({ name: name }, function (err, user) {
-          if (err || !user) return err;
-          user.money -= amount;
-          user.save();
+  give: function give(name, amount, callback) {
+    User.findOne({ name: name }, function (err, user) {
+      if (err) return;
+      if (!user) {
+        user = new User({
+          name: toId(name),
+          money: amount
+        });
+        return user.save(function (err) {
+          if (err) return callback(0);
+          callback(user.money);
         });
       }
-    };
-  }
-};
-
-function generator(type) {
-  return function (amount) {
-    return {
-      from: handleGenerate("-"),
-      to: handleGenerate("+")
-    };
-  };
-}
-
-function handleGenerate(sign) {
-  return function (name) {
-    User.findOne({ name: name }, function (err, user) {
-      if (err || !user) return err;
-      if (sign === "+") {
-        user.money += amount;
-      } else {
-        user.money -= amount;
-      }
+      user.money += amount;
       user.save(function (err) {
-        if (err) return err;
-        then();
+        if (err) return callback(0);
+        callback(user.money);
       });
     });
+  }
 
-    return then;
-  };
-}
+};
