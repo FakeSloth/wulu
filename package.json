@@ -5,6 +5,7 @@
     "chalk": "^1.0.0",
     "cloud-env": "0.1.0",
     "es6-shim": "0.27.1",
+    "is_js": "^0.7.3",
     "mongoose": "^3.8.25",
     "node-static": "0.7.6",
     "sockjs": "0.3.15",

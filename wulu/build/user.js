@@ -6,7 +6,8 @@ var mongoose = _interopRequire(require("mongoose"));
 
 var userSchema = new mongoose.Schema({
   name: { type: String, lowercase: true },
-  group: String
+  group: String,
+  money: { type: Number, "default": 0 }
 });
 
 module.exports = mongoose.model("user", userSchema);

@@ -6,11 +6,15 @@ var away = _interopRequire(require("./commands/away"));
 
 var poof = _interopRequire(require("./commands/poof"));
 
+var money = _interopRequire(require("./commands/money"));
+
 module.exports = {
   init: function init() {
     away();
     poof();
+    money();
   },
   away: away,
-  poof: poof
+  poof: poof,
+  money: money
 };
