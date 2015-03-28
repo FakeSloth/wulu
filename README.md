@@ -4,8 +4,8 @@ Extentions and plugins for Pokemon Showdown
 
 # Documentation
 
-Wulu is contain in modules. Currently, there are two modules: `mongo` and
-`Commands`
+Wulu is contain in modules. Currently, there are 3 modules: `Bot`, `Mongo`,
+`Commands`.
 
 ### Mongo
 
@@ -40,6 +40,34 @@ Wulu.Command.away('Gaming');
 
 Be sure to check more of the documentation to see what each command has to
 offer.
+
+### Bot
+
+To create a new bot:
+
+```js
+var Bot = new Wulu.Bot();
+```
+
+Connecting the Bot to the server:
+
+```js
+Bot.connect();
+```
+
+You can pass arguments to the bot. The four parameters that it has are __name__,
+__avatar__, __group__, and __rooms__.
+
+```js
+var Bot = new Wulu.Bot('Bender', 'bender.png', '&', ['global', 'lobby', 'tournaments']);
+```
+
+To join all rooms:
+
+```js
+var rooms = Object.keys(Rooms.rooms);
+var Bot = new Wulu.Bot('Bender', 'bender.png', '&', rooms);
+```
 
 # License
 
