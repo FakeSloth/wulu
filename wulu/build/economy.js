@@ -51,6 +51,27 @@ module.exports = {
         callback(user.money);
       });
     });
+  },
+
+  /**
+   * Take a certain amount from a user.
+   * Users who have not been in the database yet
+   * will not be deducted of money.
+   *
+   * @param {String} name
+   * @param {Number} amount
+   * @param {Function} callback
+   */
+  take: function take(name, amount, callback) {
+    User.findOne({ name: name }, function (err, user) {
+      if (err) return;
+      if (!user) return callback(0);
+      user.money -= amount;
+      user.save(function (err) {
+        if (err) return callback(0);
+        callback(user.money);
+      });
+    });
   }
 
 };
