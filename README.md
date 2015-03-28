@@ -69,6 +69,22 @@ var rooms = Object.keys(Rooms.rooms);
 var Bot = new Wulu.Bot('Bender', 'bender.png', '&', rooms);
 ```
 
+## Versioning
+
+### 2.x.x
+
+Stable Release of wulu. Most features implemented. Should work 100% with few 
+or no bugs.
+
+### 1.x.x
+
+Development of wulu. This is the so called "beta" of wulu. Has a high chance 
+of lots of bugs or glitches.
+
+### 0.x.x
+
+This is the version where the official Pokemon Showdown main repository left off at.
+
 # License
 
 [MIT](LICENSE)
