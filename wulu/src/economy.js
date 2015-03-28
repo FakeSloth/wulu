@@ -12,7 +12,6 @@ export default {
    *
    * @param {String} name
    * @param {Function} callback 
-   * @return {Number}
    */
   get(name, callback) {
     User.findOne({ name: name }, (err, user) => {
@@ -29,6 +28,7 @@ export default {
    * give(5).to('CreaturePhil')
    *
    * @param {Number} amount
+   * @return {Function} to
    */
   give(amount) {
     return {
@@ -52,6 +52,7 @@ export default {
    * take(5).from('CreaturePhil')
    *
    * @param {Number} amount
+   * @return {Function} from
    */
   take(amount) {
     return {
