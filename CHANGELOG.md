@@ -1,3 +1,8 @@
+1.4.0
+==================
+
+  * Update with main Pokemon Showdown repository [f0560af][https://github.com/Zarel/Pokemon-Showdown/commit/f0560afbc739da2a6779636783f6bb8c3ec2b154]
+
 1.3.0 / 2015-03-28
 ==================
 
