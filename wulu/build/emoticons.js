@@ -22,9 +22,14 @@ var emotes = {
   feelsok: "http://i.imgur.com/gu3Osve.png",
   feelsrs: "http://i.imgur.com/qGEot0R.png",
   feelssc: "http://i.imgur.com/cm6oTZ1.png",
+  fukya: "http://i.imgur.com/ampqCZi.gif",
   Kappa: "http://static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-ddc6e3a8732cb50f-25x28.png",
+  niglol: "http://i.imgur.com/SlzCghq.png",
+  oshit: "http://i.imgur.com/yr5DjuZ.png",
   PJSalt: "http://static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-18be1a297459453f-36x30.png",
-  SwiftRage: "http://static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-680b6b3887ef0d17-21x28.png" };
+  SwiftRage: "http://static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-680b6b3887ef0d17-21x28.png",
+  xa: "http://i.imgur.com/V728AvL.png"
+};
 
 var emotes_keys = Object.keys(emotes);
 
