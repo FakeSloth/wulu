@@ -5,7 +5,6 @@ export default emoticons;
 
 let emotes = {
   'Kappa': 'http://static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-ddc6e3a8732cb50f-25x28.png',
-  'PogChamp': 'http://static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-60aa1af305e32d49-23x30.png',
   'BloodTrail': 'http://static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-f124d3a96eff228a-41x28.png',
   'BibleThump': 'http://static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-f6c13c7fc0a5c93d-36x30.png',
   'feelsgd': 'http://i.imgur.com/9gj1oPV.png',
@@ -52,6 +51,12 @@ function emoticons(_emotes=emotes) {
       let emote = _emotes[match];
       return is.string(emote) ? `<img src="${emote}" title="${match}" />`: match;
     });
+
+    // __italics__
+		message = message.replace(/\_\_([^< ](?:[^<]*?[^< ])?)\_\_(?![^<]*?<\/a)/g, '<i>$1</i>');
+
+		// **bold**
+		message = message.replace(/\*\*([^< ](?:[^<]*?[^< ])?)\*\*/g, '<b>$1</b>');
 
     room.addRaw(`<div class="chat"><small>${user.group}</small><button name="parseCommand" value="/user ${user.name}" class=".emote-chat"><b><font color="${color(user.userid)}">${user.name}:</font></b></button><em class="mine">${message}</div>`);
 
