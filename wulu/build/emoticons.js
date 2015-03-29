@@ -23,7 +23,7 @@ var patternRegex = createPatternRegex();
 
 module.exports = {
   emotes: emotes,
-  emoticons: emoticons
+  Emoticons: Emoticons
 };
 
 /**
@@ -39,7 +39,7 @@ module.exports = {
  *
  * @param {Object} _emotes
  */
-function emoticons() {
+function Emoticons() {
   var _emotes = arguments[0] === undefined ? emotes : arguments[0];
 
   if (!CommandParser.originalParse) {

@@ -1,14 +1,17 @@
 import away from './commands/away';
-import poof from './commands/poof';
+import emoticons from './commands/emoticons';
 import money from './commands/money';
+import poof from './commands/poof';
 
 export default {
   init() {
     away();
-    poof();
+    emoticons();
     money();
+    poof();
   },
   away,
-  poof,
-  money
+  emoticons,
+  money,
+  poof
 };

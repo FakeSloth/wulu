@@ -4,17 +4,21 @@ var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["defau
 
 var away = _interopRequire(require("./commands/away"));
 
-var poof = _interopRequire(require("./commands/poof"));
+var emoticons = _interopRequire(require("./commands/emoticons"));
 
 var money = _interopRequire(require("./commands/money"));
+
+var poof = _interopRequire(require("./commands/poof"));
 
 module.exports = {
   init: function init() {
     away();
-    poof();
+    emoticons();
     money();
+    poof();
   },
   away: away,
-  poof: poof,
-  money: money
+  emoticons: emoticons,
+  money: money,
+  poof: poof
 };

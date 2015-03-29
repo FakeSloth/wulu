@@ -18,7 +18,7 @@ let patternRegex = createPatternRegex();
 
 export default {
   emotes,
-  emoticons
+  Emoticons
 };
 
 /**
@@ -34,7 +34,7 @@ export default {
  *
  * @param {Object} _emotes
  */
-function emoticons(_emotes=emotes) {
+function Emoticons(_emotes=emotes) {
   if (!CommandParser.originalParse) {
     CommandParser.originalParse = CommandParser.parse;
   }
