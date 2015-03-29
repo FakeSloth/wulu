@@ -6,7 +6,7 @@ var Bot = _interopRequire(require("./build/bot"));
 
 var Commands = _interopRequire(require("./build/commands"));
 
-var Emoticons = _interopRequire(require("./build/emoticons"));
+var Emoticons = require("./build/emoticons").Emoticons;
 
 var Mongo = _interopRequire(require("./build/mongo"));
 

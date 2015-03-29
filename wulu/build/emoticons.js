@@ -6,8 +6,6 @@ var color = _interopRequire(require("./color"));
 
 var is = _interopRequire(require("is_js"));
 
-module.exports = emoticons;
-
 var emotes = {
   BibleThump: "http://static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-f6c13c7fc0a5c93d-36x30.png",
   BloodTrail: "http://static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-f124d3a96eff228a-41x28.png",
@@ -22,6 +20,11 @@ var emotes = {
 var emotes_keys = Object.keys(emotes);
 
 var patternRegex = createPatternRegex();
+
+module.exports = {
+  emotes: emotes,
+  emoticons: emoticons
+};
 
 /**
  * Emoticons

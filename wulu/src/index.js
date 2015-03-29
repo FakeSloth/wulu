@@ -1,6 +1,6 @@
 import Bot from './build/bot';
 import Commands from './build/commands';
-import Emoticons from './build/emoticons';
+import {Emoticons} from './build/emoticons';
 import Mongo from './build/mongo';
 
 export default {

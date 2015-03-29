@@ -1,8 +1,6 @@
 import color from './color';
 import is from 'is_js';
 
-export default emoticons;
-
 let emotes = {
   'BibleThump': 'http://static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-f6c13c7fc0a5c93d-36x30.png',
   'BloodTrail': 'http://static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-f124d3a96eff228a-41x28.png',
@@ -17,6 +15,11 @@ let emotes = {
 let emotes_keys = Object.keys(emotes);
 
 let patternRegex = createPatternRegex();
+
+export default {
+  emotes,
+  emoticons
+};
 
 /**
  * Emoticons
