@@ -2,6 +2,7 @@
 ==================
 
   * [f0560af][f0560af] Update with main Pokemon Showdown repository
+  * Add Emoticons
 
 [f0560af]: https://github.com/FakeSloth/wulu/commit/f0560afbc739da2a6779636783f6bb8c3ec2b154
 

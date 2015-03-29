@@ -4,8 +4,8 @@ Extentions and plugins for Pokemon Showdown
 
 # Documentation
 
-Wulu is contain in modules. Currently, there are 3 modules: `Bot`, `Mongo`,
-`Commands`.
+Wulu is contain in modules. Currently, there are 4 modules: `Bot`, `Mongo`,
+`Commands`, and `Emoticons`.
 
 ### Mongo
 
@@ -67,6 +67,24 @@ To join all rooms:
 ```js
 var rooms = Object.keys(Rooms.rooms);
 var Bot = new Wulu.Bot('Bender', 'bender.png', '&', rooms);
+```
+
+### Emoticons
+
+To start using emoticons:
+
+```js
+Wulu.Emoticons();
+```
+
+You may pass in your custom emoticons:
+
+```js
+var emotes = {
+  'Kappa': 'kappa.png',
+  'feelsgd': 'feelsgd.png'
+};
+Wulu.Emoticons(emotes);
 ```
 
 ## Versioning

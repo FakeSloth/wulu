@@ -6,10 +6,13 @@ var Bot = _interopRequire(require("./build/bot"));
 
 var Commands = _interopRequire(require("./build/commands"));
 
+var Emoticons = _interopRequire(require("./build/emoticons"));
+
 var Mongo = _interopRequire(require("./build/mongo"));
 
 module.exports = {
   Bot: Bot,
-  Mongo: Mongo,
-  Commands: Commands
+  Commands: Commands,
+  Emoticons: Emoticons,
+  Mongo: Mongo
 };
