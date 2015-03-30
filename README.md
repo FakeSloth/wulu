@@ -2,6 +2,23 @@
 
 Extentions and plugins for Pokemon Showdown
 
+# Getting Started
+
+wulu requires a [MongoDB](http://www.mongodb.com) database to work.
+Open a new command prompt or terminal and type this in:
+
+```bash
+$ mongod
+```
+
+Then open another command prompt and terminal and type this in:
+
+```bash
+$ git clone https://github.com/FakeSloth/wulu.git
+$ cd wulu && npm install
+$ node app.js
+```
+
 # Documentation
 
 Wulu is contain in modules. Currently, there are 4 modules: `Bot`, `Mongo`,
