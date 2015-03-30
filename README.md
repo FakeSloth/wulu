@@ -27,7 +27,9 @@ Wulu is contain in modules. Currently, there are 4 modules: `Bot`, `Mongo`,
 ### Mongo
 
 Mongo contains functions to interact with a MongoDB database. The first
-function `connect_database` connects to a MongoDB database. 
+function `connect_database` connects to a MongoDB database. It has an optional
+parameter where you can put in a database url that is store elsewhere such as
+[mongolab](https://mongolab.com).
 `importUsergroups` and `exportUsergroups` are MongoDB replacements of the
 original csv version of importUsergroups and exportUsergroups.
 

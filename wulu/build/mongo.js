@@ -16,10 +16,14 @@ module.exports = {
 
 /**
  * Connect to MongoDB Database.
+ *
+ * @param {String} db
  */
 
 function connect_database() {
-  var url = process.env.MONGODB || "mongodb://localhost:27017/ps";
+  var db = arguments[0] === undefined ? "mongodb://localhost:27017/ps" : arguments[0];
+
+  var url = process.env.MONGODB || db;
   mongoose.connect(url);
   mongoose.connection.on("error", function () {
     return console.error(chalk.red("MongoDB Connection Error. Make sure MongoDB is running."));
