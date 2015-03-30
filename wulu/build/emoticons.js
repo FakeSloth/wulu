@@ -28,6 +28,7 @@ var emotes = {
   oshit: "http://i.imgur.com/yr5DjuZ.png",
   PJSalt: "http://static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-18be1a297459453f-36x30.png",
   SwiftRage: "http://static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-680b6b3887ef0d17-21x28.png",
+  wtf1: "http://i.imgur.com/kwR8Re9.png",
   xa: "http://i.imgur.com/V728AvL.png"
 };
 

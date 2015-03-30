@@ -35,7 +35,12 @@ function create_table() {
   let emotes_list_right = emotes_list.splice(len/2, len/2);
 
   for (let i = 0; i < len / 2; i++) {
-    emotes_group_list.push(`<tr>${emotes_list[i]}${emotes_list_right[i]}</tr>`);
+    let emote1 = emotes_list[i], emote2 = emotes_list_right[i];
+    if (emote2) {
+      emotes_group_list.push(`<tr>${emotes_list[i]}${emotes_list_right[i]}</tr>`);
+    } else {
+      emotes_group_list.push(`<tr>${emotes_list[i]}</tr>`);
+    }
   }
 
   return `<center><b><u>List of Emoticons</u></b></center>

@@ -38,7 +38,13 @@ function create_table() {
   var emotes_list_right = emotes_list.splice(len / 2, len / 2);
 
   for (var i = 0; i < len / 2; i++) {
-    emotes_group_list.push("<tr>" + emotes_list[i] + "" + emotes_list_right[i] + "</tr>");
+    var emote1 = emotes_list[i],
+        emote2 = emotes_list_right[i];
+    if (emote2) {
+      emotes_group_list.push("<tr>" + emotes_list[i] + "" + emotes_list_right[i] + "</tr>");
+    } else {
+      emotes_group_list.push("<tr>" + emotes_list[i] + "</tr>");
+    }
   }
 
   return ("<center><b><u>List of Emoticons</u></b></center>\n          <table border=\"1\" cellspacing=\"0\" cellpadding=\"5\" width=\"100%\">\n            <tbody>\n              " + emotes_group_list.join("") + "\n            </tbody>\n          </table>                  \n        ").replace(/(\r\n|\n|\r)/gm, "");
