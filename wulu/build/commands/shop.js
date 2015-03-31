@@ -1,5 +1,9 @@
 "use strict";
 
+var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+
+var Economy = _interopRequire(require("../economy"));
+
 module.exports = shop;
 
 var shop_data = [["Symbol", "Buys a custom symbol to go infront of name and puts you at top of userlist. (Temporary until restart, certain symbols are blocked)", 5], ["Fix", "Buys the ability to alter your current custom avatar or trainer card. (don't buy if you have neither)", 10], ["Poof", "Buy a poof message to be added into the pool of possible poofs.", 15], ["Who", "Buys a custom whois bot message for your name.", 25], ["Avatar", "Buys an custom avatar to be applied to your name (You supply. Images larger than 80x80 may not show correctly)", 30], ["Trainer", "Buys a trainer card which shows information through a command.", 50], ["Room", "Buys a chatroom for you to own. (within reason, can be refused)", 100]];
@@ -17,6 +21,28 @@ function shop() {
       if (!this.canBroadcast()) {
         return;
       }return this.sendReply("|raw|" + global_shop);
+    },
+
+    buy: function buy(target, room, user) {
+      if (!target) {
+        return this.parse("/help buy");
+      }Economy.get(user.userid, (function (money) {
+        var len = shop_data.length,
+            match = undefined;
+        while (len--) {
+          if (target.toLowerCase() !== shop_data[len][0].toLowerCase()) continue;
+          match = true;
+          var price = shop_data[len][2];
+          if (price > money) {
+            return this.sendReply("You don't have enough money for this. You need " + (price - money) + " more to buy " + target + ".");
+          }
+          Economy.take(user.userid, price);
+          room.add("" + user.name + " has bought " + target + " from the shop.");
+        }
+        if (!match) {
+          this.sendReply("" + target + " not found in shop.");
+        }
+      }).bind(this));
     }
   };
   Object.merge(CommandParser.commands, commands);

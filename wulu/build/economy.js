@@ -48,7 +48,7 @@ module.exports = {
       user.money += amount;
       user.save(function (err) {
         if (err) return callback(0);
-        callback(user.money);
+        callback && callback(user.money);
       });
     });
   },
@@ -69,7 +69,7 @@ module.exports = {
       user.money -= amount;
       user.save(function (err) {
         if (err) return callback(0);
-        callback(user.money);
+        callback && callback(user.money);
       });
     });
   }

@@ -44,7 +44,7 @@ export default {
       user.money += amount;
       user.save((err) => {
         if (err) return callback(0); 
-        callback(user.money);
+        callback && callback(user.money);
       });
     });
   },
@@ -65,7 +65,7 @@ export default {
       user.money -= amount;
       user.save((err) => {
         if (err) return callback(0); 
-        callback(user.money);
+        callback && callback(user.money);
       });
     });
   }

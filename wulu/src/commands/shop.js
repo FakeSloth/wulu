@@ -1,3 +1,5 @@
+import Economy from '../economy';
+
 export default shop;
 
 let shop_data = [
@@ -22,6 +24,26 @@ function shop() {
     shop(target, room, user) {
       if (!this.canBroadcast()) return;
       return this.sendReply(`|raw|${global_shop}`); 
+    },
+
+    buy(target, room, user) {
+      if (!target) return this.parse('/help buy'); 
+      Economy.get(user.userid, function(money) {
+        let len = shop_data.length, match;
+        while(len--) {
+          if (target.toLowerCase() !== shop_data[len][0].toLowerCase()) continue;
+          match = true;
+          let price = shop_data[len][2];
+          if (price > money) {
+            return this.sendReply(`You don't have enough money for this. You need ${price - money} more to buy ${target}.`);
+          }
+          Economy.take(user.userid, price);
+          room.add(`${user.name} has bought ${target} from the shop.`);
+        }
+        if (!match) {
+          this.sendReply(`${target} not found in shop.`); 
+        }
+      }.bind(this));
     }
   };
   Object.merge(CommandParser.commands, commands);
