@@ -18,8 +18,9 @@ let global_shop = getShopDisplay(shop_data);
  * Shop where user can buy stuff with money.
  *
  * @param {Array} shop
+ * @param {String} currency
  */
-function shop() {
+function shop(shop=shop_data, currency_name='buck') {
   let commands = {
     shop(target, room, user) {
       if (!this.canBroadcast()) return;
@@ -28,22 +29,28 @@ function shop() {
 
     buy(target, room, user) {
       if (!target) return this.parse('/help buy'); 
+      let self = this;
       Economy.get(user.userid, function(money) {
-        let len = shop_data.length, match;
+        let len = shop.length, match;
         while(len--) {
-          if (target.toLowerCase() !== shop_data[len][0].toLowerCase()) continue;
+          if (target.toLowerCase() !== shop[len][0].toLowerCase()) continue;
           match = true;
-          let price = shop_data[len][2];
+          let price = shop[len][2];
+          let item_currency = (price - money) >= 2 ? currency_name + 's' : currency_name;
           if (price > money) {
-            return this.sendReply(`You don't have enough money for this. You need ${price - money} more to buy ${target}.`);
+            return self.sendReply(`You don't have enough money for this. You need ${price - money} ${item_currency} more to buy ${target}.`);
           }
-          Economy.take(user.userid, price);
+          Economy.take(user.userid, price, function(money) {
+            let currency = money >= 2 ? currency_name + 's' : currency_name;
+            self.sendReply(`You have bought ${target} for ${price} ${item_currency}. You now have ${money} ${currency} left.`);
+          });
           room.add(`${user.name} has bought ${target} from the shop.`);
+          room.update();
         }
         if (!match) {
-          this.sendReply(`${target} not found in shop.`); 
+          self.sendReply(`${target} not found in shop.`); 
         }
-      }.bind(this));
+      });
     }
   };
   Object.merge(CommandParser.commands, commands);
