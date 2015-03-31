@@ -46,7 +46,7 @@ function getShopDisplay(shop) {
   while (start < shop.length) {
     section = shop[start];
     display += `<tr>
-            <td>${section[0]}</td>
+            <td><button name="send" value="/buy ${section[0]}">${section[0]}</button></td>
             <td>${section[1]}</td>
             <td>${section[2]}</td>
           </tr>`.replace(/(\r\n|\n|\r)/gm, '');

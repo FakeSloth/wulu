@@ -35,7 +35,7 @@ function getShopDisplay(shop) {
       section = undefined;
   while (start < shop.length) {
     section = shop[start];
-    display += ("<tr>\n            <td>" + section[0] + "</td>\n            <td>" + section[1] + "</td>\n            <td>" + section[2] + "</td>\n          </tr>").replace(/(\r\n|\n|\r)/gm, "");
+    display += ("<tr>\n            <td><button name=\"send\" value=\"/buy " + section[0] + "\">" + section[0] + "</button></td>\n            <td>" + section[1] + "</td>\n            <td>" + section[2] + "</td>\n          </tr>").replace(/(\r\n|\n|\r)/gm, "");
     start++;
   }
   display += "</tbody></table><center>To buy an item from the shop, use /buy <em>command</em>.</center>";
