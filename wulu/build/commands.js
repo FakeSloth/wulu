@@ -10,15 +10,19 @@ var money = _interopRequire(require("./commands/money"));
 
 var poof = _interopRequire(require("./commands/poof"));
 
+var shop = _interopRequire(require("./commands/shop"));
+
 module.exports = {
   init: function init() {
     away();
     emoticons();
     money();
     poof();
+    shop();
   },
   away: away,
   emoticons: emoticons,
   money: money,
-  poof: poof
+  poof: poof,
+  shop: shop
 };
