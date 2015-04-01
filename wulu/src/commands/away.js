@@ -14,7 +14,7 @@ function away(message='\u0410\u051d\u0430\u0443') {
   Users.User.prototype.getIdentity = function(roomid) {
     var name = this.getOriginalIdentity(roomid);
     if (this.isAway) {
-      name += " - " + message;
+      name += ' - ' + message;
     }
     return name;
   };
