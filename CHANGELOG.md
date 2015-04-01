@@ -6,6 +6,7 @@
   * Add Shop
   * Add ESLint
   * Add badges for travis-ci and david-dm
+  * Add customsybol and resetsymbol commands
   * deps: mongoose@^4.0.1
   * [f0560af][f0560af] Update with main Pokemon Showdown repository
 

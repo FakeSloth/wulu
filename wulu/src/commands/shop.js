@@ -48,7 +48,7 @@ function shop(shop=shop_data, currency_name='buck') {
               self.sendReply(`You have purchased a custom symbol. You can use /customsymbol to get your custom symbol.
                               You will have this until you log off for more than an hour.
                               If you do not want your custom symbol anymore, you may use /resetsymbol to go back to your old symbol.`);
-            } 
+            }
           });
           room.add(`${user.name} has bought ${target} from the shop.`);
           room.update();
