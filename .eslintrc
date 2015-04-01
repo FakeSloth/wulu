@@ -4,7 +4,7 @@
     "camelcase": 0,
     "curly": 0,
     "no-undef": 0,
-    "quotes": [1, "single"]
+    "quotes": [1, "single"],
     "strict": 0
   },
   "env": {

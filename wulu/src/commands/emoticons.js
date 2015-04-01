@@ -7,11 +7,11 @@ let emotes_table = create_table();
 function emoticons() {
   var commands = {
     emotes: 'emoticons',
-    emoticons(target, room, user) {
+    emoticons(target, room) {
       if (!this.canBroadcast()) return;
       this.sendReplyBox(emotes_table);
     }
-  }; 
+  };
 
   Object.merge(CommandParser.commands, commands);
 }
@@ -32,14 +32,14 @@ function create_table() {
     emotes_list.push(`<td><img src="${emotes[emotes_name[i]]}" title="${emotes_name[i]}"> ${emotes_name[i]}</td>`);
   }
 
-  let emotes_list_right = emotes_list.splice(len/2, len/2);
+  let emotes_list_right = emotes_list.splice(len / 2, len / 2);
 
   for (let i = 0; i < len / 2; i++) {
     let emote1 = emotes_list[i], emote2 = emotes_list_right[i];
     if (emote2) {
-      emotes_group_list.push(`<tr>${emotes_list[i]}${emotes_list_right[i]}</tr>`);
+      emotes_group_list.push(`<tr>${emote1}${emote2}</tr>`);
     } else {
-      emotes_group_list.push(`<tr>${emotes_list[i]}</tr>`);
+      emotes_group_list.push(`<tr>${emote1}</tr>`);
     }
   }
 
@@ -48,6 +48,6 @@ function create_table() {
             <tbody>
               ${emotes_group_list.join('')}
             </tbody>
-          </table>                  
+          </table>
         `.replace(/(\r\n|\n|\r)/gm, '');
 }
