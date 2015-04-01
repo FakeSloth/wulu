@@ -1,5 +1,5 @@
-//jscs:disable
-/* jshint ignore:start */
+// jscs:disable
+
 var fs = require('fs');
 
 module.exports = function(grunt) {
@@ -48,4 +48,3 @@ module.exports = function(grunt) {
   grunt.registerTask('default', ['babel', 'watch']);
 
 };
-/* jshint ignore:end */
