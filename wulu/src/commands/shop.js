@@ -43,6 +43,12 @@ function shop(shop=shop_data, currency_name='buck') {
           Economy.take(user.userid, price, function(money) {
             let currency = money >= 2 ? currency_name + 's' : currency_name;
             self.sendReply(`You have bought ${target} for ${price} ${item_currency}. You now have ${money} ${currency} left.`);
+            if (target.toLowerCase() === 'symbol') {
+              user.canCustomSymbol = true;
+              self.sendReply(`You have purchased a custom symbol. You can use /customsymbol to get your custom symbol.
+                              You will have this until you log off for more than an hour.
+                              If you do not want your custom symbol anymore, you may use /resetsymbol to go back to your old symbol.`);
+            } 
           });
           room.add(`${user.name} has bought ${target} from the shop.`);
           room.update();
@@ -51,6 +57,30 @@ function shop(shop=shop_data, currency_name='buck') {
           self.sendReply(`${target} not found in shop.`);
         }
       });
+    },
+
+    customsymbol(target, room, user) {
+      if (!user.canCustomSymbol) return this.sendReply('You need to buy this item from the shop.');
+      if (!target || target.length > 1) return this.parse('/help customsymbol');
+      if (target.match(/[A-Za-z\d]+/g) || '?!+%@\u2605&~#'.indexOf(target) >= 0) return this.sendReply('Sorry, but you cannot change your symbol to this for safety/stability reasons.');
+      user.oldGetIdentity = user.getIdentity;
+      user.getIdentity = function(roomid) {
+        let name = this.oldGetIdentity(roomid);
+        return target + name.slice(1);
+      };
+      user.updateIdentity();
+      user.canCustomSymbol = false;
+      user.hasCustomSymbol = true;
+    },
+
+    resetsymbol(target, room, user) {
+      if (!user.hasCustomSymbol) return this.sendReply('You don\'t have a custom symbol.');
+      user.getIdentity = function(roomid) {
+        return this.oldGetIdentity(roomid);
+      };
+      user.updateIdentity();
+      user.hasCustomSymbol = false;
+      this.sendReply('Your symbol has been reset.');
     }
   };
 
