@@ -11,7 +11,7 @@ export default class Bot {
   constructor(name='Booty-Bot', avatar=1, group='@', rooms=['global', 'lobby']) {
     this.name = name;
     this.avatar = avatar;
-    this.group = group
+    this.group = group;
     this.rooms = rooms;
   }
 
