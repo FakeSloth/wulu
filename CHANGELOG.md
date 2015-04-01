@@ -1,9 +1,13 @@
 1.4.0
 ==================
 
-  * [f0560af][f0560af] Update with main Pokemon Showdown repository
   * Add Emoticons
   * Add db option in Mongo's connect_database
+  * Add Shop
+  * Add ESLint
+  * Add badges for travis-ci and david-dm
+  * deps: mongoose@^4.0.1
+  * [f0560af][f0560af] Update with main Pokemon Showdown repository
 
 [f0560af]: https://github.com/FakeSloth/wulu/commit/f0560afbc739da2a6779636783f6bb8c3ec2b154
 
