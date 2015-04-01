@@ -1,5 +1,26 @@
 {
   "parser": "babel-eslint",
+  "globals": {
+    "Bot": false,
+    "Cidr": false,
+    "CommandParser": false,
+    "Config": false,
+    "Dnsbl": false,
+    "LoginServer": false,
+    "toId": false,
+    "toName": false,
+    "ResourceMonitor": false,
+    "Rooms": false,
+    "Simulator": false,
+    "Sockets": false,
+    "string": false,
+    "TeamValidator": false,
+    "Tools": false,
+    "Tournaments": false,
+    "Users": false,
+    "Verifier": false,
+    "Wulu": false
+  },
   "rules": {
     "camelcase": 0,
     "consistent-return": 0,
@@ -7,7 +28,6 @@
     "no-loop-func": 0,
     "no-multi-spaces": 0,
     "no-shadow": 0,
-    "no-undef": 0,
     "quotes": [1, "single"],
     "strict": 0
   },
