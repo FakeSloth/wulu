@@ -53,6 +53,7 @@ function shop(shop=shop_data, currency_name='buck') {
       });
     }
   };
+
   Object.merge(CommandParser.commands, commands);
 }
 

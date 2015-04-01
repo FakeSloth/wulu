@@ -67,6 +67,7 @@ function shop() {
       });
     }
   };
+
   Object.merge(CommandParser.commands, commands);
 }
 

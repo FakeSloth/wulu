@@ -24,12 +24,15 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "gulp && mocha"
+    "test": "gulp && mocha && eslint wulu/src",
+    "lint": "eslint wulu/src"
   },
   "bin": "./app.js",
   "author": "Philip La <birkal@outlook.com>",
   "private": true,
   "devDependencies": {
+    "babel-eslint": "^2.0.2",
+    "eslint": "^0.18.0",
     "grunt": "^0.4.5",
     "grunt-babel": "^4.0.0",
     "grunt-contrib-watch": "^0.6.1",
