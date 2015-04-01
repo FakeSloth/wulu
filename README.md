@@ -1,4 +1,11 @@
-# wulu
+# wulu [![Build Status][travis-link]][travis-img] [![Dependency Status][deps-link]][deps-img] [![devDependency Status][dev-link]][dev-img]
+
+[travis-link]: https://travis-ci.org/FakeSloth/wulu.svg?branch=master
+[travis-img]: https://travis-ci.org/FakeSloth/wulu
+[deps-link]: https://david-dm.org/FakeSloth/wulu.svg
+[deps-img]: https://david-dm.org/FakeSloth/wulu
+[dev-link]: https://david-dm.org/FakeSloth/wulu/dev-status.svg
+[dev-img]: https://david-dm.org/FakeSloth/wulu#info=devDependencies
 
 Extentions and plugins for Pokemon Showdown
 
