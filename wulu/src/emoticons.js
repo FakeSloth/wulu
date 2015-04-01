@@ -82,7 +82,7 @@ function Emoticons(_emotes=emotes) {
     room.addRaw(`<div class="chat"><small>${user.group}</small><button name="parseCommand" value="/user ${user.name}" class=".emote-chat"><b><font color="${color(user.userid)}">${user.name}:</font></b></button><em class="mine">${message}</div>`);
 
     return false;
-  }
+  };
 }
 
 function createPatternRegex() {
@@ -91,7 +91,7 @@ function createPatternRegex() {
 
   for (let i in emotes) {
     if (emotes.hasOwnProperty(i)) {
-      patterns.push('(' + i.replace(metachars, "\\$&") + ')');
+      patterns.push('(' + i.replace(metachars, '\\$&') + ')');
     }
   }
 

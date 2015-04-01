@@ -7,7 +7,7 @@ let emotes_table = create_table();
 function emoticons() {
   var commands = {
     emotes: 'emoticons',
-    emoticons(target, room) {
+    emoticons() {
       if (!this.canBroadcast()) return;
       this.sendReplyBox(emotes_table);
     }

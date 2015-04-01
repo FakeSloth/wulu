@@ -22,13 +22,13 @@ let global_shop = getShopDisplay(shop_data);
  */
 function shop(shop=shop_data, currency_name='buck') {
   let commands = {
-    shop(target, room, user) {
+    shop() {
       if (!this.canBroadcast()) return;
-      return this.sendReply(`|raw|${global_shop}`); 
+      return this.sendReply(`|raw|${global_shop}`);
     },
 
     buy(target, room, user) {
-      if (!target) return this.parse('/help buy'); 
+      if (!target) return this.parse('/help buy');
       let self = this;
       Economy.get(user.userid, function(money) {
         let len = shop.length, match;
@@ -48,7 +48,7 @@ function shop(shop=shop_data, currency_name='buck') {
           room.update();
         }
         if (!match) {
-          self.sendReply(`${target} not found in shop.`); 
+          self.sendReply(`${target} not found in shop.`);
         }
       });
     }
@@ -83,5 +83,5 @@ function getShopDisplay(shop) {
     start++;
   }
   display += '</tbody></table><center>To buy an item from the shop, use /buy <em>command</em>.</center>';
-  return display; 
+  return display;
 }

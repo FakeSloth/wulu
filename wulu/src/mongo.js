@@ -30,7 +30,7 @@ function connect_database(db='mongodb://localhost:27017/ps') {
 function importUsergroups(usergroups, Config) {
   User.find({}, (err, users) => {
     if (err) return;
-    users.forEach((user) => usergroups[user.name] =  (user.group || Config.groupsranking[0]) + user.name );
+    users.forEach((user) => usergroups[user.name] = (user.group || Config.groupsranking[0]) + user.name);
   });
 }
 
@@ -50,7 +50,7 @@ function exportUsergroups(usergroups) {
   }
   users.forEach((user) => {
     User.findOne({ name: user.name.toLowerCase() }, (err, userModel) => {
-      if (err) return; 
+      if (err) return;
       if (!userModel) {
         user = new User({
           name: user.name,

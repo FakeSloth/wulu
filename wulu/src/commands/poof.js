@@ -12,7 +12,7 @@ function poof(messages=['example message by {{user}}']) {
     d,
     cpoof,
     poof(target, room, user) {
-      if (Config.poofOff) return this.sendReply("Poof is currently disabled.");
+      if (Config.poofOff) return this.sendReply('Poof is currently disabled.');
       if (target && !this.can('broadcast')) return false;
       if (room.id !== 'lobby') return false;
 

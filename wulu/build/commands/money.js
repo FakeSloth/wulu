@@ -20,7 +20,7 @@ function money() {
   var commands = {
     atm: "wallet",
     purse: "wallet",
-    wallet: function wallet(target, room, user) {
+    wallet: function wallet(target, room) {
       if (!this.canBroadcast()) {
         return;
       }var targetUser = this.targetUserOrSelf(target);

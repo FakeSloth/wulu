@@ -2,7 +2,11 @@
   "parser": "babel-eslint",
   "rules": {
     "camelcase": 0,
+    "consistent-return": 0,
     "curly": 0,
+    "no-loop-func": 0,
+    "no-multi-spaces": 0,
+    "no-shadow": 0,
     "no-undef": 0,
     "quotes": [1, "single"],
     "strict": 0

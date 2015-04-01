@@ -13,7 +13,7 @@ function money(currency_name='buck') {
   let commands = {
     atm: 'wallet',
     purse: 'wallet',
-    wallet(target, room, user) {
+    wallet(target, room) {
       if (!this.canBroadcast()) return;
       let targetUser = this.targetUserOrSelf(target);
       let currency = currency_name;

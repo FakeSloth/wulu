@@ -21,7 +21,7 @@ function shop() {
   var currency_name = arguments[1] === undefined ? "buck" : arguments[1];
 
   var commands = {
-    shop: function shop(target, room, user) {
+    shop: function shop() {
       if (!this.canBroadcast()) {
         return;
       }return this.sendReply("|raw|" + global_shop);

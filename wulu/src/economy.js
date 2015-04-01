@@ -11,7 +11,7 @@ export default {
    * })
    *
    * @param {String} name
-   * @param {Function} callback 
+   * @param {Function} callback
    */
   get(name, callback) {
     User.findOne({ name: name }, (err, user) => {
@@ -43,8 +43,8 @@ export default {
       }
       user.money += amount;
       user.save((err) => {
-        if (err) return callback(0); 
-        callback && callback(user.money);
+        if (err) return callback(0);
+        if (callback) callback(user.money);
       });
     });
   },
@@ -64,8 +64,8 @@ export default {
       if (!user) return callback(0);
       user.money -= amount;
       user.save((err) => {
-        if (err) return callback(0); 
-        callback && callback(user.money);
+        if (err) return callback(0);
+        if (callback) callback(user.money);
       });
     });
   }

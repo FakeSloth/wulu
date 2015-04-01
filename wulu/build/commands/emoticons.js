@@ -9,7 +9,7 @@ var emotes_table = create_table();
 function emoticons() {
   var commands = {
     emotes: "emoticons",
-    emoticons: function emoticons(target, room, user) {
+    emoticons: function emoticons() {
       if (!this.canBroadcast()) {
         return;
       }this.sendReplyBox(emotes_table);
@@ -41,11 +41,11 @@ function create_table() {
     var emote1 = emotes_list[i],
         emote2 = emotes_list_right[i];
     if (emote2) {
-      emotes_group_list.push("<tr>" + emotes_list[i] + "" + emotes_list_right[i] + "</tr>");
+      emotes_group_list.push("<tr>" + emote1 + "" + emote2 + "</tr>");
     } else {
-      emotes_group_list.push("<tr>" + emotes_list[i] + "</tr>");
+      emotes_group_list.push("<tr>" + emote1 + "</tr>");
     }
   }
 
-  return ("<center><b><u>List of Emoticons</u></b></center>\n          <table border=\"1\" cellspacing=\"0\" cellpadding=\"5\" width=\"100%\">\n            <tbody>\n              " + emotes_group_list.join("") + "\n            </tbody>\n          </table>                  \n        ").replace(/(\r\n|\n|\r)/gm, "");
+  return ("<center><b><u>List of Emoticons</u></b></center>\n          <table border=\"1\" cellspacing=\"0\" cellpadding=\"5\" width=\"100%\">\n            <tbody>\n              " + emotes_group_list.join("") + "\n            </tbody>\n          </table>\n        ").replace(/(\r\n|\n|\r)/gm, "");
 }

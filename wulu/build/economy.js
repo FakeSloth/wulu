@@ -15,7 +15,7 @@ module.exports = {
    * })
    *
    * @param {String} name
-   * @param {Function} callback 
+   * @param {Function} callback
    */
   get: function get(name, callback) {
     User.findOne({ name: name }, function (err, user) {
@@ -48,7 +48,7 @@ module.exports = {
       user.money += amount;
       user.save(function (err) {
         if (err) return callback(0);
-        callback && callback(user.money);
+        if (callback) callback(user.money);
       });
     });
   },
@@ -69,7 +69,7 @@ module.exports = {
       user.money -= amount;
       user.save(function (err) {
         if (err) return callback(0);
-        callback && callback(user.money);
+        if (callback) callback(user.money);
       });
     });
   }
