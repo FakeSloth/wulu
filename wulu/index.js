@@ -10,6 +10,10 @@ var _Commands = require('./build/commands');
 
 var Commands = _interopRequire(_Commands);
 
+var _Economy = require('./build/economy');
+
+var Economy = _interopRequire(_Economy);
+
 var _Emoticons = require('./build/emoticons');
 
 var _Mongo = require('./build/mongo');
@@ -19,6 +23,7 @@ var Mongo = _interopRequire(_Mongo);
 module.exports = {
   Bot: Bot,
   Commands: Commands,
+  Economy: Economy,
   Emoticons: _Emoticons.Emoticons,
   Mongo: Mongo
 };

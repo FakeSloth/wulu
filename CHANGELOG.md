@@ -7,6 +7,7 @@
   * Add ESLint
   * Add badges for travis-ci and david-dm
   * Add customsybol and resetsymbol commands
+  * Expose Economy as public api
   * deps: mongoose@^4.0.1
   * deps: grunt-babel@^5.0.0
   * [f0560af][f0560af] Update with main Pokemon Showdown repository

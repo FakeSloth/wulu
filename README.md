@@ -29,7 +29,15 @@ $ node app.js
 # Documentation
 
 Wulu is contain in modules. Currently, there are 4 modules: `Bot`, `Mongo`,
-`Commands`, and `Emoticons`.
+`Commands`, and `Emoticons`. In addition to `Economy`.
+
+### Economy
+
+To set a __currency_name__ for you Economy, do this:
+
+```js
+Wulu.Economy.currency_name = 'goats';
+```
 
 ### Mongo
 
