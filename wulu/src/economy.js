@@ -2,6 +2,8 @@ import User from './user';
 
 export default {
 
+  currency_name: 'buck',
+
   /**
    * Get a user money amount
    *

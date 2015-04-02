@@ -8,6 +8,8 @@ var User = _interopRequire(_User);
 
 module.exports = {
 
+  currency_name: 'buck',
+
   /**
    * Get a user money amount
    *

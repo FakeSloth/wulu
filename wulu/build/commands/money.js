@@ -12,15 +12,13 @@ var Economy = _interopRequire(_Economy);
 
 module.exports = money;
 
+var currency_name = Economy.currency_name;
+
 /**
  * Handle money commands from Economy.
- *
- * @param {String} currency_name
  */
 
 function money() {
-  var currency_name = arguments[0] === undefined ? 'buck' : arguments[0];
-
   var commands = {
     atm: 'wallet',
     purse: 'wallet',

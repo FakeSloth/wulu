@@ -13,14 +13,14 @@ let shop_data = [
 ];
 
 let global_shop = getShopDisplay(shop_data);
+let currency_name = Economy.currency_name;
 
 /**
  * Shop where user can buy stuff with money.
  *
  * @param {Array} shop
- * @param {String} currency
  */
-function shop(shop=shop_data, currency_name='buck') {
+function shop(shop=shop_data) {
   let commands = {
     shop() {
       if (!this.canBroadcast()) return;

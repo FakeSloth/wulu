@@ -3,13 +3,13 @@ import Economy from '../economy';
 
 export default money;
 
+let currency_name = Economy.currency_name;
+
 /**
  * Handle money commands from Economy.
- *
- * @param {String} currency_name
  */
 
-function money(currency_name='buck') {
+function money() {
   let commands = {
     atm: 'wallet',
     purse: 'wallet',
