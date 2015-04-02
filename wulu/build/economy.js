@@ -1,8 +1,10 @@
-"use strict";
+'use strict';
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-var User = _interopRequire(require("./user"));
+var _User = require('./user');
+
+var User = _interopRequire(_User);
 
 module.exports = {
 

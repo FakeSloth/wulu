@@ -1,4 +1,6 @@
-export default hashColor;
+'use strict';
+
+module.exports = hashColor;
 
 function MD5(e) {
   function t(e, t) {

@@ -1,12 +1,18 @@
-"use strict";
+'use strict';
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-var chalk = _interopRequire(require("chalk"));
+var _chalk = require('chalk');
 
-var mongoose = _interopRequire(require("mongoose"));
+var chalk = _interopRequire(_chalk);
 
-var User = _interopRequire(require("./user"));
+var _mongoose = require('mongoose');
+
+var mongoose = _interopRequire(_mongoose);
+
+var _User = require('./user');
+
+var User = _interopRequire(_User);
 
 module.exports = {
   connect_database: connect_database,
@@ -21,12 +27,12 @@ module.exports = {
  */
 
 function connect_database() {
-  var db = arguments[0] === undefined ? "mongodb://localhost:27017/ps" : arguments[0];
+  var db = arguments[0] === undefined ? 'mongodb://localhost:27017/ps' : arguments[0];
 
   var url = process.env.MONGODB || db;
   mongoose.connect(url);
-  mongoose.connection.on("error", function () {
-    return console.error(chalk.red("MongoDB Connection Error. Make sure MongoDB is running."));
+  mongoose.connection.on('error', function () {
+    return console.error(chalk.red('MongoDB Connection Error. Make sure MongoDB is running.'));
   });
 }
 
@@ -56,7 +62,7 @@ function exportUsergroups(usergroups) {
   var users = [];
   for (var i in usergroups) {
     users.push({
-      name: usergroups[i].substr(1).replace(/,/g, ""),
+      name: usergroups[i].substr(1).replace(/,/g, ''),
       group: usergroups[i].substr(0, 1)
     });
   }
@@ -85,7 +91,7 @@ function exportUsergroups(usergroups) {
       if (users.indexOf(user.name) >= 0) return;
       User.findOne({ name: user.name }, function (err, user) {
         if (err) return;
-        user.group = "";
+        user.group = '';
         user.save();
       });
     });

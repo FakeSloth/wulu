@@ -1,16 +1,26 @@
-"use strict";
+'use strict';
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-var away = _interopRequire(require("./commands/away"));
+var _away = require('./commands/away');
 
-var emoticons = _interopRequire(require("./commands/emoticons"));
+var away = _interopRequire(_away);
 
-var money = _interopRequire(require("./commands/money"));
+var _emoticons = require('./commands/emoticons');
 
-var poof = _interopRequire(require("./commands/poof"));
+var emoticons = _interopRequire(_emoticons);
 
-var shop = _interopRequire(require("./commands/shop"));
+var _money = require('./commands/money');
+
+var money = _interopRequire(_money);
+
+var _poof = require('./commands/poof');
+
+var poof = _interopRequire(_poof);
+
+var _shop = require('./commands/shop');
+
+var shop = _interopRequire(_shop);
 
 module.exports = {
   init: function init() {

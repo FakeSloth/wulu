@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 module.exports = away;
 
@@ -9,7 +9,7 @@ module.exports = away;
  */
 
 function away() {
-  var message = arguments[0] === undefined ? "Аԝау" : arguments[0];
+  var message = arguments[0] === undefined ? 'Аԝау' : arguments[0];
 
   if (!Users.User.prototype.getOriginalIdentity) {
     Users.User.prototype.getOriginalIdentity = Users.User.prototype.getIdentity;
@@ -18,13 +18,13 @@ function away() {
   Users.User.prototype.getIdentity = function (roomid) {
     var name = this.getOriginalIdentity(roomid);
     if (this.isAway) {
-      name += " - " + message;
+      name += ' - ' + message;
     }
     return name;
   };
 
-  var back = "away",
-      idle = "away";
+  var back = 'away',
+      idle = 'away';
 
   var commands = {
     back: back,
@@ -32,7 +32,7 @@ function away() {
     away: function away(target, room, user) {
       user.isAway = !user.isAway;
       user.updateIdentity();
-      this.sendReply("You are " + (user.isAway ? "now" : "no longer") + " away.");
+      this.sendReply('You are ' + (user.isAway ? 'now' : 'no longer') + ' away.');
     }
   };
 

@@ -1,4 +1,4 @@
-import color from './color';
+import color from '../color';
 import is from 'is_js';
 
 let emotes = {
