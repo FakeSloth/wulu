@@ -22,6 +22,10 @@ var _poll = require('./poll');
 
 var poll = _interopRequire(_poll);
 
+var _reload = require('./reload');
+
+var reload = _interopRequire(_reload);
+
 var _shop = require('./shop');
 
 var shop = _interopRequire(_shop);
@@ -32,6 +36,7 @@ var commands = {
   money: money,
   poof: poof,
   poll: poll,
+  reload: reload,
   shop: shop
 };
 

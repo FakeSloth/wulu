@@ -56,14 +56,14 @@ function poll() {
       this.sendReply('You are not voting for ' + target + '.');
     },
 
-    votes: function votes(target, room, user) {
+    votes: function votes(target, room) {
       if (!this.canBroadcast()) {
         return;
       }this.sendReply('NUMBER OF VOTES: ' + Object.keys(Poll[room.id].options).length);
     },
 
     pr: 'pollremind',
-    pollremind: function pollremind(target, room, user) {
+    pollremind: function pollremind(target, room) {
       if (!Poll[room.id].question) {
         return this.sendReply('There is no poll currently going on in this room.');
       }if (!this.canBroadcast()) {
@@ -71,7 +71,7 @@ function poll() {
       }this.sendReplyBox(Poll[room.id].display);
     },
 
-    tierpoll: function tierpoll(target, room, user) {
+    tierpoll: function tierpoll() {
       if (!this.can('broadcast')) {
         return;
       }var tiers = Object.keys(Tools.data.Formats).filter(function (format) {

@@ -1,5 +1,6 @@
 export default poof;
 
+/*eslint no-unused-vars:0*/
 let msgs = [
   'has vanished into nothingness!',
   'used Explosion!',

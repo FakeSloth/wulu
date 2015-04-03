@@ -3,6 +3,7 @@ import emoticons from './emoticons';
 import money from './money';
 import poof from './poof';
 import poll from './poll';
+import reload from './reload';
 import shop from './shop';
 
 let commands = {
@@ -11,6 +12,7 @@ let commands = {
   money,
   poof,
   poll,
+  reload,
   shop
 };
 

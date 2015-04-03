@@ -3,6 +3,7 @@
 
   * Add Polls
   * Refactor commands
+  * Add Reload command
 
 1.4.2 / 2015-04-02
 ==================

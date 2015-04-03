@@ -41,7 +41,7 @@ function poll() {
       if (!Poll[room.id].question) return this.sendReply('There is no poll currently going on in this room.');
       if (!this.canTalk()) return;
       if (!target) return this.parse('/help vote');
-      
+
       let roomPoll = Poll[room.id];
       if (roomPoll.optionList.indexOf(target.toLowerCase()) === -1) {
         return this.sendReply(`'${target}' is not an option for the current poll.`);
@@ -53,19 +53,19 @@ function poll() {
       this.sendReply(`You are not voting for ${target}.`);
     },
 
-    votes(target, room, user) {
+    votes(target, room) {
       if (!this.canBroadcast()) return;
       this.sendReply(`NUMBER OF VOTES: ${Object.keys(Poll[room.id].options).length}`);
     },
 
     pr: 'pollremind',
-    pollremind: function (target, room, user) {
+    pollremind: function (target, room) {
       if (!Poll[room.id].question) return this.sendReply('There is no poll currently going on in this room.');
       if (!this.canBroadcast()) return;
       this.sendReplyBox(Poll[room.id].display);
     },
 
-    tierpoll(target, room, user) {
+    tierpoll() {
       if (!this.can('broadcast')) return;
       let tiers = Object.keys(Tools.data.Formats).filter((format) => Tools.data.Formats[format].effectType === 'Format').join(',');
       this.parse(`/poll Tournament tier?, ${tiers}`);
