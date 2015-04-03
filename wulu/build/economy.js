@@ -45,13 +45,13 @@ module.exports = {
           money: amount
         });
         return user.save(function (err) {
-          if (err) return callback(0);
-          callback(user.money);
+          if (err) return;
+          if (callback) callback(user.money);
         });
       }
       user.money += amount;
       user.save(function (err) {
-        if (err) return callback(0);
+        if (err) return;
         if (callback) callback(user.money);
       });
     });
@@ -69,10 +69,10 @@ module.exports = {
   take: function take(name, amount, callback) {
     User.findOne({ name: name }, function (err, user) {
       if (err) return;
-      if (!user) return callback(0);
+      if (!user) return;
       user.money -= amount;
       user.save(function (err) {
-        if (err) return callback(0);
+        if (err) return;
         if (callback) callback(user.money);
       });
     });

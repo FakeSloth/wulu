@@ -39,13 +39,13 @@ export default {
           money: amount
         });
         return user.save((err) => {
-          if (err) return callback(0);
-          callback(user.money);
+          if (err) return;
+          if (callback) callback(user.money);
         });
       }
       user.money += amount;
       user.save((err) => {
-        if (err) return callback(0);
+        if (err) return;
         if (callback) callback(user.money);
       });
     });
@@ -63,10 +63,10 @@ export default {
   take(name, amount, callback) {
     User.findOne({ name: name }, (err, user) => {
       if (err) return;
-      if (!user) return callback(0);
+      if (!user) return;
       user.money -= amount;
       user.save((err) => {
-        if (err) return callback(0);
+        if (err) return;
         if (callback) callback(user.money);
       });
     });
