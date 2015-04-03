@@ -22,14 +22,14 @@ function money() {
   var commands = {
     atm: 'wallet',
     purse: 'wallet',
-    wallet: function wallet(target, room) {
+    wallet: function wallet(target, room, user) {
       if (!this.canBroadcast()) {
         return;
-      }var targetUser = this.targetUserOrSelf(target);
-      var currency = currency_name;
-      Economy.get(targetUser.name.toLowerCase(), (function (amount) {
-        if (amount >= 2) currency += 's';
-        this.sendReplyBox('' + targetUser.name + ' has ' + amount + ' ' + currency + '.');
+      }var name = toId(target);
+      if (!name) name = user.userid;
+      Economy.get(name, (function (amount) {
+        if (amount >= 2) currency_name += 's';
+        this.sendReplyBox('' + (target || user.name) + ' has ' + amount + ' ' + currency_name + '.');
         room.update();
       }).bind(this));
     },

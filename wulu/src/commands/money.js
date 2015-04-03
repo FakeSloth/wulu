@@ -13,13 +13,13 @@ function money() {
   let commands = {
     atm: 'wallet',
     purse: 'wallet',
-    wallet(target, room) {
+    wallet(target, room, user) {
       if (!this.canBroadcast()) return;
-      let targetUser = this.targetUserOrSelf(target);
-      let currency = currency_name;
-      Economy.get(targetUser.name.toLowerCase(), function(amount) {
-        if (amount >= 2) currency += 's';
-        this.sendReplyBox(`${targetUser.name} has ${amount} ${currency}.`);
+      let name = toId(target);
+      if (!name) name = user.userid;
+      Economy.get(name, function(amount) {
+        if (amount >= 2) currency_name += 's';
+        this.sendReplyBox(`${target || user.name} has ${amount} ${currency_name}.`);
         room.update();
       }.bind(this));
     },
