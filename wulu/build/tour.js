@@ -8,6 +8,21 @@ var Economy = _interopRequire(_Economy);
 
 module.exports = tour;
 
+var Tournament = Tournaments.Tournament;
+
+/**
+ * Gets the name of users
+ *
+ * @param {Array} users
+ * @return {String} name
+ */
+
+function usersToNames(users) {
+  return users.map(function (user) {
+    return user.name;
+  });
+}
+
 /**
  * Determines the amount of earnings from tournaments
  *

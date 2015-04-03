@@ -20,10 +20,15 @@ var _Mongo = require('./build/mongo');
 
 var Mongo = _interopRequire(_Mongo);
 
+var _Tour = require('./build/tour');
+
+var Tour = _interopRequire(_Tour);
+
 module.exports = {
   Bot: Bot,
   Commands: Commands,
   Economy: Economy,
   Emoticons: _Emoticons.Emoticons,
-  Mongo: Mongo
+  Mongo: Mongo,
+  Tour: Tour
 };

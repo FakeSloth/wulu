@@ -2,6 +2,19 @@ import Economy from './economy';
 
 export default tour;
 
+let Tournament = Tournaments.Tournament;
+
+/**
+ * Gets the name of users
+ *
+ * @param {Array} users
+ * @return {String} name
+ */
+
+function usersToNames(users) {
+  return users.map((user) => user.name);
+}
+
 /**
  * Determines the amount of earnings from tournaments
  *
@@ -15,7 +28,7 @@ function tour(sizeRequiredToEarn=3, color='blue') {
   }
 
   Tournament.prototype.onTournamentEnd = function() {
-    this.onOriginalTournamentEnd(); 
+    this.onOriginalTournamentEnd();
 
     let data = this.generator.getResults().map(usersToNames).toString();
     let winner, runnerUp;
@@ -24,7 +37,7 @@ function tour(sizeRequiredToEarn=3, color='blue') {
       data = data.split(',');
       winner = data[0];
       if (data[1]) {
-        runnerUp = data[1]; 
+        runnerUp = data[1];
       }
     } else {
       winner = data;
