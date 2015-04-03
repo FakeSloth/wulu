@@ -20,6 +20,10 @@ var _Mongo = require('./build/mongo');
 
 var Mongo = _interopRequire(_Mongo);
 
+var _Poll = require('./build/poll');
+
+var Poll = _interopRequire(_Poll);
+
 var _Tour = require('./build/tour');
 
 var Tour = _interopRequire(_Tour);
@@ -30,5 +34,6 @@ module.exports = {
   Economy: Economy,
   Emoticons: _Emoticons.Emoticons,
   Mongo: Mongo,
+  Poll: Poll,
   Tour: Tour
 };

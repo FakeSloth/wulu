@@ -3,6 +3,7 @@ import Commands from './build/commands';
 import Economy from './build/economy';
 import {Emoticons} from './build/emoticons';
 import Mongo from './build/mongo';
+import Poll from './build/poll';
 import Tour from './build/tour';
 
 export default {
@@ -11,5 +12,6 @@ export default {
   Economy,
   Emoticons,
   Mongo,
+  Poll,
   Tour
 };

@@ -22,17 +22,17 @@ var _shop = require('./shop');
 
 var shop = _interopRequire(_shop);
 
-module.exports = {
-  init: function init() {
-    away();
-    emoticons();
-    money();
-    poof();
-    shop();
-  },
+var commands = {
   away: away,
   emoticons: emoticons,
   money: money,
   poof: poof,
   shop: shop
 };
+
+commands.init = function () {
+  var len = commands.length;
+  while (len--) {}
+};
+
+module.exports = commands;
