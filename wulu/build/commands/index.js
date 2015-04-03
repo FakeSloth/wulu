@@ -18,6 +18,10 @@ var _poof = require('./poof');
 
 var poof = _interopRequire(_poof);
 
+var _poll = require('./poll');
+
+var poll = _interopRequire(_poll);
+
 var _shop = require('./shop');
 
 var shop = _interopRequire(_shop);
@@ -27,12 +31,15 @@ var commands = {
   emoticons: emoticons,
   money: money,
   poof: poof,
+  poll: poll,
   shop: shop
 };
 
 commands.init = function () {
   var len = commands.length;
-  while (len--) {}
+  while (len--) {
+    commands[len]();
+  }
 };
 
 module.exports = commands;
