@@ -2,8 +2,6 @@ import Economy from './economy';
 
 export default tour;
 
-let Tournament = Tournaments.Tournament;
-
 /**
  * Gets the name of users
  *

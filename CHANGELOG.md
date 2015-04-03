@@ -9,6 +9,7 @@
   * Add customsybol and resetsymbol commands
   * Add tournament winnings
   * Expose Economy as public api
+  * Move and Rename commands.js to commands/index.js
   * deps: mongoose@^4.0.1
   * deps: grunt-babel@^5.0.0
   * [f0560af][f0560af] Update with main Pokemon Showdown repository

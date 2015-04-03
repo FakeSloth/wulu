@@ -8,8 +8,6 @@ var Economy = _interopRequire(_Economy);
 
 module.exports = tour;
 
-var Tournament = Tournaments.Tournament;
-
 /**
  * Gets the name of users
  *
