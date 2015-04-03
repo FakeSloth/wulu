@@ -36,10 +36,10 @@ var commands = {
 };
 
 commands.init = function () {
-  var len = commands.length;
-  while (len--) {
-    commands[len]();
-  }
+  Object.each(commands, function (command) {
+    if (command === 'init') return;
+    commands[command]();
+  });
 };
 
 module.exports = commands;

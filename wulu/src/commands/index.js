@@ -15,10 +15,10 @@ let commands = {
 };
 
 commands.init = () => {
-  let len = commands.length;
-  while(len--) {
-    commands[len]();
-  }
+  Object.each(commands, (command) => {
+    if (command === 'init') return;
+    commands[command]();
+  });
 };
 
 export default commands;
