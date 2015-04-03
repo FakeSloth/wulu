@@ -21,6 +21,8 @@ function usersToNames(users) {
  */
 
 function tour(sizeRequiredToEarn=3, color='blue') {
+  let Tournament = Tournaments.Tournament;
+
   if (!Tournament.prototype.onOriginalTournamentEnd) {
     Tournament.prototype.onOriginalTournamentEnd = Tournament.prototype.onTournamentEnd;
   }

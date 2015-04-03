@@ -32,6 +32,8 @@ function tour() {
   var sizeRequiredToEarn = arguments[0] === undefined ? 3 : arguments[0];
   var color = arguments[1] === undefined ? 'blue' : arguments[1];
 
+  var Tournament = Tournaments.Tournament;
+
   if (!Tournament.prototype.onOriginalTournamentEnd) {
     Tournament.prototype.onOriginalTournamentEnd = Tournament.prototype.onTournamentEnd;
   }
