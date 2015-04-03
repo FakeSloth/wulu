@@ -1,3 +1,9 @@
+1.4.1 / 2015-04-02
+==================
+
+  * Change default tour color
+  * Fix line feed at the end of `app.js`
+
 1.4.0 / 2015-04-02
 ==================
 

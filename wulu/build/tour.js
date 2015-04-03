@@ -30,7 +30,7 @@ function usersToNames(users) {
 
 function tour() {
   var sizeRequiredToEarn = arguments[0] === undefined ? 3 : arguments[0];
-  var color = arguments[1] === undefined ? 'blue' : arguments[1];
+  var color = arguments[1] === undefined ? '#088cc7' : arguments[1];
 
   var Tournament = Tournaments.Tournament;
 

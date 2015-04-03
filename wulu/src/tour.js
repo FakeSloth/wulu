@@ -20,7 +20,7 @@ function usersToNames(users) {
  * @param {Color} color (color for annoucements of tournament winner and runnerUp if runnerUp exists)
  */
 
-function tour(sizeRequiredToEarn=3, color='blue') {
+function tour(sizeRequiredToEarn=3, color='#088cc7') {
   let Tournament = Tournaments.Tournament;
 
   if (!Tournament.prototype.onOriginalTournamentEnd) {
