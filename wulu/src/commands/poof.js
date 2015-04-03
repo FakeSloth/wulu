@@ -1,12 +1,27 @@
 export default poof;
 
+let msgs = [
+  'has vanished into nothingness!',
+  'used Explosion!',
+  'fell into the void.',
+  'went into a cave without a repel!',
+  'has left the building.',
+  'was forced to give StevoDuhHero\'s mom an oil massage!',
+  'was hit by Magikarp\'s Revenge!',
+  'ate a bomb!',
+  'is blasting off again!',
+  '(Quit: oh god how did this get here i am not good with computer)',
+  'was unfortunate and didn\'t get a cool message.',
+  '{{user}}\'s mama accidently kicked {{user}} from the server!'
+];
+
 /**
  * Display a message in the lobby and disconnects you from the server.
  *
  * @param {Array} messages
  */
 
-function poof(messages=['example message by {{user}}']) {
+function poof(messages=msgs) {
   let d = 'poof', cpoof = 'poof';
   let commands = {
     d,
