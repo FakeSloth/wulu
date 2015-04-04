@@ -9,6 +9,17 @@
 
 Extentions and plugins for Pokemon Showdown
 
+Table of Contents
+-----------------
+
+- [Prerequisites](#prerequisites)
+
+Prerequisites
+-------------
+
+- <img src="http://nodejs.org/images/logos/nodejs.png" height="50"> [Node.js](http://nodejs.org)
+- <img src="http://www.mongodb.com/sites/mongodb.com/files/media/mongodb-logo-rgb.jpeg" height="50"> [MongoDB](http://www.mongodb.org/downloads)
+
 # Getting Started
 
 wulu requires a [MongoDB](http://www.mongodb.com) database to work.
