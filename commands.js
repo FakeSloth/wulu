@@ -1679,11 +1679,9 @@ var commands = exports.commands = {
 	},
 
 	eval: function (target, room, user, connection) {
-		// development
-		if (user.userid !== 'creaturephil') return;
-		// if (!user.hasConsoleAccess(connection)) {
-		// 	return this.sendReply("/eval - Access denied.");
-		// }
+		if (!user.hasConsoleAccess(connection)) {
+			return this.sendReply("/eval - Access denied.");
+		}
 		if (!this.canBroadcast()) return;
 
 		if (!this.broadcasting) this.sendReply('||>> ' + target);

@@ -4,6 +4,8 @@
   * Add Polls
   * Refactor commands
   * Add Reload command
+  * Fix eval permissions
+  * Add Sysop
 
 1.4.2 / 2015-04-02
 ==================

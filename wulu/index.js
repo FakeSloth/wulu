@@ -24,6 +24,10 @@ var _Poll = require('./build/poll');
 
 var Poll = _interopRequire(_Poll);
 
+var _Sysop = require('./build/sysop');
+
+var Sysop = _interopRequire(_Sysop);
+
 var _Tour = require('./build/tour');
 
 var Tour = _interopRequire(_Tour);
@@ -35,5 +39,6 @@ module.exports = {
   Emoticons: _Emoticons.Emoticons,
   Mongo: Mongo,
   Poll: Poll,
+  Sysop: Sysop,
   Tour: Tour
 };
