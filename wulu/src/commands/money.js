@@ -27,7 +27,7 @@ function money() {
     'generatemoney': 'givemoney',
     givemoney(target, room, user) {
       if (!user.can('givemoney')) return;
-      if (!target || target.indexOf(',') < 0) return this.parse('/help givemoney');
+      if (!target || target.indexOf(',') < 0) return this.sendReply('/givemoney [user], [amount] - Give a user a certain amount of money.');
 
       let parts = target.split(',');
       this.splitTarget(parts[0]);
@@ -49,7 +49,7 @@ function money() {
 
     takemoney(target, room, user) {
       if (!user.can('takemoney')) return;
-      if (!target || target.indexOf(',') < 0) return;
+      if (!target || target.indexOf(',') < 0) return this.sendReply('/takemoney [user], [amount] - Take a certain amount of money from a user.');
 
       let parts = target.split(',');
       this.splitTarget(parts[0]);

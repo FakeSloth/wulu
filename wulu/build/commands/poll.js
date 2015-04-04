@@ -16,7 +16,7 @@ function poll() {
         return;
       }var options = Poll.splint(target);
       if (options.length < 3) {
-        return this.parse('/help poll');
+        return this.sendReply('/poll [question], [option 1], [option 2]... - Create a poll where users can vote on an option.');
       }Poll.create(options, Poll[room.id], user);
 
       room.add('|raw|<div class="infobox">' + Poll[room.id].display + '</div>');

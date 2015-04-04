@@ -43,7 +43,7 @@ function money() {
       if (!user.can('givemoney')) {
         return;
       }if (!target || target.indexOf(',') < 0) {
-        return this.parse('/help givemoney');
+        return this.sendReply('/givemoney [user], [amount] - Give a user a certain amount of money.');
       }var parts = target.split(',');
       this.splitTarget(parts[0]);
       var amount = Number(parts[1].trim());
@@ -70,7 +70,7 @@ function money() {
       if (!user.can('takemoney')) {
         return;
       }if (!target || target.indexOf(',') < 0) {
-        return;
+        return this.sendReply('/takemoney [user], [amount] - Take a certain amount of money from a user.');
       }var parts = target.split(',');
       this.splitTarget(parts[0]);
       var amount = Number(parts[1].trim());

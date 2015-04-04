@@ -8,7 +8,7 @@ function poll() {
       if (!this.canTalk()) return;
 
       let options = Poll.splint(target);
-      if (options.length < 3) return this.parse('/help poll');
+      if (options.length < 3) return this.sendReply('/poll [question], [option 1], [option 2]... - Create a poll where users can vote on an option.');
 
       Poll.create(options, Poll[room.id], user);
 
