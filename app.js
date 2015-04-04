@@ -432,5 +432,5 @@ Wulu.Commands.init();
 Wulu.Emoticons();
 Wulu.Tour();
 global.Poll = Wulu.Poll();
-//Wulu.Sysop(['creaturephil']); testing purposes. TODO: add beter way to integrate this.
+//Wulu.Sysop(['creaturephil']); testing purposes. FIXME: add better way to integrate this.
 
