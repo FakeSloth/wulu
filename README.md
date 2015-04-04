@@ -13,6 +13,10 @@ Table of Contents
 -----------------
 
 - [Prerequisites](#prerequisites)
+- [Getting Started](#getting-started)
+- [Documentation](#documentation)
+- [Versioning](#versioning)
+- [License](#license)
 
 Prerequisites
 -------------
@@ -43,7 +47,8 @@ Then go back to the other terminal or command prompt to start up the server:
 $ node app.js
 ```
 
-# Documentation
+Documentation
+-------------
 
 Wulu is contain in modules. Currently, there are 4 modules: `Bot`, `Mongo`,
 `Commands`, and `Emoticons`. In addition to `Economy`.
@@ -150,7 +155,8 @@ To make the username look like the chat when using emoticons, put this in your c
 }
 ```
 
-## Versioning
+Versioning
+----------
 
 ### 2.x.x
 
@@ -166,6 +172,7 @@ of lots of bugs or glitches.
 
 This is the version where the official Pokemon Showdown main repository left off at.
 
-# License
+License
+-------
 
 [MIT](LICENSE)
