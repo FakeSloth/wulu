@@ -1,12 +1,16 @@
 'use strict';
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
 
 var _User = require('./user');
 
-var User = _interopRequire(_User);
+var _User2 = _interopRequireWildcard(_User);
 
-module.exports = {
+exports['default'] = {
 
   currency_name: 'buck',
 
@@ -22,7 +26,7 @@ module.exports = {
    * @param {Function} callback
    */
   get: function get(name, callback) {
-    User.findOne({ name: name }, function (err, user) {
+    _User2['default'].findOne({ name: name }, function (err, user) {
       if (err) return;
       if (!user) return callback(0);
       callback(user.money);
@@ -37,10 +41,10 @@ module.exports = {
    * @param {Function} callback
    */
   give: function give(name, amount, callback) {
-    User.findOne({ name: name }, function (err, user) {
+    _User2['default'].findOne({ name: name }, function (err, user) {
       if (err) return;
       if (!user) {
-        user = new User({
+        user = new _User2['default']({
           name: name.toLowerCase(),
           money: amount
         });
@@ -67,7 +71,7 @@ module.exports = {
    * @param {Function} callback
    */
   take: function take(name, amount, callback) {
-    User.findOne({ name: name }, function (err, user) {
+    _User2['default'].findOne({ name: name }, function (err, user) {
       if (err) return;
       if (!user) return;
       user.money -= amount;
@@ -79,3 +83,4 @@ module.exports = {
   }
 
 };
+module.exports = exports['default'];

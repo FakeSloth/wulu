@@ -1,6 +1,9 @@
 'use strict';
 
-module.exports = away;
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+exports['default'] = away;
 
 /**
  * Sets user away or back.
@@ -38,3 +41,4 @@ function away() {
 
   Object.merge(CommandParser.commands, commands);
 }
+module.exports = exports['default'];

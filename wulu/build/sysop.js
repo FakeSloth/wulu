@@ -1,6 +1,9 @@
 "use strict";
 
-module.exports = sysop;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = sysop;
 
 function sysop() {
   var systemOperators = arguments[0] === undefined ? [] : arguments[0];
@@ -13,3 +16,4 @@ function sysop() {
     }
   };
 }
+module.exports = exports["default"];

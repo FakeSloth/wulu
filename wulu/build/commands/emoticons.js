@@ -1,8 +1,12 @@
 'use strict';
 
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
 var _emotes = require('../emoticons');
 
-module.exports = emoticons;
+exports['default'] = emoticons;
 
 var emotes_table = create_table();
 
@@ -49,3 +53,4 @@ function create_table() {
 
   return ('<center><b><u>List of Emoticons</u></b></center>\n          <table border="1" cellspacing="0" cellpadding="5" width="100%">\n            <tbody>\n              ' + emotes_group_list.join('') + '\n            </tbody>\n          </table>\n        ').replace(/(\r\n|\n|\r)/gm, '');
 }
+module.exports = exports['default'];

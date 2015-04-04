@@ -1,12 +1,16 @@
 'use strict';
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
 
 var _Economy = require('./economy');
 
-var Economy = _interopRequire(_Economy);
+var _Economy2 = _interopRequireWildcard(_Economy);
 
-module.exports = tour;
+exports['default'] = tour;
 
 /**
  * Gets the name of users
@@ -58,7 +62,7 @@ function tour() {
     var wid = toId(winner);
     var rid = toId(runnerUp);
     var tourSize = this.generator.users.size;
-    var currency_name = Economy.currency_name;
+    var currency_name = _Economy2['default'].currency_name;
 
     if (this.room.isOfficial && tourSize >= sizeRequiredToEarn) {
       var firstMoney = Math.round(tourSize);
@@ -70,8 +74,9 @@ function tour() {
       this.room.add('|raw|<b><font color="' + color + '">' + Tools.escapeHTML(winner) + '</font> has won <font color="' + color + '">' + firstMoney + '</font> ' + firstCurrencyName + ' for winning the tournament!</b>');
       if (runnerUp) this.room.add('|raw|<b><font color="' + color + '">' + Tools.escapeHTML(runnerUp) + '</font> has also won <font color="' + color + '">' + secondMoney + '</font> ' + secondCurrencyName + ' for being getting runner up of the tournament!</b>');
 
-      Economy.give(wid, firstMoney);
-      Economy.give(rid, secondMoney);
+      _Economy2['default'].give(wid, firstMoney);
+      _Economy2['default'].give(rid, secondMoney);
     }
   };
 }
+module.exports = exports['default'];

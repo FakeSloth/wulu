@@ -1,20 +1,24 @@
 'use strict';
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
 
 var _chalk = require('chalk');
 
-var chalk = _interopRequire(_chalk);
+var _chalk2 = _interopRequireWildcard(_chalk);
 
 var _mongoose = require('mongoose');
 
-var mongoose = _interopRequire(_mongoose);
+var _mongoose2 = _interopRequireWildcard(_mongoose);
 
 var _User = require('./user');
 
-var User = _interopRequire(_User);
+var _User2 = _interopRequireWildcard(_User);
 
-module.exports = {
+exports['default'] = {
   connect_database: connect_database,
   importUsergroups: importUsergroups,
   exportUsergroups: exportUsergroups
@@ -30,9 +34,9 @@ function connect_database() {
   var db = arguments[0] === undefined ? 'mongodb://localhost:27017/ps' : arguments[0];
 
   var url = process.env.MONGODB || db;
-  mongoose.connect(url);
-  mongoose.connection.on('error', function () {
-    return console.error(chalk.red('MongoDB Connection Error. Make sure MongoDB is running.'));
+  _mongoose2['default'].connect(url);
+  _mongoose2['default'].connection.on('error', function () {
+    return console.error(_chalk2['default'].red('MongoDB Connection Error. Make sure MongoDB is running.'));
   });
 }
 
@@ -44,7 +48,7 @@ function connect_database() {
  */
 
 function importUsergroups(usergroups, Config) {
-  User.find({}, function (err, users) {
+  _User2['default'].find({}, function (err, users) {
     if (err) return;
     users.forEach(function (user) {
       return usergroups[user.name] = (user.group || Config.groupsranking[0]) + user.name;
@@ -67,10 +71,10 @@ function exportUsergroups(usergroups) {
     });
   }
   users.forEach(function (user) {
-    User.findOne({ name: user.name.toLowerCase() }, function (err, userModel) {
+    _User2['default'].findOne({ name: user.name.toLowerCase() }, function (err, userModel) {
       if (err) return;
       if (!userModel) {
-        user = new User({
+        user = new _User2['default']({
           name: user.name,
           group: user.group
         });
@@ -85,11 +89,11 @@ function exportUsergroups(usergroups) {
   users = users.map(function (user) {
     return user.name.toLowerCase();
   });
-  User.find({}, function (err, usersModel) {
+  _User2['default'].find({}, function (err, usersModel) {
     if (err) return;
     usersModel.forEach(function (user) {
       if (users.indexOf(user.name) >= 0) return;
-      User.findOne({ name: user.name }, function (err, user) {
+      _User2['default'].findOne({ name: user.name }, function (err, user) {
         if (err) return;
         user.group = '';
         user.save();
@@ -97,3 +101,4 @@ function exportUsergroups(usergroups) {
     });
   });
 }
+module.exports = exports['default'];

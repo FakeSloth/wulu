@@ -26,6 +26,7 @@ function help() {
                           <b>/buy</b> <i>command</i> - Buys an item from the shop.
                           <b>/customsymbol</b> <i>symbol</i> - Get a custom symbol.
                           <b>/resetsymbol</b> - Reset custom symbol if you have one.
+                          <b>/regdate</b> <i>user</i> - Shows registration date of the user.
                           `.replace(/(\r\n|\n|\r)/gm, '<br>'));
       }
     },

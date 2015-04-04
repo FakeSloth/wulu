@@ -1,6 +1,9 @@
 'use strict';
 
-module.exports = help;
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+exports['default'] = help;
 
 function check(arr, target) {
   return arr.indexOf(target) >= 0;
@@ -17,7 +20,7 @@ function help() {
       if (!this.canBroadcast()) {
         return;
       }if (!target) {
-        this.sendReplyBox('<center><b>List of commands:</b></center>\n                          <b>/alias</b> <i>command</i> - Get all aliases of a command.\n                          <b>/away</b> - Set yourself away.\n                          <b>/back</b> - Set yourself back from away.\n                          <b>/emotes</b> - Get a list of emoticons.\n                          <b>/wallet</b> <i>user</i> - Displays how much money a user has. Parameter is optional.\n                          <b>/transfer</b> <i>user</i>, <i>amount</i> - Transfer a certain amount of money to a user.\n                          <b>/poof</b> - Disconnects the user and leaves a message in the room.\n                          <b>/shop</b> - Displays the shop.\n                          <b>/buy</b> <i>command</i> - Buys an item from the shop.\n                          <b>/customsymbol</b> <i>symbol</i> - Get a custom symbol.\n                          <b>/resetsymbol</b> - Reset custom symbol if you have one.\n                          '.replace(/(\r\n|\n|\r)/gm, '<br>'));
+        this.sendReplyBox('<center><b>List of commands:</b></center>\n                          <b>/alias</b> <i>command</i> - Get all aliases of a command.\n                          <b>/away</b> - Set yourself away.\n                          <b>/back</b> - Set yourself back from away.\n                          <b>/emotes</b> - Get a list of emoticons.\n                          <b>/wallet</b> <i>user</i> - Displays how much money a user has. Parameter is optional.\n                          <b>/transfer</b> <i>user</i>, <i>amount</i> - Transfer a certain amount of money to a user.\n                          <b>/poof</b> - Disconnects the user and leaves a message in the room.\n                          <b>/shop</b> - Displays the shop.\n                          <b>/buy</b> <i>command</i> - Buys an item from the shop.\n                          <b>/customsymbol</b> <i>symbol</i> - Get a custom symbol.\n                          <b>/resetsymbol</b> - Reset custom symbol if you have one.\n                          <b>/regdate</b> <i>user</i> - Shows registration date of the user.\n                          '.replace(/(\r\n|\n|\r)/gm, '<br>'));
       }
     },
 
@@ -47,3 +50,4 @@ function help() {
 
   Object.merge(CommandParser.commands, commands);
 }
+module.exports = exports['default'];

@@ -4,6 +4,7 @@ import help from './help';
 import money from './money';
 import poof from './poof';
 import poll from './poll';
+import regdate from './regdate';
 import reload from './reload';
 import shop from './shop';
 
@@ -14,6 +15,7 @@ let commands = {
   money,
   poof,
   poll,
+  regdate,
   reload,
   shop
 };

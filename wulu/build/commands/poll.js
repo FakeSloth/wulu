@@ -1,6 +1,9 @@
 'use strict';
 
-module.exports = poll;
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+exports['default'] = poll;
 
 function poll() {
   var commands = {
@@ -83,3 +86,4 @@ function poll() {
 
   Object.merge(CommandParser.commands, commands);
 }
+module.exports = exports['default'];

@@ -1,12 +1,16 @@
 'use strict';
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
 
 var _fs = require('fs');
 
-var fs = _interopRequire(_fs);
+var _fs2 = _interopRequireWildcard(_fs);
 
-module.exports = reload;
+exports['default'] = reload;
 
 function reload() {
   var commands = {
@@ -15,7 +19,7 @@ function reload() {
         return;
       }if (!target || target === 'commands') {
         try {
-          var dir = fs.readdirSync('wulu/build/commands');
+          var dir = _fs2['default'].readdirSync('wulu/build/commands');
           dir.forEach((function (file) {
             if (file === 'index.js') return;
             this.sendReply(file);
@@ -34,3 +38,4 @@ function reload() {
 
   Object.merge(CommandParser.commands, commands);
 }
+module.exports = exports['default'];

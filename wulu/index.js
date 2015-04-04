@@ -1,44 +1,49 @@
 'use strict';
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
 
 var _Bot = require('./build/bot');
 
-var Bot = _interopRequire(_Bot);
+var _Bot2 = _interopRequireWildcard(_Bot);
 
 var _Commands = require('./build/commands');
 
-var Commands = _interopRequire(_Commands);
+var _Commands2 = _interopRequireWildcard(_Commands);
 
 var _Economy = require('./build/economy');
 
-var Economy = _interopRequire(_Economy);
+var _Economy2 = _interopRequireWildcard(_Economy);
 
 var _Emoticons = require('./build/emoticons');
 
 var _Mongo = require('./build/mongo');
 
-var Mongo = _interopRequire(_Mongo);
+var _Mongo2 = _interopRequireWildcard(_Mongo);
 
 var _Poll = require('./build/poll');
 
-var Poll = _interopRequire(_Poll);
+var _Poll2 = _interopRequireWildcard(_Poll);
 
 var _Sysop = require('./build/sysop');
 
-var Sysop = _interopRequire(_Sysop);
+var _Sysop2 = _interopRequireWildcard(_Sysop);
 
 var _Tour = require('./build/tour');
 
-var Tour = _interopRequire(_Tour);
+var _Tour2 = _interopRequireWildcard(_Tour);
 
-module.exports = {
-  Bot: Bot,
-  Commands: Commands,
-  Economy: Economy,
+exports['default'] = {
+  Bot: _Bot2['default'],
+  Commands: _Commands2['default'],
+  Economy: _Economy2['default'],
   Emoticons: _Emoticons.Emoticons,
-  Mongo: Mongo,
-  Poll: Poll,
-  Sysop: Sysop,
-  Tour: Tour
+  Mongo: _Mongo2['default'],
+  Poll: _Poll2['default'],
+  Sysop: _Sysop2['default'],
+  Tour: _Tour2['default']
 };
+module.exports = exports['default'];

@@ -1,6 +1,9 @@
 'use strict';
 
-module.exports = poll;
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+exports['default'] = poll;
 
 function poll() {
   var Poll = {};
@@ -104,3 +107,4 @@ function poll() {
 
   return Poll;
 }
+module.exports = exports['default'];

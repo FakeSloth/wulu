@@ -1,48 +1,57 @@
 'use strict';
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
 
 var _away = require('./away');
 
-var away = _interopRequire(_away);
+var _away2 = _interopRequireWildcard(_away);
 
 var _emoticons = require('./emoticons');
 
-var emoticons = _interopRequire(_emoticons);
+var _emoticons2 = _interopRequireWildcard(_emoticons);
 
 var _help = require('./help');
 
-var help = _interopRequire(_help);
+var _help2 = _interopRequireWildcard(_help);
 
 var _money = require('./money');
 
-var money = _interopRequire(_money);
+var _money2 = _interopRequireWildcard(_money);
 
 var _poof = require('./poof');
 
-var poof = _interopRequire(_poof);
+var _poof2 = _interopRequireWildcard(_poof);
 
 var _poll = require('./poll');
 
-var poll = _interopRequire(_poll);
+var _poll2 = _interopRequireWildcard(_poll);
+
+var _regdate = require('./regdate');
+
+var _regdate2 = _interopRequireWildcard(_regdate);
 
 var _reload = require('./reload');
 
-var reload = _interopRequire(_reload);
+var _reload2 = _interopRequireWildcard(_reload);
 
 var _shop = require('./shop');
 
-var shop = _interopRequire(_shop);
+var _shop2 = _interopRequireWildcard(_shop);
 
 var commands = {
-  away: away,
-  emoticons: emoticons,
-  help: help,
-  money: money,
-  poof: poof,
-  poll: poll,
-  reload: reload,
-  shop: shop
+  away: _away2['default'],
+  emoticons: _emoticons2['default'],
+  help: _help2['default'],
+  money: _money2['default'],
+  poof: _poof2['default'],
+  poll: _poll2['default'],
+  regdate: _regdate2['default'],
+  reload: _reload2['default'],
+  shop: _shop2['default']
 };
 
 commands.init = function () {
@@ -52,4 +61,5 @@ commands.init = function () {
   });
 };
 
-module.exports = commands;
+exports['default'] = commands;
+module.exports = exports['default'];

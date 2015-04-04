@@ -1,14 +1,18 @@
 'use strict';
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
 
 var _color = require('../color');
 
-var color = _interopRequire(_color);
+var _color2 = _interopRequireWildcard(_color);
 
 var _is = require('is_js');
 
-var is = _interopRequire(_is);
+var _is2 = _interopRequireWildcard(_is);
 
 var emotes = {
   '4Head': 'http://static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-76292ac622b0fc38-20x30.png',
@@ -40,7 +44,7 @@ var emotes_keys = Object.keys(emotes);
 
 var patternRegex = createPatternRegex();
 
-module.exports = {
+exports['default'] = {
   emotes: emotes,
   Emoticons: Emoticons
 };
@@ -58,6 +62,7 @@ module.exports = {
  *
  * @param {Object} _emotes
  */
+
 function Emoticons() {
   var _emotes = arguments[0] === undefined ? emotes : arguments[0];
 
@@ -81,7 +86,7 @@ function Emoticons() {
     message = Tools.escapeHTML(message);
     message = message.replace(patternRegex, function (match) {
       var emote = _emotes[match];
-      return is.string(emote) ? '<img src="' + emote + '" title="' + match + '" />' : match;
+      return _is2['default'].string(emote) ? '<img src="' + emote + '" title="' + match + '" />' : match;
     });
 
     // __italics__
@@ -90,7 +95,7 @@ function Emoticons() {
     // **bold**
     message = message.replace(/\*\*([^< ](?:[^<]*?[^< ])?)\*\*/g, '<b>$1</b>');
 
-    room.addRaw('<div class="chat"><small>' + user.group + '</small><button name="parseCommand" value="/user ' + user.name + '" class=".emote-chat"><b><font color="' + color(user.userid) + '">' + user.name + ':</font></b></button><em class="mine">' + message + '</div>');
+    room.addRaw('<div class="chat"><small>' + user.group + '</small><button name="parseCommand" value="/user ' + user.name + '" class=".emote-chat"><b><font color="' + _color2['default'](user.userid) + '">' + user.name + ':</font></b></button><em class="mine">' + message + '</div>');
 
     return false;
   };
@@ -108,3 +113,4 @@ function createPatternRegex() {
 
   return new RegExp(patterns.join('|'), 'g');
 }
+module.exports = exports['default'];

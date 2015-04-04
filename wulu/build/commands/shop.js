@@ -1,17 +1,21 @@
 'use strict';
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
 
 var _Economy = require('../economy');
 
-var Economy = _interopRequire(_Economy);
+var _Economy2 = _interopRequireWildcard(_Economy);
 
-module.exports = shop;
+exports['default'] = shop;
 
 var shop_data = [['Symbol', 'Buys a custom symbol to go infront of name and puts you at top of userlist. (Temporary until restart, certain symbols are blocked)', 5], ['Fix', 'Buys the ability to alter your current custom avatar or trainer card. (don\'t buy if you have neither)', 10], ['Poof', 'Buy a poof message to be added into the pool of possible poofs.', 15], ['Who', 'Buys a custom whois bot message for your name.', 25], ['Avatar', 'Buys an custom avatar to be applied to your name (You supply. Images larger than 80x80 may not show correctly)', 30], ['Trainer', 'Buys a trainer card which shows information through a command.', 50], ['Room', 'Buys a chatroom for you to own. (within reason, can be refused)', 100]];
 
 var global_shop = getShopDisplay(shop_data);
-var currency_name = Economy.currency_name;
+var currency_name = _Economy2['default'].currency_name;
 
 /**
  * Shop where user can buy stuff with money.
@@ -32,7 +36,7 @@ function shop() {
       if (!target) {
         return this.sendReply('/buy [command] - Buys an item from the shop.');
       }var self = this;
-      Economy.get(user.userid, function (money) {
+      _Economy2['default'].get(user.userid, function (money) {
         var len = shop.length,
             match = undefined;
 
@@ -46,7 +50,7 @@ function shop() {
               v: self.sendReply('You don\'t have enough money for this. You need ' + (price - money) + ' ' + item_currency + ' more to buy ' + target + '.')
             };
           }
-          Economy.take(user.userid, price, function (money) {
+          _Economy2['default'].take(user.userid, price, function (money) {
             var currency = money >= 2 ? currency_name + 's' : currency_name;
             self.sendReply('You have bought ' + target + ' for ' + price + ' ' + item_currency + '. You now have ' + money + ' ' + currency + ' left.');
             if (target.toLowerCase() === 'symbol') {
@@ -126,3 +130,4 @@ function getShopDisplay(shop) {
   display += '</tbody></table><center>To buy an item from the shop, use /buy <em>command</em>.</center>';
   return display;
 }
+module.exports = exports['default'];
