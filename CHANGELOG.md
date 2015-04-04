@@ -3,6 +3,7 @@
 
   * Add /regdate command
   * Add /define and /urbandefine commands
+  * Remove /transfer and /transfermoney command
 
 1.5.0 / 2015-04-03
 ==================

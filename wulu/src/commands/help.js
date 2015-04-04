@@ -20,7 +20,6 @@ function help() {
                           <b>/back</b> - Set yourself back from away.
                           <b>/emotes</b> - Get a list of emoticons.
                           <b>/wallet</b> <i>user</i> - Displays how much money a user has. Parameter is optional.
-                          <b>/transfer</b> <i>user</i>, <i>amount</i> - Transfer a certain amount of money to a user.
                           <b>/poof</b> - Disconnects the user and leaves a message in the room.
                           <b>/shop</b> - Displays the shop.
                           <b>/buy</b> <i>command</i> - Buys an item from the shop.
@@ -44,9 +43,6 @@ function help() {
       }
       if (check(['wallet', 'atm', 'purse'], target)) {
         return this.sendReply('/wallet, /atm', '/purse');
-      }
-      if (check(['transfer', 'transfermoney'], target)) {
-        return this.sendReply('/transfer, /transfermoney');
       }
       if (check(['poof', 'd', 'cpoof'], target)) {
         return this.sendReply('/poof, /d, /cpoof');

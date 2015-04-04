@@ -91,41 +91,6 @@ function money() {
         this.sendReply('' + this.targetUsername + ' was losted ' + amount + ' ' + currency + '. This user now has ' + total + ' ' + cash + '.');
         Users.get(this.targetUsername).send('' + user.name + ' has taken ' + amount + ' ' + currency + ' from you. You now have ' + total + ' ' + cash + '.');
       }).bind(this));
-    },
-
-    transfer: 'transfermoney',
-    transfermoney: function transfermoney(target, room, user) {
-      if (!target || target.indexOf(',') < 0) {
-        return this.sendReply('/transfer [user], [amount] - Transfer a certain amount of money to a user.');
-      }var parts = target.split(',');
-      this.splitTarget(parts[0]);
-      var amount = Number(parts[1].trim());
-      var currency = currency_name;
-      var targetName = this.targetUsername;
-
-      if (!this.targetUser) {
-        return this.sendReply('User ' + targetName + ' not found.');
-      }if (_is2['default'].not.number(amount)) {
-        return this.sendReply('Must be a number.');
-      }if (_is2['default'].decimal(amount)) {
-        return this.sendReply('Cannot contain a decimal.');
-      }if (amount < 1) {
-        return this.sendReply('You can\'t give less than one ' + currency + '.');
-      }if (amount >= 2) currency += 's';
-
-      var self = this;
-      _Economy2['default'].get(user.name.toLowerCase(), function (userAmount) {
-        if (amount > userAmount) return self.sendReply('You cannot transfer more money than what you have.');
-        _Economy2['default'].give(targetName.toLowerCase(), amount, function (targetTotal) {
-          _Economy2['default'].take(user.name.toLowerCase(), amount, function (userTotal) {
-            if (!userTotal) return self.sendReply('Cannot take anymore money from this user.');
-            var targetCash = targetTotal >= 2 ? currency_name + 's' : currency_name;
-            var userCash = userTotal >= 2 ? currency_name + 's' : currency_name;
-            self.sendReply('You have successfully transferred ' + amount + ' ' + currency + ' to ' + targetName + '. You now have ' + userTotal + ' ' + userCash + '.');
-            self.sendReply('' + user.name + ' has transferred ' + amount + ' ' + currency + ' to you. You now have ' + targetTotal + ' ' + targetCash + '.');
-          });
-        });
-      });
     }
   };
 
