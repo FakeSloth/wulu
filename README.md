@@ -31,7 +31,8 @@ The easiest way to get started is to clone the repository:
 
 ```bash
 $ git clone https://github.com/FakeSloth/wulu.git
-$ cd wulu && npm install
+$ cd wulu
+$ npm install
 ```
 
 wulu requires [MongoDB](http://www.mongodb.com). Open up
