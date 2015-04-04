@@ -25,7 +25,8 @@ Prerequisites
 
 <img src="http://www.mongodb.com/sites/mongodb.com/files/media/mongodb-logo-rgb.jpeg" height="50"> [MongoDB](http://www.mongodb.org/downloads)
 
-# Getting Started
+Getting Started
+---------------
 
 The easiest way to get started is to clone the repository:
 
