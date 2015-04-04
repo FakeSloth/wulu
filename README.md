@@ -23,18 +23,23 @@ Prerequisites
 
 # Getting Started
 
-wulu requires a [MongoDB](http://www.mongodb.com) database to work.
-Open a new command prompt or terminal and type this in:
+The easiest way to get started is to clone the repository:
+
+```bash
+$ git clone https://github.com/FakeSloth/wulu.git
+$ cd wulu && npm install
+```
+
+wulu requires [MongoDB](http://www.mongodb.com). Open up
+another command prompt or terminal:
 
 ```bash
 $ mongod
 ```
 
-Then open another command prompt and terminal and type this in:
+Then go back to the other terminal or command prompt to start up the server:
 
 ```bash
-$ git clone https://github.com/FakeSloth/wulu.git
-$ cd wulu && npm install
 $ node app.js
 ```
 
