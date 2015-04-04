@@ -6,6 +6,8 @@
   * Add Reload command
   * Fix eval permissions
   * Add Sysop
+  * Add `commands` command for help
+  * Add alias command
 
 1.4.2 / 2015-04-02
 ==================

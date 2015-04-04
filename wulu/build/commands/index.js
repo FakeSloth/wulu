@@ -10,6 +10,10 @@ var _emoticons = require('./emoticons');
 
 var emoticons = _interopRequire(_emoticons);
 
+var _help = require('./help');
+
+var help = _interopRequire(_help);
+
 var _money = require('./money');
 
 var money = _interopRequire(_money);
@@ -33,6 +37,7 @@ var shop = _interopRequire(_shop);
 var commands = {
   away: away,
   emoticons: emoticons,
+  help: help,
   money: money,
   poof: poof,
   poll: poll,

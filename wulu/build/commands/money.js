@@ -66,7 +66,7 @@ function money() {
       if (!user.can('takemoney')) {
         return;
       }if (!target || target.indexOf(',') < 0) {
-        return this.parse('/help takemoney');
+        return;
       }var parts = target.split(',');
       this.splitTarget(parts[0]);
       var amount = Number(parts[1].trim());
@@ -92,7 +92,7 @@ function money() {
     transfer: 'transfermoney',
     transfermoney: function transfermoney(target, room, user) {
       if (!target || target.indexOf(',') < 0) {
-        return this.parse('/help takemoney');
+        return this.sendReply('/transfer [user], [amount] - Transfer a certain amount of money to a user.');
       }var parts = target.split(',');
       this.splitTarget(parts[0]);
       var amount = Number(parts[1].trim());

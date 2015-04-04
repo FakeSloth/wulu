@@ -1,5 +1,6 @@
 import away from './away';
 import emoticons from './emoticons';
+import help from './help';
 import money from './money';
 import poof from './poof';
 import poll from './poll';
@@ -9,6 +10,7 @@ import shop from './shop';
 let commands = {
   away,
   emoticons,
+  help,
   money,
   poof,
   poll,

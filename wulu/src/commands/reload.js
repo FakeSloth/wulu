@@ -7,11 +7,11 @@ function reload() {
     reload(target) {
       if (!this.can('reload')) return;
 
-      this.sendReply('Reloading...');
       if (!target || target === 'commands') {
         try {
           let dir = fs.readdirSync('wulu/build/commands');
           dir.forEach(function(file) {
+            if (file === 'index.js') return;
             this.sendReply(file);
             this.parse(`/eval delete require.cache[require.resolve('./wulu/build/commands/${file}')]`);
             this.parse(`/eval require('./wulu/build/commands/${file}')()`);

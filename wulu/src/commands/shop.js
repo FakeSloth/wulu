@@ -28,7 +28,7 @@ function shop(shop=shop_data) {
     },
 
     buy(target, room, user) {
-      if (!target) return this.parse('/help buy');
+      if (!target) return this.sendReply('/buy [command] - Buys an item from the shop.');
       let self = this;
       Economy.get(user.userid, function(money) {
         let len = shop.length, match;
@@ -61,7 +61,7 @@ function shop(shop=shop_data) {
 
     customsymbol(target, room, user) {
       if (!user.canCustomSymbol) return this.sendReply('You need to buy this item from the shop.');
-      if (!target || target.length > 1) return this.parse('/help customsymbol');
+      if (!target || target.length > 1) return this.sendReply('/customsymbol [symbol] - Get a custom symbol.');
       if (target.match(/[A-Za-z\d]+/g) || '?!+%@\u2605&~#'.indexOf(target) >= 0) return this.sendReply('Sorry, but you cannot change your symbol to this for safety/stability reasons.');
       user.oldGetIdentity = user.getIdentity;
       user.getIdentity = function(roomid) {

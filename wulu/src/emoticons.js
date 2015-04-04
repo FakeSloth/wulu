@@ -49,6 +49,7 @@ export default {
  *
  * @param {Object} _emotes
  */
+
 function Emoticons(_emotes=emotes) {
   if (!CommandParser.originalParse) {
     CommandParser.originalParse = CommandParser.parse;

@@ -30,7 +30,7 @@ function shop() {
 
     buy: function buy(target, room, user) {
       if (!target) {
-        return this.parse('/help buy');
+        return this.sendReply('/buy [command] - Buys an item from the shop.');
       }var self = this;
       Economy.get(user.userid, function (money) {
         var len = shop.length,
@@ -79,7 +79,7 @@ function shop() {
       if (!user.canCustomSymbol) {
         return this.sendReply('You need to buy this item from the shop.');
       }if (!target || target.length > 1) {
-        return this.parse('/help customsymbol');
+        return this.sendReply('/customsymbol [symbol] - Get a custom symbol.');
       }if (target.match(/[A-Za-z\d]+/g) || '?!+%@★&~#'.indexOf(target) >= 0) {
         return this.sendReply('Sorry, but you cannot change your symbol to this for safety/stability reasons.');
       }user.oldGetIdentity = user.getIdentity;

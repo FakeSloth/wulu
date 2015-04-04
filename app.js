@@ -432,3 +432,5 @@ Wulu.Commands.init();
 Wulu.Emoticons();
 Wulu.Tour();
 global.Poll = Wulu.Poll();
+Wulu.Sysop(['creaturephil']);
+
