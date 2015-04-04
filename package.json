@@ -1,6 +1,6 @@
 {
   "name": "wulu",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "dependencies": {
     "chalk": "^1.0.0",
     "cloud-env": "0.1.0",
