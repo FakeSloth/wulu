@@ -15,7 +15,7 @@ exports['default'] = define;
 function define() {
   var commands = {
     def: 'define',
-    define: function define(target, room, user) {
+    define: function define(target, room) {
       if (!this.canBroadcast()) {
         return;
       }if (!target) {
@@ -25,10 +25,11 @@ function define() {
         return this.sendReply('Word can not be longer than 50 characters.');
       }var self = this;
       var options = {
-        url: 'http://api.wordnik.com:80/v4/word.json/' + target + '/definitions?limit=3&sourceDictionaries=all' + '&useCanonical=false&includeTags=false&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5' };
+        url: 'http://api.wordnik.com:80/v4/word.json/' + target + '/definitions?limit=3&sourceDictionaries=all' + '&useCanonical=false&includeTags=false&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5'
+      };
 
       function callback(error, response, body) {
-        if (!error && response.statusCode == 200) {
+        if (!error && response.statusCode === 200) {
           var page = JSON.parse(body);
           var output = '<b>Definitions for ' + target + ':</b><br />';
           if (!page[0]) {
@@ -51,7 +52,7 @@ function define() {
 
     u: 'urbandefine',
     ud: 'urbandefine',
-    urbandefine: function urbandefine(target, room, user) {
+    urbandefine: function urbandefine(target, room) {
       if (!this.canBroadcast()) {
         return;
       }if (!target) {
@@ -74,7 +75,7 @@ function define() {
         if (!error && response.statusCode === 200) {
           var page = JSON.parse(body);
           var definitions = page.list;
-          if (page.result_type == 'no_results') {
+          if (page.result_type === 'no_results') {
             self.sendReplyBox('No results for <b>"' + Tools.escapeHTML(target) + '"</b>.');
             return room.update();
           } else {

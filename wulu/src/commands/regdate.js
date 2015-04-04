@@ -6,7 +6,7 @@ function regdate() {
   let commands = {
     regdate(target, room) {
       if (!this.canBroadcast()) return;
-      if (!target || target == '.' || target == ',' || target == '\'') {
+      if (!target || target === '.' || target === ',' || target === '\'') {
         return this.sendReply('/regdate [user] - Shows registration date of the user.');
       }
       let username = Tools.escapeHTML(target);
