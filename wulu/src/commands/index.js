@@ -1,4 +1,5 @@
 import away from './away';
+import define from './define';
 import emoticons from './emoticons';
 import help from './help';
 import money from './money';
@@ -10,6 +11,7 @@ import shop from './shop';
 
 let commands = {
   away,
+  define,
   emoticons,
   help,
   money,

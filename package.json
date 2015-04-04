@@ -8,6 +8,7 @@
     "is_js": "^0.7.3",
     "mongoose": "^4.0.1",
     "node-static": "0.7.6",
+    "request": "^2.54.0",
     "sockjs": "0.3.15",
     "sugar": "1.4.1"
   },

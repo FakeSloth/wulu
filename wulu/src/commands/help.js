@@ -27,6 +27,8 @@ function help() {
                           <b>/customsymbol</b> <i>symbol</i> - Get a custom symbol.
                           <b>/resetsymbol</b> - Reset custom symbol if you have one.
                           <b>/regdate</b> <i>user</i> - Shows registration date of the user.
+                          <b>/define</b> <i>word</i> - Shows the definition of a word.
+                          <b>/urbandefine</b> <i>word</i> - Finds the urban definition of the word.
                           `.replace(/(\r\n|\n|\r)/gm, '<br>'));
       }
     },
@@ -43,11 +45,17 @@ function help() {
       if (check(['wallet', 'atm', 'purse'], target)) {
         return this.sendReply('/wallet, /atm', '/purse');
       }
-      if (check(['/transfer', '/transfermoney'], target)) {
+      if (check(['transfer', 'transfermoney'], target)) {
         return this.sendReply('/transfer, /transfermoney');
       }
-      if (check(['/poof', '/d', '/cpoof'], target)) {
+      if (check(['poof', 'd', 'cpoof'], target)) {
         return this.sendReply('/poof, /d, /cpoof');
+      }
+      if (check(['def', 'define'], target)) {
+        return this.sendReply('/def', '/define');
+      }
+      if (check(['u', 'ud', 'urbandefine'], target)) {
+        return this.sendReply('/u', '/ud', '/urbandefine');
       }
       this.sendReply('Alias not found for this command');
     }

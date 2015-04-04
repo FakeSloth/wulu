@@ -10,6 +10,10 @@ var _away = require('./away');
 
 var _away2 = _interopRequireWildcard(_away);
 
+var _define = require('./define');
+
+var _define2 = _interopRequireWildcard(_define);
+
 var _emoticons = require('./emoticons');
 
 var _emoticons2 = _interopRequireWildcard(_emoticons);
@@ -44,6 +48,7 @@ var _shop2 = _interopRequireWildcard(_shop);
 
 var commands = {
   away: _away2['default'],
+  define: _define2['default'],
   emoticons: _emoticons2['default'],
   help: _help2['default'],
   money: _money2['default'],
