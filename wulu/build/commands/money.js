@@ -42,7 +42,7 @@ function money() {
     generatemoney: 'givemoney',
     givemoney: function givemoney(target, room, user) {
       if (!user.can('givemoney')) {
-        return;
+        return false;
       }if (!target || target.indexOf(',') < 0) {
         return this.sendReply('/givemoney [user], [amount] - Give a user a certain amount of money.');
       }var parts = target.split(',');
@@ -69,7 +69,7 @@ function money() {
 
     takemoney: function takemoney(target, room, user) {
       if (!user.can('takemoney')) {
-        return;
+        return false;
       }if (!target || target.indexOf(',') < 0) {
         return this.sendReply('/takemoney [user], [amount] - Take a certain amount of money from a user.');
       }var parts = target.split(',');

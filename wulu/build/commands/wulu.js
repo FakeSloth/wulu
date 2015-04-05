@@ -10,13 +10,17 @@ var _jf = require('jsonfile');
 
 var _jf2 = _interopRequireWildcard(_jf);
 
+var _path = require('path');
+
+var _path2 = _interopRequireWildcard(_path);
+
 var _util = require('util');
 
 var _util2 = _interopRequireWildcard(_util);
 
 exports['default'] = wulu;
 
-var version = _jf2['default'].readFileSync(__dirname + '/../../../package.json').version;
+var version = _jf2['default'].readFileSync(_path2['default'].join(__dirname, '../../../package.json')).version;
 
 /**
  * wulu specific commands.

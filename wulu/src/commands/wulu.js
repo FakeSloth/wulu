@@ -1,9 +1,10 @@
 import jf from 'jsonfile';
+import path from 'path';
 import util from 'util';
 
 export default wulu;
 
-let version = jf.readFileSync(__dirname + '/../../../package.json').version;
+let version = jf.readFileSync(path.join(__dirname, '../../../package.json')).version;
 
 /**
  * wulu specific commands.
