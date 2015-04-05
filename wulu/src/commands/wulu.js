@@ -13,10 +13,12 @@ let version = jf.readFileSync(path.join(__dirname, '../../../package.json')).ver
 function wulu() {
   var commands = {
     wulu() {
+      if (!this.canBroadcast()) return;
       this.sendReplyBox(`This server is using <a href="https://github.com/FakeSloth/wulu">wulu</a> ${version}`);
     },
 
     fakesloth() {
+      if (!this.canBroadcast()) return;
       this.sendReplyBox(`Server sponsored by <a href="https://github.com/FakeSloth">FakeSloth</a>.`);
     }
   };

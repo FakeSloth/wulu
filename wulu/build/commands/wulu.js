@@ -29,11 +29,15 @@ var version = _jf2['default'].readFileSync(_path2['default'].join(__dirname, '..
 function wulu() {
   var commands = {
     wulu: function wulu() {
-      this.sendReplyBox('This server is using <a href="https://github.com/FakeSloth/wulu">wulu</a> ' + version);
+      if (!this.canBroadcast()) {
+        return;
+      }this.sendReplyBox('This server is using <a href="https://github.com/FakeSloth/wulu">wulu</a> ' + version);
     },
 
     fakesloth: function fakesloth() {
-      this.sendReplyBox('Server sponsored by <a href="https://github.com/FakeSloth">FakeSloth</a>.');
+      if (!this.canBroadcast()) {
+        return;
+      }this.sendReplyBox('Server sponsored by <a href="https://github.com/FakeSloth">FakeSloth</a>.');
     }
   };
 
