@@ -46,6 +46,10 @@ var _shop = require('./shop');
 
 var _shop2 = _interopRequireWildcard(_shop);
 
+var _wulu = require('./wulu');
+
+var _wulu2 = _interopRequireWildcard(_wulu);
+
 var commands = {
   away: _away2['default'],
   define: _define2['default'],
@@ -56,7 +60,8 @@ var commands = {
   poll: _poll2['default'],
   regdate: _regdate2['default'],
   reload: _reload2['default'],
-  shop: _shop2['default']
+  shop: _shop2['default'],
+  wulu: _wulu2['default']
 };
 
 commands.init = function () {

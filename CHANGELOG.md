@@ -3,7 +3,9 @@
 
   * Add /regdate command
   * Add /define and /urbandefine commands
+  * Add /wulu and /fakesloth commands
   * Fix wallet command querying name
+  * deps: jsonfile@^2.0.0
 
 1.5.0 / 2015-04-03
 ==================

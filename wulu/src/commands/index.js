@@ -8,6 +8,7 @@ import poll from './poll';
 import regdate from './regdate';
 import reload from './reload';
 import shop from './shop';
+import wulu from './wulu';
 
 let commands = {
   away,
@@ -19,7 +20,8 @@ let commands = {
   poll,
   regdate,
   reload,
-  shop
+  shop,
+  wulu
 };
 
 commands.init = () => {

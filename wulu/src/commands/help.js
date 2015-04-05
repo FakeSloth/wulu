@@ -29,6 +29,7 @@ function help() {
                           <b>/regdate</b> <i>user</i> - Shows registration date of the user.
                           <b>/define</b> <i>word</i> - Shows the definition of a word.
                           <b>/urbandefine</b> <i>word</i> - Finds the urban definition of the word.
+                          <b>/wulu</b> - Shows the version of wulu the server is using.
                           `.replace(/(\r\n|\n|\r)/gm, '<br>'));
       }
     },
