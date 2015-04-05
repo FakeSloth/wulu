@@ -3,7 +3,7 @@
 
   * Add /regdate command
   * Add /define and /urbandefine commands
-  * Remove /transfer and /transfermoney command
+  * Fix wallet command querying name
 
 1.5.0 / 2015-04-03
 ==================
