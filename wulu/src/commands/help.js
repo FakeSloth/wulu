@@ -18,17 +18,17 @@ function help() {
                           <b>/alias</b> <i>command</i> - Get all aliases of a command.
                           <b>/away</b> - Set yourself away.
                           <b>/back</b> - Set yourself back from away.
-                          <b>/emotes</b> - Get a list of emoticons.
-                          <b>/wallet</b> <i>user</i> - Displays how much money a user has. Parameter is optional.
-                          <b>/transfer</b> <i>user</i>, <i>amount</i> - Transfer a certain amount of money to a user.
-                          <b>/poof</b> - Disconnects the user and leaves a message in the room.
-                          <b>/shop</b> - Displays the shop.
                           <b>/buy</b> <i>command</i> - Buys an item from the shop.
                           <b>/customsymbol</b> <i>symbol</i> - Get a custom symbol.
-                          <b>/resetsymbol</b> - Reset custom symbol if you have one.
-                          <b>/regdate</b> <i>user</i> - Shows registration date of the user.
                           <b>/define</b> <i>word</i> - Shows the definition of a word.
+                          <b>/emotes</b> - Get a list of emoticons.
+                          <b>/poof</b> - Disconnects the user and leaves a message in the room.
+                          <b>/regdate</b> <i>user</i> - Shows registration date of the user.
+                          <b>/resetsymbol</b> - Reset custom symbol if you have one.
+                          <b>/shop</b> - Displays the shop.
+                          <b>/transfer</b> <i>user</i>, <i>amount</i> - Transfer a certain amount of money to a user.
                           <b>/urbandefine</b> <i>word</i> - Shows the urban definition of the word.
+                          <b>/wallet</b> <i>user</i> - Displays how much money a user has. Parameter is optional.
                           <b>/wulu</b> - Shows the version of wulu the server is using.
                           `.replace(/(\r\n|\n|\r)/gm, '<br>'));
       }
