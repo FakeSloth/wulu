@@ -390,7 +390,6 @@ function importUsergroups() {
 	// 		var row = data[i].split(",");
 	// 		usergroups[toId(row[0])] = (row[1] || Config.groupsranking[0]) + row[0];
 	// 	}
-	// 	console.log(usergroups);
 	// });
 }
 function exportUsergroups() {

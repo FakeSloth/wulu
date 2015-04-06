@@ -51,7 +51,7 @@ function importUsergroups(usergroups, Config) {
   _User2['default'].find({}, function (err, users) {
     if (err) return;
     users.forEach(function (user) {
-      return usergroups[user.name] = (user.group || Config.groupsranking[0]) + user.name;
+      return usergroups[toId(user.name)] = (user.group || Config.groupsranking[0]) + user.name;
     });
   });
 }
