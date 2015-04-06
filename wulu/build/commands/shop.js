@@ -22,6 +22,7 @@ var currency_name = _Economy2['default'].currency_name;
  *
  * @param {Array} shop
  */
+
 function shop() {
   var shop = arguments[0] === undefined ? shop_data : arguments[0];
 

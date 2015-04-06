@@ -20,6 +20,7 @@ let currency_name = Economy.currency_name;
  *
  * @param {Array} shop
  */
+
 function shop(shop=shop_data) {
   let commands = {
     shop() {
