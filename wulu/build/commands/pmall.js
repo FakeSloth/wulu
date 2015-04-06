@@ -7,6 +7,8 @@ exports['default'] = pmall;
 
 /**
  * Private messages all users on the server.
+ *
+ * @param {String} name
  */
 
 function pmall() {

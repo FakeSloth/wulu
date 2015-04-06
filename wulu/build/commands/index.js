@@ -10,6 +10,10 @@ var _away = require('./away');
 
 var _away2 = _interopRequireWildcard(_away);
 
+var _clearall = require('./clearall');
+
+var _clearall2 = _interopRequireWildcard(_clearall);
+
 var _define = require('./define');
 
 var _define2 = _interopRequireWildcard(_define);
@@ -56,6 +60,7 @@ var _wulu2 = _interopRequireWildcard(_wulu);
 
 var commands = {
   away: _away2['default'],
+  clearall: _clearall2['default'],
   define: _define2['default'],
   emoticons: _emoticons2['default'],
   help: _help2['default'],

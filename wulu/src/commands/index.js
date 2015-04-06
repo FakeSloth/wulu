@@ -1,4 +1,5 @@
 import away from './away';
+import clearall from './clearall';
 import define from './define';
 import emoticons from './emoticons';
 import help from './help';
@@ -13,6 +14,7 @@ import wulu from './wulu';
 
 let commands = {
   away,
+  clearall,
   define,
   emoticons,
   help,

@@ -2,6 +2,8 @@ export default pmall;
 
 /**
  * Private messages all users on the server.
+ *
+ * @param {String} name
  */
 
 function pmall(name='~Server PM [Do not reply]') {
