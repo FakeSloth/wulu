@@ -37,7 +37,7 @@ function wulu() {
     fakesloth: function fakesloth() {
       if (!this.canBroadcast()) {
         return;
-      }this.sendReplyBox('Server sponsored by <a href="https://github.com/FakeSloth">FakeSloth</a>.');
+      }this.sendReplyBox('This server sponsored by <a href="https://github.com/FakeSloth">FakeSloth</a>.');
     }
   };
 

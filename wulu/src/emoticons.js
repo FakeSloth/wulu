@@ -7,6 +7,7 @@ let emotes = {
   'BloodTrail': 'http://static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-f124d3a96eff228a-41x28.png',
   'crtNova': 'http://static-cdn.jtvnw.net/jtv_user_pictures/emoticon-3227-src-77d12eca2603dde0-28x28.png',
   'crtSSoH': 'http://static-cdn.jtvnw.net/jtv_user_pictures/emoticon-3228-src-d4b613767d7259c4-28x28.png',
+  'FakeSloth': 'http://i.imgur.com/chqy1tA.png',
   'feelsbd': 'http://i.imgur.com/YyEdmwX.png',
   'feelsbeard': 'http://i.imgur.com/fn01qci.png',
   'feelsdd': 'http://i.imgur.com/fXtdLtV.png',
