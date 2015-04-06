@@ -1,13 +1,13 @@
-# wulu [![Version][changelog]][version] [![Build Status][travis-link]][travis-img] [![Dependency Status][deps-link]][deps-img] [![devDependency Status][dev-link]][dev-img]
+# wulu [![Version][version]][changelog] [![Build Status][travis-img]][travis-link] [![Dependency Status][deps-img]][deps-link] [![devDependency Status][dev-img]][dev-link]
 
 [version]: https://img.shields.io/badge/version-1.6.2-orange.svg
 [changelog]: https://github.com/FakeSloth/wulu/blob/master/CHANGELOG.md
-[travis-link]: https://travis-ci.org/FakeSloth/wulu.svg?branch=master
-[travis-img]: https://travis-ci.org/FakeSloth/wulu
-[deps-link]: https://david-dm.org/FakeSloth/wulu.svg
-[deps-img]: https://david-dm.org/FakeSloth/wulu
-[dev-link]: https://david-dm.org/FakeSloth/wulu/dev-status.svg
-[dev-img]: https://david-dm.org/FakeSloth/wulu#info=devDependencies
+[travis-img]: https://travis-ci.org/FakeSloth/wulu.svg?branch=master
+[travis-link]: https://travis-ci.org/FakeSloth/wulu
+[deps-img]: https://david-dm.org/FakeSloth/wulu.svg
+[deps-link]: https://david-dm.org/FakeSloth/wulu
+[dev-img]: https://david-dm.org/FakeSloth/wulu/dev-status.svg
+[dev-link]: https://david-dm.org/FakeSloth/wulu#info=devDependencies
 
 Extentions and plugins for Pokemon Showdown
 
