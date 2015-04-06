@@ -9,7 +9,7 @@ function emoticons() {
     emotes: 'emoticons',
     emoticons() {
       if (!this.canBroadcast()) return;
-      this.sendReplyBox(emotes_table);
+      this.sendReply(`|raw|${emotes_table}`);
     }
   };
 

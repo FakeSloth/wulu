@@ -2,8 +2,12 @@ import fs from 'fs';
 
 export default reload;
 
+/**
+ * Updates certain parts of the server without restarting.
+ */
+
 function reload() {
-  var commands = {
+  let commands = {
     reload(target) {
       if (!this.can('reload')) return;
 

@@ -26,6 +26,10 @@ var _money = require('./money');
 
 var _money2 = _interopRequireWildcard(_money);
 
+var _pmall = require('./pmall');
+
+var _pmall2 = _interopRequireWildcard(_pmall);
+
 var _poof = require('./poof');
 
 var _poof2 = _interopRequireWildcard(_poof);
@@ -56,6 +60,7 @@ var commands = {
   emoticons: _emoticons2['default'],
   help: _help2['default'],
   money: _money2['default'],
+  pmall: _pmall2['default'],
   poof: _poof2['default'],
   poll: _poll2['default'],
   regdate: _regdate2['default'],

@@ -2,6 +2,10 @@ import request from 'request';
 
 export default define;
 
+/**
+ * Get definition of a word.
+ */
+
 function define() {
   let commands = {
     def: 'define',

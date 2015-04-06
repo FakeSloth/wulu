@@ -16,7 +16,7 @@ function emoticons() {
     emoticons: function emoticons() {
       if (!this.canBroadcast()) {
         return;
-      }this.sendReplyBox(emotes_table);
+      }this.sendReply('|raw|' + emotes_table);
     }
   };
 

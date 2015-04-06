@@ -12,6 +12,10 @@ var _request2 = _interopRequireWildcard(_request);
 
 exports['default'] = define;
 
+/**
+ * Get definition of a word.
+ */
+
 function define() {
   var commands = {
     def: 'define',

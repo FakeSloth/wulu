@@ -3,6 +3,7 @@ import define from './define';
 import emoticons from './emoticons';
 import help from './help';
 import money from './money';
+import pmall from './pmall';
 import poof from './poof';
 import poll from './poll';
 import regdate from './regdate';
@@ -16,6 +17,7 @@ let commands = {
   emoticons,
   help,
   money,
+  pmall,
   poof,
   poll,
   regdate,

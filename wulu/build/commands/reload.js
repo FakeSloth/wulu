@@ -12,6 +12,10 @@ var _fs2 = _interopRequireWildcard(_fs);
 
 exports['default'] = reload;
 
+/**
+ * Updates certain parts of the server without restarting.
+ */
+
 function reload() {
   var commands = {
     reload: function reload(target) {

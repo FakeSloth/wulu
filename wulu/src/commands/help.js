@@ -28,7 +28,7 @@ function help() {
                           <b>/resetsymbol</b> - Reset custom symbol if you have one.
                           <b>/regdate</b> <i>user</i> - Shows registration date of the user.
                           <b>/define</b> <i>word</i> - Shows the definition of a word.
-                          <b>/urbandefine</b> <i>word</i> - Finds the urban definition of the word.
+                          <b>/urbandefine</b> <i>word</i> - Shows the urban definition of the word.
                           <b>/wulu</b> - Shows the version of wulu the server is using.
                           `.replace(/(\r\n|\n|\r)/gm, '<br>'));
       }
@@ -44,7 +44,7 @@ function help() {
         return this.sendReply('/emotes, /emoticons');
       }
       if (check(['wallet', 'atm', 'purse'], target)) {
-        return this.sendReply('/wallet, /atm', '/purse');
+        return this.sendReply('/wallet, /atm, /purse');
       }
       if (check(['transfer', 'transfermoney'], target)) {
         return this.sendReply('/transfer, /transfermoney');
@@ -53,10 +53,13 @@ function help() {
         return this.sendReply('/poof, /d, /cpoof');
       }
       if (check(['def', 'define'], target)) {
-        return this.sendReply('/def', '/define');
+        return this.sendReply('/def, /define');
       }
       if (check(['u', 'ud', 'urbandefine'], target)) {
-        return this.sendReply('/u', '/ud', '/urbandefine');
+        return this.sendReply('/u, /ud, /urbandefine');
+      }
+      if (check(['pmall', 'masspm'], target)) {
+        return this.sendReply('/pmall, /masspm');
       }
       this.sendReply('Alias not found for this command');
     }

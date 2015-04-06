@@ -94,6 +94,7 @@ function shop(shop=shop_data) {
  * @param {Array} shop
  * @return {String} display
  */
+
 function getShopDisplay(shop) {
   let display = `<table border="1" cellspacing="0" cellpadding="5" width="100%">
             <tbody>
