@@ -2,6 +2,7 @@
 ==================
 
   * Add __FakeSloth__ emoticon
+  * Add /pmall and /clearall commands
 
 1.6.2 / 2015-04-05
 ==================

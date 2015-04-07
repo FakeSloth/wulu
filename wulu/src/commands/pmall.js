@@ -9,7 +9,7 @@ export default pmall;
 function pmall(name='~Server PM [Do not reply]') {
   let commands = {
     masspm: 'pmall',
-    pmall(target, room, user) {
+    pmall(target) {
       if (!this.can('pmall')) return false;
       if (!target) return this.sendReply('/pmall [message]');
 

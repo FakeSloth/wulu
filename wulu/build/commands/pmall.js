@@ -16,7 +16,7 @@ function pmall() {
 
   var commands = {
     masspm: 'pmall',
-    pmall: function pmall(target, room, user) {
+    pmall: function pmall(target) {
       if (!this.can('pmall')) {
         return false;
       }if (!target) {
