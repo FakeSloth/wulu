@@ -40,7 +40,7 @@
     "grunt-babel": "^5.0.0",
     "grunt-contrib-watch": "^0.6.1",
     "gulp": "~3.8.7",
-    "gulp-jscs": "~1.4.0",
+    "gulp-jscs": "~1.5.1",
     "gulp-jshint": "git://github.com/spalger/gulp-jshint#c18df3a11",
     "gulp-replace": "~0.5.1",
     "jshint-stylish": "~1.0.0",
