@@ -1,3 +1,10 @@
+1.8.0 / 2015-04-09
+==================
+
+  * Fix Chatrooms and Avatars not showing up.
+  * Restore back original Pokemon Showdown files.
+  * Remove /cmd command because it cause chatrooms and avatars to not show up.
+
 1.7.0 / 2015-04-09
 ==================
 
