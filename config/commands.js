@@ -471,17 +471,19 @@ var commands = exports.commands = {
 		var searches = {};
 		var allTiers = {'uber':1, 'ou':1, 'bl':1, 'uu':1, 'bl2':1, 'ru':1, 'bl3':1, 'nu':1, 'bl4':1, 'pu':1, 'nfe':1, 'lc':1, 'cap':1};
 		var allColours = {'green':1, 'red':1, 'blue':1, 'white':1, 'brown':1, 'yellow':1, 'purple':1, 'pink':1, 'gray':1, 'black':1};
+		var allStats = {'hp':1, 'atk':1, 'def':1, 'spa':1, 'spd':1, 'spe':1};
 		var showAll = false;
 		var megaSearch = null;
 		var recoverySearch = null;
 		var output = 10;
+		var categories = ['gen', 'tier', 'color', 'types', 'ability', 'stats', 'moves', 'recovery'];
 
 		for (var i in targets) {
 			var isNotSearch = false;
 			target = targets[i].trim().toLowerCase();
-			if (target.slice(0, 1) === '!') {
+			if (target.charAt(0) === '!') {
 				isNotSearch = true;
-				target = target.slice(1);
+				target = target.substr(1);
 			}
 
 			var targetAbility = Tools.getAbility(targets[i]);
@@ -507,6 +509,7 @@ var commands = exports.commands = {
 				continue;
 			}
 
+			if (target.substr(0, 3) === 'gen' && Number.isInteger(parseFloat(target.substr(3)))) target = target.substr(3).trim();
 			var targetInt = parseInt(target);
 			if (0 < targetInt && targetInt < 7) {
 				if (!searches['gen']) searches['gen'] = {};
@@ -516,9 +519,7 @@ var commands = exports.commands = {
 			}
 
 			if (target === 'all') {
-				if (this.broadcasting) {
-					return this.sendReplyBox("A search with the parameter 'all' cannot be broadcast.");
-				}
+				if (this.broadcasting) return this.sendReplyBox("A search with the parameter 'all' cannot be broadcast.");
 				showAll = true;
 				continue;
 			}
@@ -546,7 +547,7 @@ var commands = exports.commands = {
 			}
 
 			if (target.indexOf(' type') > -1) {
-				target = target.charAt(0).toUpperCase() + target.slice(1, target.indexOf(' type'));
+				target = target.charAt(0).toUpperCase() + target.substring(1, target.indexOf(' type'));
 				if (target in Tools.data.TypeChart) {
 					if (!searches['types']) searches['types'] = {};
 					if (Object.count(searches['types'], true) === 2 && !isNotSearch) return this.sendReplyBox("Specify a maximum of two types.");
@@ -554,6 +555,56 @@ var commands = exports.commands = {
 					searches['types'][target] = !isNotSearch;
 					continue;
 				}
+			}
+
+			var inequality = target.search(/>|<|=/);
+			if (inequality > -1) {
+				if (isNotSearch) return this.sendReplyBox("You cannot use the negation symbol '!' in stat ranges.");
+				inequality = target.charAt(inequality);
+				var targetParts = target.replace(/\s/g, '').split(inequality);
+				var numSide, statSide, direction;
+				if (!isNaN(targetParts[0])) {
+					numSide = 0;
+					statSide = 1;
+					switch (inequality) {
+						case '>': direction = 'less'; break;
+						case '<': direction = 'greater'; break;
+						case '=': direction = 'equal'; break;
+					}
+				} else if (!isNaN(targetParts[1])) {
+					numSide = 1;
+					statSide = 0;
+					switch (inequality) {
+						case '<': direction = 'less'; break;
+						case '>': direction = 'greater'; break;
+						case '=': direction = 'equal'; break;
+					}
+				} else {
+					return this.sendReplyBox("No value given to compare with '" + Tools.escapeHTML(target) + "'.");
+				}
+				var stat = targetParts[statSide];
+				switch (toId(targetParts[statSide])) {
+					case 'attack': stat = 'atk'; break;
+					case 'defense': stat = 'def'; break;
+					case 'specialattack': stat = 'spa'; break;
+					case 'spatk': stat = 'spa'; break;
+					case 'specialdefense': stat = 'spd'; break;
+					case 'spdef': stat = 'spd'; break;
+					case 'speed': stat = 'spe'; break;
+				}
+				if (!(stat in allStats)) return this.sendReplyBox("'" + Tools.escapeHTML(target) + "' did not contain a valid stat.");
+				if (!searches['stats']) searches['stats'] = {};
+				if (direction === 'equal') {
+					if (searches['stats'][stat]) return this.sendReplyBox("Invalid stat range for " + stat + ".");
+					searches['stats'][stat] = {};
+					searches['stats'][stat]['less'] = parseFloat(targetParts[numSide]);
+					searches['stats'][stat]['greater'] = parseFloat(targetParts[numSide]);
+				} else {
+					if (!searches['stats'][stat]) searches['stats'][stat] = {};
+					if (searches['stats'][stat][direction]) return this.sendReplyBox("Invalid stat range for " + stat + ".");
+					searches['stats'][stat][direction] = parseFloat(targetParts[numSide]);
+				}
+				continue;
 			}
 			return this.sendReplyBox("'" + Tools.escapeHTML(target) + "' could not be found in any of the search categories.");
 		}
@@ -570,7 +621,8 @@ var commands = exports.commands = {
 			}
 		}
 
-		for (var search in {'gen':1, 'tier':1, 'color':1, 'types':1, 'ability':1, 'moves':1, 'recovery':1}) {
+		for (var cat = 0; cat < categories.length; cat++) {
+			var search = categories[cat];
 			if (!searches[search]) continue;
 			switch (search) {
 				case 'types':
@@ -660,8 +712,28 @@ var commands = exports.commands = {
 					}
 					break;
 
+				case 'stats':
+					for (var stat in searches[search]) {
+						for (var mon in dex) {
+							for (var ineq in searches[search][stat]) {
+								if (ineq === "less") {
+									if (dex[mon].baseStats[stat] > searches[search][stat][ineq]) {
+										delete dex[mon];
+										break;
+									}
+								} else {
+									if (dex[mon].baseStats[stat] < searches[search][stat][ineq]) {
+										delete dex[mon];
+										break;
+									}
+								}
+							}
+						}
+					}
+					break;
+
 				default:
-					return this.sendReplyBox("Something broke! PM TalkTakesTime here or on the Smogon forums with the command you tried.");
+					return this.sendReplyBox("Something broke! PM SolarisFox here or on the Smogon forums with the command you tried.");
 			}
 		}
 
@@ -672,12 +744,12 @@ var commands = exports.commands = {
 		});
 		var resultsStr = "";
 		if (results.length > 0) {
-			if (showAll || results.length <= output) {
+			if (showAll || results.length <= output + 5) {
 				results.sort();
 				resultsStr = results.join(", ");
 			} else {
 				results.randomize();
-				resultsStr = results.slice(0, 10).join(", ") + ", and " + string(results.length - output) + " more. Redo the search with 'all' as a search parameter to show all results.";
+				resultsStr = results.slice(0, 10).join(", ") + ", and " + string(results.length - output) + " more. <font color=#999999>Redo the search with 'all' as a search parameter to show all results.</font>";
 			}
 		} else {
 			resultsStr = "No Pokémon found.";
@@ -707,11 +779,11 @@ var commands = exports.commands = {
 			target = targets[i].toLowerCase().trim();
 			if (target.charAt(0) === '!') {
 				isNotSearch = true;
-				target = target.slice(1);
+				target = target.substr(1);
 			}
 
 			if (target.indexOf(' type') > -1) {
-				target = target.charAt(0).toUpperCase() + target.slice(1, target.indexOf(' type'));
+				target = target.charAt(0).toUpperCase() + target.substring(1, target.indexOf(' type'));
 				if (!(target in Tools.data.TypeChart)) return this.sendReplyBox("Type '" + Tools.escapeHTML(target) + "' not found.");
 				if (!searches['type']) searches['type'] = {};
 				if ((searches['type'][target] && isNotSearch) || (searches['type'][target] === false && !isNotSearch)) return this.sendReplyBox('A search cannot both exclude and include a type.');
@@ -735,9 +807,7 @@ var commands = exports.commands = {
 			}
 
 			if (target === 'all') {
-				if (this.broadcasting) {
-					return this.sendReplyBox("A search with the parameter 'all' cannot be broadcast.");
-				}
+				if (this.broadcasting) return this.sendReplyBox("A search with the parameter 'all' cannot be broadcast.");
 				showAll = true;
 				continue;
 			}
@@ -751,7 +821,7 @@ var commands = exports.commands = {
 				continue;
 			}
 
-			var inequality = target.search(/>|</);
+			var inequality = target.search(/>|<|=/);
 			if (inequality > -1) {
 				if (isNotSearch) return this.sendReplyBox("You cannot use the negation symbol '!' in quality ranges.");
 				inequality = target.charAt(inequality);
@@ -760,11 +830,19 @@ var commands = exports.commands = {
 				if (!isNaN(targetParts[0])) {
 					numSide = 0;
 					propSide = 1;
-					direction = (inequality === '>' ? 'less' : 'greater');
+					switch (inequality) {
+						case '>': direction = 'less'; break;
+						case '<': direction = 'greater'; break;
+						case '=': direction = 'equal'; break;
+					}
 				} else if (!isNaN(targetParts[1])) {
 					numSide = 1;
 					propSide = 0;
-					direction = (inequality === '<' ? 'less' : 'greater');
+					switch (inequality) {
+						case '<': direction = 'less'; break;
+						case '>': direction = 'greater'; break;
+						case '=': direction = 'equal'; break;
+					}
 				} else {
 					return this.sendReplyBox("No value given to compare with '" + Tools.escapeHTML(target) + "'.");
 				}
@@ -776,32 +854,38 @@ var commands = exports.commands = {
 				}
 				if (!(prop in allProperties)) return this.sendReplyBox("'" + Tools.escapeHTML(target) + "' did not contain a valid property.");
 				if (!searches['property']) searches['property'] = {};
-				if (!searches['property'][prop]) searches['property'][prop] = {};
-				if (searches['property'][prop][direction]) {
-					return this.sendReplyBox("Invalid property range for " + prop + ".");
+				if (direction === 'equal') {
+					if (searches['property'][prop]) return this.sendReplyBox("Invalid property range for " + prop + ".");
+					searches['property'][prop] = {};
+					searches['property'][prop]['less'] = parseFloat(targetParts[numSide]);
+					searches['property'][prop]['greater'] = parseFloat(targetParts[numSide]);
 				} else {
-					searches['property'][prop][direction] = {};
-					searches['property'][prop][direction].qty = targetParts[numSide];
+					if (!searches['property'][prop]) searches['property'][prop] = {};
+					if (searches['property'][prop][direction]) {
+						return this.sendReplyBox("Invalid property range for " + prop + ".");
+					} else {
+						searches['property'][prop][direction] = parseFloat(targetParts[numSide]);
+					}
 				}
 				continue;
 			}
 
 			if (target.substr(0, 8) === 'priority') {
 				var sign = '';
-				if (target.substr(8).trim() === "+") {
+				target = target.substr(8).trim();
+				if (target === "+") {
 					sign = 'greater';
-				} else if (target.substr(8).trim() === "-") {
+				} else if (target === "-") {
 					sign = 'less';
 				} else {
-					return this.sendReplyBox("Priority type '" + target.substr(8).trim() + "' not recognized.");
+					return this.sendReplyBox("Priority type '" + target + "' not recognized.");
 				}
 				if (!searches['property']) searches['property'] = {};
 				if (searches['property']['priority']) {
 					return this.sendReplyBox("Priority cannot be set with both shorthand and inequality range.");
 				} else {
 					searches['property']['priority'] = {};
-					searches['property']['priority'][sign] = {};
-					searches['property']['priority'][sign].qty = (sign === 'less' ? -1 : 1);
+					searches['property']['priority'][sign] = (sign === 'less' ? -1 : 1);
 				}
 				continue;
 			}
@@ -908,7 +992,7 @@ var commands = exports.commands = {
 										delete dex[move];
 										break;
 									}
-									if (dex[move][prop] > searches[search][prop][ineq].qty) {
+									if (dex[move][prop] > searches[search][prop][ineq]) {
 										delete dex[move];
 										break;
 									}
@@ -919,7 +1003,7 @@ var commands = exports.commands = {
 											break;
 										}
 									}
-									if (dex[move][prop] < searches[search][prop][ineq].qty) {
+									if (dex[move][prop] < searches[search][prop][ineq]) {
 										delete dex[move];
 										break;
 									}
@@ -980,12 +1064,12 @@ var commands = exports.commands = {
 			results.push(dex[move].name);
 		}
 		if (results.length > 0) {
-			if (showAll || results.length <= output) {
+			if (showAll || results.length <= output + 5) {
 				results.sort();
 				resultsStr = results.join(", ");
 			} else {
 				results.randomize();
-				resultsStr = results.slice(0, 10).join(", ") + ", and " + string(results.length - output) + " more. Redo the search with 'all' as a search parameter to show all results.";
+				resultsStr = results.slice(0, 10).join(", ") + ", and " + string(results.length - output) + " more. <font color=#999999>Redo the search with 'all' as a search parameter to show all results.</font>";
 			}
 		} else {
 			resultsStr = "No moves found.";
@@ -1058,7 +1142,7 @@ var commands = exports.commands = {
 					}
 					prevSourceType = source.substr(0, 2);
 					prevSourceCount = source.substr(2) ? 0 : -1;
-					buffer += "<li>gen " + source.substr(0, 1) + " " + sourceNames[source.substr(1, 1)];
+					buffer += "<li>gen " + source.charAt(0) + " " + sourceNames[source.charAt(1)];
 					if (prevSourceType === '5E' && template.maleOnlyHidden) buffer += " (cannot have hidden ability)";
 					if (source.substr(2)) buffer += ": " + source.substr(2);
 				}
@@ -1179,7 +1263,8 @@ var commands = exports.commands = {
 		if (!this.canBroadcast()) return;
 
 		var factor = 0;
-		if (Tools.getImmunity(source.type || source, defender)) {
+		if (source.category === "Status" && !source.affectedByImmunities) factor = 1;
+		if (Tools.getImmunity(source.type || source, defender) || source.affectedByImmunities === false) {
 			var totalTypeMod = 0;
 			if (source.effectType !== 'Move' || source.basePower || source.basePowerCallback) {
 				for (var i = 0; i < defender.types.length; i++) {
@@ -1348,6 +1433,11 @@ var commands = exports.commands = {
 			buffer += "- <a href=\"https://www.smogon.com/tiers/om/\">Other Metagames Hub</a><br />";
 			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3505031/\">Other Metagames Index</a><br />";
 		}
+		if (target === 'all' || target === 'anythinggoes' || target === 'ag') {
+			matched = true;
+			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3523229/\">Anything Goes</a><br />";
+			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3535064/\">Anything Goes Viability Ranking</a><br />";
+		}
 		if (target === 'all' || target === 'smogondoublesuu' || target === 'doublesuu') {
 			matched = true;
 			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3516968/\">Doubles UU</a><br />";
@@ -1359,7 +1449,7 @@ var commands = exports.commands = {
 		if (target === 'all' || target === 'omofthemonth' || target === 'omotm' || target === 'month') {
 			matched = true;
 			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3481155/\">Other Metagame of the Month</a><br />";
-			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3516349/\">Current OMotM: Hidden Type</a><br />";
+			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3529252/\">Current OMotM: Inheritance</a><br />";
 		}
 		if (target === 'all' || target === 'seasonal') {
 			matched = true;
@@ -1369,7 +1459,7 @@ var commands = exports.commands = {
 			matched = true;
 			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3489849/\">Balanced Hackmons</a><br />";
 			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3515725/\">Balanced Hackmons Suspect Discussion</a><br />";
-			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3525676/\">Balanced Hackmons Viability Rankings</a><br />";
+			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3525676/\">Balanced Hackmons Viability Ranking</a><br />";
 		}
 		if (target === 'all' || target === '1v1') {
 			matched = true;
@@ -1380,13 +1470,13 @@ var commands = exports.commands = {
 			matched = true;
 			if (target !== 'all') buffer += "All Pokémon on a team must share a type.<br />";
 			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3493087/\">Monotype</a><br />";
-			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3517737/\">Monotype Viability Rankings</a><br />";
+			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3517737/\">Monotype Viability Ranking</a><br />";
 		}
 		if (target === 'all' || target === 'tiershift' || target === 'ts') {
 			matched = true;
 			if (target !== 'all') buffer += "Pokémon below OU/BL get all their stats boosted. UU/BL2 get +5, RU/BL3 get +10, and NU or lower get +15.<br />";
 			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3532973/\">Tier Shift</a><br />";
-			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3514386/\">Tier Shift Viability Rankings</a><br />";
+			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3514386/\">Tier Shift Viability Ranking</a><br />";
 		}
 		if (target === 'all' || target === 'pu') {
 			matched = true;
@@ -1402,21 +1492,17 @@ var commands = exports.commands = {
 			matched = true;
 			if (target !== 'all') buffer += "Pokémon can use any ability, barring the few that are banned.<br />";
 			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3528058/\">Almost Any Ability</a><br />";
-			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3517258/\">Almost Any Ability Viability Rankings</a><br />";
+			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3517258/\">Almost Any Ability Viability Ranking</a><br />";
 		}
 		if (target === 'all' || target === 'stabmons') {
 			matched = true;
 			if (target !== 'all') buffer += "Pokémon can use any move of their typing, in addition to the moves they can normally learn.<br />";
 			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3493081/\">STABmons</a><br />";
-			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3512215/\">STABmons Viability Rankings</a><br />";
+			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3512215/\">STABmons Viability Ranking</a><br />";
 		}
 		if (target === 'all' || target === 'lcuu') {
 			matched = true;
 			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3523929/\">LC UU</a><br />";
-		}
-		if (target === 'all' || target === '350cup') {
-			matched = true;
-			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3512945/\">350 Cup</a><br />";
 		}
 		if (target === 'all' || target === 'averagemons') {
 			matched = true;
@@ -1428,6 +1514,7 @@ var commands = exports.commands = {
 		}
 		if (target === 'all' || target === 'hiddentype') {
 			matched = true;
+			if (target !== 'all') buffer += "Pokémon have an added type determined by their IVs. Same as the Hidden Power type.<br />";
 			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3516349/\">Hidden Type</a><br />";
 		}
 		if (target === 'all' || target === 'middlecup' || target === 'mc') {
@@ -1630,46 +1717,42 @@ var commands = exports.commands = {
 			matched = true;
 			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3521201/\">OU Metagame Discussion</a><br />";
 			buffer += "- <a href=\"https://www.smogon.com/dex/xy/tags/ou/\">OU Banlist</a><br />";
-			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3526596/\">OU Viability Rankings</a><br />";
+			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3526596/\">OU Viability Ranking</a><br />";
 		}
 		if (target === 'all' || target === 'ubers' || target === 'uber') {
 			matched = true;
 			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3522911/\">Ubers Metagame Discussion</a><br />";
-			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3523419/\">Ubers Viability Rankings</a><br />";
+			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3523419/\">Ubers Viability Ranking</a><br />";
 		}
 		if (target === 'all' || target === 'underused' || target === 'uu') {
 			matched = true;
 			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3530610/\">np: UU Stage 2.1</a><br />";
 			buffer += "- <a href=\"https://www.smogon.com/dex/xy/tags/uu/\">UU Banlist</a><br />";
-			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3523649/\">UU Viability Rankings</a><br />";
+			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3523649/\">UU Viability Ranking</a><br />";
 		}
 		if (target === 'all' || target === 'rarelyused' || target === 'ru') {
 			matched = true;
 			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3533095/\">np: RU Stage 8</a><br />";
 			buffer += "- <a href=\"https://www.smogon.com/dex/xy/tags/ru/\">RU Banlist</a><br />";
-			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3523627/\">RU Viability Rankings</a><br />";
+			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3523627/\">RU Viability Ranking</a><br />";
 		}
 		if (target === 'all' || target === 'neverused' || target === 'nu') {
 			matched = true;
-			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3528871/\">np: NU Stage 4</a><br />";
+			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3534671/\">np: NU Stage 5</a><br />";
 			buffer += "- <a href=\"https://www.smogon.com/dex/xy/tags/nu/\">NU Banlist</a><br />";
-			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3523692/\">NU Viability Rankings</a><br />";
+			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3523692/\">NU Viability Ranking</a><br />";
 		}
 		if (target === 'all' || target === 'littlecup' || target === 'lc') {
 			matched = true;
 			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3505710/\">LC Metagame Discussion</a><br />";
 			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3490462/\">LC Banlist</a><br />";
-			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3496013/\">LC Viability Rankings</a><br />";
+			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3496013/\">LC Viability Ranking</a><br />";
 		}
 		if (target === 'all' || target === 'smogondoubles' || target === 'doubles') {
 			matched = true;
 			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3525739/\">np: Doubles Stage 1.5</a><br />";
 			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3498688/\">Doubles Banlist</a><br />";
-			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3522814/\">Doubles Viability Rankings</a><br />";
-		}
-		if (target === 'all' || target === 'anythinggoes' || target === 'ag') {
-			matched = true;
-			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3523229/\">Anything Goes</a><br />";
+			buffer += "- <a href=\"https://www.smogon.com/forums/threads/3522814/\">Doubles Viability Ranking</a><br />";
 		}
 		if (!matched) {
 			return this.sendReply("The Tiers entry '" + target + "' was not found. Try /tiers for general help.");
@@ -2039,6 +2122,16 @@ var commands = exports.commands = {
 			this.sendReply("The parameter 'mega' can be added to search for Mega Evolutions only, and the parameters 'FE' or 'NFE' can be added to search fully or not-fully evolved Pokemon only.");
 			this.sendReply("The order of the parameters does not matter.");
 		}
+		if (target === 'movesearch' || target === 'msearch' || target === 'ms') {
+			matched = true;
+			this.sendReply("/movesearch [parameter], [parameter], [parameter], ... - Searches for moves that fulfill the selected criteria.");
+			this.sendReply("Search categories are: type, category, flag, status inflicted, type boosted, and numeric range for base power, pp, and accuracy.");
+			this.sendReply("Types must be followed by ' type', e.g., 'dragon type'.");
+			this.sendReply("Stat boosts must be preceded with 'boosts ', e.g., 'boosts attack' searches for moves that boost the attack stat.");
+			this.sendReply("Inequality ranges use the characters '>' and '<' though they behave as '≥' and '≤', e.g., 'bp > 100' searches for all moves equal to and greater than 100 base power.");
+			this.sendReply("Parameters can be excluded through the use of '!', e.g., !water type' excludes all water type moves.");
+			this.sendReply("The order of the parameters does not matter.");
+		}
 		if (target === 'dice' || target === 'roll') {
 			matched = true;
 			this.sendReply("/dice [optional max number] - Randomly picks a number between 1 and 6, or between 1 and the number you choose.");
@@ -2235,7 +2328,7 @@ var commands = exports.commands = {
 		}
 		if (!target) {
 			this.sendReply("COMMANDS: /nick, /avatar, /rating, /whois, /msg, /reply, /ignore, /away, /back, /timestamps, /highlight");
-			this.sendReply("INFORMATIONAL COMMANDS: /data, /dexsearch, /groups, /opensource, /avatars, /faq, /rules, /intro, /tiers, /othermetas, /learn, /analysis, /calc (replace / with ! to broadcast. Broadcasting requires: + % @ & ~)");
+			this.sendReply("INFORMATIONAL COMMANDS: /data, /dexsearch, /movesearch, /groups, /opensource, /avatars, /faq, /rules, /intro, /tiers, /othermetas, /learn, /analysis, /calc (replace / with ! to broadcast. Broadcasting requires: + % @ & ~)");
 			if (user.group !== Config.groupsranking[0]) {
 				this.sendReply("DRIVER COMMANDS: /warn, /mute, /unmute, /alts, /forcerename, /modlog, /lock, /unlock, /announce, /redirect");
 				this.sendReply("MODERATOR COMMANDS: /ban, /unban, /ip");

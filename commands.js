@@ -89,8 +89,6 @@ var commands = exports.commands = {
 		if (!targetUser || !targetUser.connected) {
 			if (targetUser && !targetUser.connected) {
 				this.popupReply("User " + this.targetUsername + " is offline.");
-			} else if (!target) {
-				this.popupReply("User " + this.targetUsername + " not found. Did you forget a comma?");
 			} else {
 				this.popupReply("User "  + this.targetUsername + " not found. Did you misspell their name?");
 			}
@@ -190,6 +188,7 @@ var commands = exports.commands = {
 		this.parse('/blockpms ' + target);
 	},
 
+	unaway: 'back',
 	back: function () {
 		this.parse('/unblockpms');
 		this.parse('/unblockchallenges');
@@ -255,11 +254,6 @@ var commands = exports.commands = {
 			if (room.chatRoomData) {
 				delete room.chatRoomData.isPrivate;
 				Rooms.global.writeChatRoomData();
-			}
-			if (room.type === 'chat') {
-				if (Rooms.global.chatRooms.indexOf(room) < 0) {
-					Rooms.global.chatRooms.push(room);
-				}
 			}
 		} else {
 			room.isPrivate = setting;
@@ -574,8 +568,8 @@ var commands = exports.commands = {
 		}
 		if (targetId === user.userid || user.can('makeroom')) {
 			innerBuffer = [];
-			for (var id in Rooms.rooms) {
-				var curRoom = Rooms.rooms[id];
+			for (var i = 0; i < Rooms.global.chatRooms.length; i++) {
+				var curRoom = Rooms.global.chatRooms[i];
 				if (!curRoom.auth || !curRoom.isPrivate) continue;
 				var auth = curRoom.auth[targetId];
 				if (!auth) continue;
@@ -983,6 +977,7 @@ var commands = exports.commands = {
 		this.addModCommand("" + user.name + " temporarily locked the range " + range + ".");
 	},
 
+	unrangelock: 'rangeunlock',
 	rangeunlock: function (target, room, user) {
 		if ((user.locked || user.mutedRooms[room.id]) && !user.can('bypassall')) return this.sendReply("You cannot do this while unable to talk.");
 		if (!target) return this.sendReply("Please specify a range to unlock.");
@@ -1254,7 +1249,7 @@ var commands = exports.commands = {
 
 		// Seek for all input rooms for the lines or text
 		if (isWin) {
-			command = path.normalize(__dirname + '/config/lib/winmodlog') + ' tail ' + lines + ' ' + filename;
+			command = path.normalize(__dirname + '/lib/winmodlog') + ' tail ' + lines + ' ' + filename;
 		} else {
 			command = 'tail -' + lines + ' ' + filename;
 		}
@@ -1262,7 +1257,7 @@ var commands = exports.commands = {
 		if (wordSearch) { // searching for a word instead
 			if (target.match(/^["'].+["']$/)) target = target.substring(1, target.length - 1);
 			if (isWin) {
-				command = path.normalize(__dirname + '/config/lib/winmodlog') + ' ws ' + grepLimit + ' "' + target.replace(/%/g, "%%").replace(/([\^"&<>\|])/g, "^$1") + '" ' + filename;
+				command = path.normalize(__dirname + '/lib/winmodlog') + ' ws ' + grepLimit + ' "' + target.replace(/%/g, "%%").replace(/([\^"&<>\|])/g, "^$1") + '" ' + filename;
 			} else {
 				command = "awk '{print NR,$0}' " + filename + " | sort -nr | cut -d' ' -f2- | grep -m" + grepLimit + " -i '" + target.replace(/\\/g, '\\\\\\\\').replace(/["'`]/g, '\'\\$&\'').replace(/[\{\}\[\]\(\)\$\^\.\?\+\-\*]/g, '[$&]') + "'";
 			}
@@ -1786,7 +1781,20 @@ var commands = exports.commands = {
 	addplayer: function (target, room, user) {
 		if (!target) return this.parse('/help addplayer');
 
-		return this.parse('/roomplayer ' + target);
+		target = this.splitTarget(target, true);
+		var userid = toId(this.targetUsername);
+		var targetUser = this.targetUser;
+		var name = this.targetUsername;
+
+		if (!targetUser) return this.sendReply("User " + name + " not found.");
+		if (!room.joinBattle) return this.sendReply("You can only do this in battle rooms.");
+		if (targetUser.can('joinbattle', null, room)) {
+			return this.sendReply("" + name + " can already join battles as a Player.");
+		}
+		if (!this.can('joinbattle', null, room)) return;
+
+		room.auth[targetUser.userid] = '\u2605';
+		this.addModCommand("" + name  + " was promoted to Player by " + user.name + ".");
 	},
 
 	joinbattle: function (target, room, user) {

@@ -335,7 +335,7 @@ Users.socketReceive = function (worker, workerid, socketid, message) {
 	// from propagating out of this function.
 
 	// drop legacy JSON messages
-	if (message.substr(0, 1) === '{') return;
+	if (message.charAt(0) === '{') return;
 
 	// drop invalid messages without a pipe character
 	var pipeIndex = message.indexOf('|');
@@ -375,30 +375,26 @@ Users.socketReceive = function (worker, workerid, socketid, message) {
  *********************************************************/
 
 var usergroups = Users.usergroups = Object.create(null);
-
 function importUsergroups() {
 	// can't just say usergroups = {} because it's exported
 	for (var i in usergroups) delete usergroups[i];
 
-	Wulu.Mongo.importUsergroups(usergroups, Config);
-
-	// fs.readFile('config/usergroups.csv', function (err, data) {
-	// 	if (err) return;
-	// 	data = ('' + data).split("\n");
-	// 	for (var i = 0; i < data.length; i++) {
-	// 		if (!data[i]) continue;
-	// 		var row = data[i].split(",");
-	// 		usergroups[toId(row[0])] = (row[1] || Config.groupsranking[0]) + row[0];
-	// 	}
-	// });
+	fs.readFile('config/usergroups.csv', function (err, data) {
+		if (err) return;
+		data = ('' + data).split("\n");
+		for (var i = 0; i < data.length; i++) {
+			if (!data[i]) continue;
+			var row = data[i].split(",");
+			usergroups[toId(row[0])] = (row[1] || Config.groupsranking[0]) + row[0];
+		}
+	});
 }
 function exportUsergroups() {
-	Wulu.Mongo.exportUsergroups(usergroups);
-	// var buffer = '';
-	// for (var i in usergroups) {
-	// 	buffer += usergroups[i].substr(1).replace(/,/g, '') + ',' + usergroups[i].substr(0, 1) + "\n";
-	// }
-	// fs.writeFile('config/usergroups.csv', buffer);
+	var buffer = '';
+	for (var i in usergroups) {
+		buffer += usergroups[i].substr(1).replace(/,/g, '') + ',' + usergroups[i].charAt(0) + "\n";
+	}
+	fs.writeFile('config/usergroups.csv', buffer);
 }
 importUsergroups();
 
@@ -619,7 +615,7 @@ User = (function () {
 
 		if (typeof target === 'string') targetGroup = target;
 
-		if (groupData[permission]) {
+		if (groupData && groupData[permission]) {
 			var jurisdiction = groupData[permission];
 			if (!target) {
 				return !!jurisdiction;
@@ -855,7 +851,7 @@ User = (function () {
 			return false;
 		}
 
-		if (token && token.substr(0, 1) !== ';') {
+		if (token && token.charAt(0) !== ';') {
 			var tokenSemicolonPos = token.indexOf(';');
 			var tokenData = token.substr(0, tokenSemicolonPos);
 			var tokenSig = token.substr(tokenSemicolonPos + 1);
@@ -992,6 +988,7 @@ User = (function () {
 						this.locked = false;
 					}
 				}
+				if (this.autoconfirmed) user.autoconfirmed = this.autoconfirmed;
 				if (user.locked === '#dnsbl' && !this.locked) user.locked = false;
 				if (!user.locked && this.locked === '#dnsbl') this.locked = false;
 				for (var i = 0; i < this.connections.length; i++) {

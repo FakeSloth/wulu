@@ -336,11 +336,6 @@ global.string = function (str) {
 
 global.LoginServer = require('./loginserver.js');
 
-global.Wulu = require('./wulu');
-
-// Connect to MongoDB.
-Wulu.Mongo.connect_database();
-
 global.Users = require('./users.js');
 
 global.Rooms = require('./rooms.js');
@@ -355,12 +350,12 @@ global.Simulator = require('./simulator.js');
 global.Tournaments = require('./tournaments');
 
 try {
-	global.Dnsbl = require('./config/dnsbl.js');
+	global.Dnsbl = require('./dnsbl.js');
 } catch (e) {
 	global.Dnsbl = {query:function () {}};
 }
 
-global.Cidr = require('./config/cidr.js');
+global.Cidr = require('./cidr.js');
 
 if (Config.crashguard) {
 	// graceful crash - allow current battles to finish before restarting
@@ -386,9 +381,6 @@ if (Config.crashguard) {
  *********************************************************/
 
 global.Sockets = require('./sockets.js');
-
-global.Bot = new Wulu.Bot();
-Bot.connect();
 
 /*********************************************************
  * Set up our last global
@@ -427,9 +419,3 @@ fs.readFile('./config/ipbans.txt', function (err, data) {
  *********************************************************/
 
 require('./repl.js').start('app', function (cmd) { return eval(cmd); });
-
-Wulu.Commands.init();
-Wulu.Emoticons();
-Wulu.Tour();
-global.Poll = Wulu.Poll();
-//Wulu.Sysop(['creaturephil']);// testing purposes. FIXME: add better way to integrate this.
