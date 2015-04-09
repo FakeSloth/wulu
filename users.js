@@ -379,22 +379,10 @@ function importUsergroups() {
 	// can't just say usergroups = {} because it's exported
 	for (var i in usergroups) delete usergroups[i];
 
-	fs.readFile('config/usergroups.csv', function (err, data) {
-		if (err) return;
-		data = ('' + data).split("\n");
-		for (var i = 0; i < data.length; i++) {
-			if (!data[i]) continue;
-			var row = data[i].split(",");
-			usergroups[toId(row[0])] = (row[1] || Config.groupsranking[0]) + row[0];
-		}
-	});
+    Wulu.Mongo.importUsergroups(usergroups, Config);
 }
 function exportUsergroups() {
-	var buffer = '';
-	for (var i in usergroups) {
-		buffer += usergroups[i].substr(1).replace(/,/g, '') + ',' + usergroups[i].charAt(0) + "\n";
-	}
-	fs.writeFile('config/usergroups.csv', buffer);
+    Wulu.Mongo.exportUsergroups(usergroups);
 }
 importUsergroups();
 

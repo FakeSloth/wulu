@@ -336,6 +336,11 @@ global.string = function (str) {
 
 global.LoginServer = require('./loginserver.js');
 
+global.Wulu = require('./wulu');
+
+// Connect to MongoDB.
+Wulu.Mongo.connect_database();
+
 global.Users = require('./users.js');
 
 global.Rooms = require('./rooms.js');
