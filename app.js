@@ -387,6 +387,9 @@ if (Config.crashguard) {
 
 global.Sockets = require('./sockets.js');
 
+global.Bot = new Wulu.Bot();
+Bot.connect();
+
 /*********************************************************
  * Set up our last global
  *********************************************************/
