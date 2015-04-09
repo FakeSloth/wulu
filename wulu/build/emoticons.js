@@ -78,7 +78,10 @@ function Emoticons() {
 
     if (!match) return CommandParser.originalParse(message, room, user, connection, levelsDeep);
 
+    // escape HTML
     message = Tools.escapeHTML(message);
+
+    // emoticons
     message = message.replace(patternRegex, function (match) {
       var emote = _emotes[match];
       return _is2['default'].string(emote) ? '<img src="' + emote + '" title="' + match + '" />' : match;

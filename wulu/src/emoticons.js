@@ -63,17 +63,20 @@ function Emoticons(_emotes=emotes) {
 
     if (!match) return CommandParser.originalParse(message, room, user, connection, levelsDeep);
 
+    // escape HTML
     message = Tools.escapeHTML(message);
+
+    // emoticons
     message = message.replace(patternRegex, (match) => {
       let emote = _emotes[match];
       return is.string(emote) ? `<img src="${emote}" title="${match}" />`: match;
     });
 
     // __italics__
-		message = message.replace(/\_\_([^< ](?:[^<]*?[^< ])?)\_\_(?![^<]*?<\/a)/g, '<i>$1</i>');
+    message = message.replace(/\_\_([^< ](?:[^<]*?[^< ])?)\_\_(?![^<]*?<\/a)/g, '<i>$1</i>');
 
-		// **bold**
-		message = message.replace(/\*\*([^< ](?:[^<]*?[^< ])?)\*\*/g, '<b>$1</b>');
+    // **bold**
+    message = message.replace(/\*\*([^< ](?:[^<]*?[^< ])?)\*\*/g, '<b>$1</b>');
 
     room.addRaw(`<div class="chat"><small>${user.customSymbol || user.group}</small><button name="parseCommand" value="/user ${user.name}" class="emote-chat"><b><font class="emote-pointer" color="${color(user.userid)}">${user.name}:</font></b></button><em class="mine">${message}</div>`);
 
