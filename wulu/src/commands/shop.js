@@ -64,10 +64,11 @@ function shop(shop=shop_data) {
       if (!user.canCustomSymbol) return this.sendReply('You need to buy this item from the shop.');
       if (!target || target.length > 1) return this.sendReply('/customsymbol [symbol] - Get a custom symbol.');
       if (target.match(/[A-Za-z\d]+/g) || '?!+%@\u2605&~#'.indexOf(target) >= 0) return this.sendReply('Sorry, but you cannot change your symbol to this for safety/stability reasons.');
+      user.customSymbol = target;
       user.oldGetIdentity = user.getIdentity;
       user.getIdentity = function(roomid) {
         let name = this.oldGetIdentity(roomid);
-        return target + name.slice(1);
+        return this.customSymbol + name.slice(1);
       };
       user.updateIdentity();
       user.canCustomSymbol = false;
@@ -79,6 +80,7 @@ function shop(shop=shop_data) {
       user.getIdentity = function(roomid) {
         return this.oldGetIdentity(roomid);
       };
+      user.customSymbol = null;
       user.updateIdentity();
       user.hasCustomSymbol = false;
       this.sendReply('Your symbol has been reset.');

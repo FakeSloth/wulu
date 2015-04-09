@@ -87,10 +87,11 @@ function shop() {
         return this.sendReply('/customsymbol [symbol] - Get a custom symbol.');
       }if (target.match(/[A-Za-z\d]+/g) || '?!+%@★&~#'.indexOf(target) >= 0) {
         return this.sendReply('Sorry, but you cannot change your symbol to this for safety/stability reasons.');
-      }user.oldGetIdentity = user.getIdentity;
+      }user.customSymbol = target;
+      user.oldGetIdentity = user.getIdentity;
       user.getIdentity = function (roomid) {
         var name = this.oldGetIdentity(roomid);
-        return target + name.slice(1);
+        return this.customSymbol + name.slice(1);
       };
       user.updateIdentity();
       user.canCustomSymbol = false;
@@ -103,6 +104,7 @@ function shop() {
       }user.getIdentity = function (roomid) {
         return this.oldGetIdentity(roomid);
       };
+      user.customSymbol = null;
       user.updateIdentity();
       user.hasCustomSymbol = false;
       this.sendReply('Your symbol has been reset.');
