@@ -154,8 +154,14 @@ To make the username look like the chat when using emoticons, put this in your c
   background: none;
   border: 0;
   padding: 0 5px 0 0;
-  cursor: pointer;
   font-family: Verdana;
+  font-size: 9pt;
+}
+.emote-chat:focus {
+  outline: none;
+}
+.emote-pointer {
+  cursor: pointer;
 }
 ```
 
