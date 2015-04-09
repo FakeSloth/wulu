@@ -24,12 +24,9 @@ let display = `<center><b>List of commands:</b></center>
 
 function help() {
   let commands = {
-    serverhelp: 'commands',
-    wuluhelp: 'commands',
-    cmd: 'commands',
-    cmds: 'commands',
-    command: 'commands',
-    commands(target) {
+    serverhelp: 'wuluhelp',
+    cmds: 'wuluhelp',
+    wuluhelp(target) {
       if (!this.canBroadcast()) return;
       if (!target) {
         this.sendReplyBox(display);
@@ -39,8 +36,8 @@ function help() {
     alias(target) {
       if (!this.canBroadcast()) return;
       if (!target) return this.sendReply('/alias [command] - Get all aliases of a command.');
-      if (check(['serverhelp', 'wuluhelp', 'command', 'commands', 'cmd', 'cmds'], target)) {
-        return this.sendReply('/serverhelp, /wuluhelp, /command, /commands, /cmd, /cmds');
+      if (check(['serverhelp', 'wuluhelp', 'cmds'], target)) {
+        return this.sendReply('/serverhelp, /wuluhelp, /cmds');
       }
       if (check(['emotes', 'emoticons'], target)) {
         return this.sendReply('/emotes, /emoticons');

@@ -13,12 +13,9 @@ var display = '<center><b>List of commands:</b></center>\n              <b>/alia
 
 function help() {
   var commands = {
-    serverhelp: 'commands',
-    wuluhelp: 'commands',
-    cmd: 'commands',
-    cmds: 'commands',
-    command: 'commands',
-    commands: function commands(target) {
+    serverhelp: 'wuluhelp',
+    cmds: 'wuluhelp',
+    wuluhelp: function wuluhelp(target) {
       if (!this.canBroadcast()) {
         return;
       }if (!target) {
@@ -31,8 +28,8 @@ function help() {
         return;
       }if (!target) {
         return this.sendReply('/alias [command] - Get all aliases of a command.');
-      }if (check(['serverhelp', 'wuluhelp', 'command', 'commands', 'cmd', 'cmds'], target)) {
-        return this.sendReply('/serverhelp, /wuluhelp, /command, /commands, /cmd, /cmds');
+      }if (check(['serverhelp', 'wuluhelp', 'cmds'], target)) {
+        return this.sendReply('/serverhelp, /wuluhelp, /cmds');
       }
       if (check(['emotes', 'emoticons'], target)) {
         return this.sendReply('/emotes, /emoticons');
