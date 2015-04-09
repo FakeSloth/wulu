@@ -25,7 +25,7 @@ let emotes = {
   'PJSalt': 'http://static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-18be1a297459453f-36x30.png',
   'SwiftRage': 'http://static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-680b6b3887ef0d17-21x28.png',
   'wtf1': 'http://i.imgur.com/kwR8Re9.png',
-  'xa': 'http://i.imgur.com/V728AvL.png'
+  'xD': 'http://i.imgur.com/V728AvL.png'
 };
 
 let emotes_keys = Object.keys(emotes);
@@ -39,14 +39,6 @@ export default {
 
 /**
  * Emoticons
- * To make the button username appear as normal, in your css:
- * .emote-chat {
- *   background: none;
- *   border: 0;
- *   padding: 0 5px 0 0;
- *   cursor: pointer;
- *   font-family: Verdana;
- * }
  *
  * @param {Object} _emotes
  */
@@ -57,6 +49,8 @@ function Emoticons(_emotes=emotes) {
   }
 
   CommandParser.parse = function(message, room, user, connection, levelsDeep) {
+    if (message.substr(0, 3) === '/pm') return CommandParser.originalParse(message, room, user, connection, levelsDeep);
+    
     let match = false;
     let len = emotes_keys.length;
 

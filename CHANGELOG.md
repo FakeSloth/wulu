@@ -1,3 +1,10 @@
+1.9.0
+==================
+
+  * Update css for emoticons to perfectly mimic regular chat. 
+  * Emoticon `xa` -> `xD`
+  * Fix pming when using emoticons
+
 1.8.0 / 2015-04-09
 ==================
 
