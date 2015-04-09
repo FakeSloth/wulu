@@ -2,7 +2,6 @@ import away from './away';
 import clearall from './clearall';
 import define from './define';
 import emoticons from './emoticons';
-import help from './help';
 import money from './money';
 import pmall from './pmall';
 import poof from './poof';
@@ -17,7 +16,6 @@ let commands = {
   clearall,
   define,
   emoticons,
-  help,
   money,
   pmall,
   poof,

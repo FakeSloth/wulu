@@ -22,10 +22,6 @@ var _emoticons = require('./emoticons');
 
 var _emoticons2 = _interopRequireWildcard(_emoticons);
 
-var _help = require('./help');
-
-var _help2 = _interopRequireWildcard(_help);
-
 var _money = require('./money');
 
 var _money2 = _interopRequireWildcard(_money);
@@ -63,7 +59,6 @@ var commands = {
   clearall: _clearall2['default'],
   define: _define2['default'],
   emoticons: _emoticons2['default'],
-  help: _help2['default'],
   money: _money2['default'],
   pmall: _pmall2['default'],
   poof: _poof2['default'],

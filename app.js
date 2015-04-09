@@ -428,8 +428,8 @@ fs.readFile('./config/ipbans.txt', function (err, data) {
 
 require('./repl.js').start('app', function (cmd) { return eval(cmd); });
 
-//Wulu.Commands.init();
+Wulu.Commands.init();
 Wulu.Emoticons();
-// Wulu.Tour();
-// global.Poll = Wulu.Poll();
+Wulu.Tour();
+global.Poll = Wulu.Poll();
 //Wulu.Sysop(['creaturephil']); // testing purposes. FIXME: add better way to integrate this.
