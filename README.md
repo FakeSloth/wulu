@@ -62,7 +62,7 @@ Wulu is contain in modules. Currently, there are 4 modules: `Bot`, `Mongo`,
 To set a __currency_name__ for you Economy, do this:
 
 ```js
-Wulu.Economy.currency_name = 'goats';
+Wulu.Economy.currency_name = 'goat';
 ```
 
 ### Mongo
