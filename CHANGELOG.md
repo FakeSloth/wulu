@@ -1,16 +1,17 @@
 1.9.0
 ==================
 
-  * Update css for emoticons to perfectly mimic regular chat. 
+  * Update css for emoticons to perfectly mimic regular chat
   * Emoticon `xa` -> `xD`
   * Fix pming when using emoticons
+  * Fix Economy currency_name not changing
 
 1.8.0 / 2015-04-09
 ==================
 
-  * Fix Chatrooms and Avatars not showing up.
-  * Restore back original Pokemon Showdown files.
-  * Remove /cmd command because it cause chatrooms and avatars to not show up.
+  * Fix Chatrooms and Avatars not showing up
+  * Restore back original Pokemon Showdown files
+  * Remove /cmd command because it cause chatrooms and avatars to not show up
 
 1.7.0 / 2015-04-09
 ==================

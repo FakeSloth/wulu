@@ -428,6 +428,7 @@ fs.readFile('./config/ipbans.txt', function (err, data) {
 
 require('./repl.js').start('app', function (cmd) { return eval(cmd); });
 
+Wulu.Economy.currency_name = 'goat';
 Wulu.Commands.init();
 Wulu.Emoticons();
 Wulu.Tour();

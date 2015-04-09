@@ -46,7 +46,7 @@ function tour(sizeRequiredToEarn=3, color='#088cc7') {
     let wid = toId(winner);
     let rid = toId(runnerUp);
     let tourSize = this.generator.users.size;
-    let currency_name = Economy.currency_name;
+    let currency_name = Wulu.Economy.currency_name;
 
     if (this.room.isOfficial && tourSize >= sizeRequiredToEarn) {
       let firstMoney = Math.round(tourSize);

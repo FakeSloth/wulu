@@ -62,7 +62,7 @@ function tour() {
     var wid = toId(winner);
     var rid = toId(runnerUp);
     var tourSize = this.generator.users.size;
-    var currency_name = _Economy2['default'].currency_name;
+    var currency_name = Wulu.Economy.currency_name;
 
     if (this.room.isOfficial && tourSize >= sizeRequiredToEarn) {
       var firstMoney = Math.round(tourSize);

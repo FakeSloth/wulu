@@ -13,7 +13,6 @@ let shop_data = [
 ];
 
 let global_shop = getShopDisplay(shop_data);
-let currency_name = Economy.currency_name;
 
 /**
  * Shop where user can buy stuff with money.
@@ -37,6 +36,7 @@ function shop(shop=shop_data) {
           if (target.toLowerCase() !== shop[len][0].toLowerCase()) continue;
           match = true;
           let price = shop[len][2];
+          let currency_name = Wulu.Economy.currency_name;
           let item_currency = (price - money) >= 2 ? currency_name + 's' : currency_name;
           if (price > money) {
             return self.sendReply(`You don't have enough money for this. You need ${price - money} ${item_currency} more to buy ${target}.`);

@@ -16,8 +16,6 @@ var _Economy2 = _interopRequireWildcard(_Economy);
 
 exports['default'] = money;
 
-var currency_name = _Economy2['default'].currency_name;
-
 /**
  * Handle money commands from Economy.
  */
@@ -32,7 +30,7 @@ function money() {
       }var name = target.toLowerCase();
       if (!name) name = user.name.toLowerCase();
       _Economy2['default'].get(name, (function (amount) {
-        var currency = currency_name;
+        var currency = Wulu.Economy.currency_name;
         if (amount >= 2) currency += 's';
         this.sendReplyBox('' + (target || user.name) + ' has ' + amount + ' ' + currency + '.');
         room.update();
@@ -48,7 +46,7 @@ function money() {
       }var parts = target.split(',');
       this.splitTarget(parts[0]);
       var amount = Number(parts[1].trim());
-      var currency = currency_name;
+      var currency = Wulu.Economy.currency_name;
 
       if (!this.targetUser) {
         return this.sendReply('User ' + this.targetUsername + ' not found.');
@@ -75,7 +73,7 @@ function money() {
       }var parts = target.split(',');
       this.splitTarget(parts[0]);
       var amount = Number(parts[1].trim());
-      var currency = currency_name;
+      var currency = Wulu.Economy.currency_name;
 
       if (!this.targetUser) {
         return this.sendReply('User ' + this.targetUsername + ' not found.');
@@ -101,7 +99,7 @@ function money() {
       }var parts = target.split(',');
       this.splitTarget(parts[0]);
       var amount = Number(parts[1].trim());
-      var currency = currency_name;
+      var currency = Wulu.Economy.currency_name;
       var targetName = this.targetUsername;
 
       if (!this.targetUser) {
