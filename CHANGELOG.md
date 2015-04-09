@@ -4,6 +4,7 @@
   * Add __FakeSloth__ emoticon
   * Add /pmall and /clearall commands
   * dev-deps: gulp-jscs@~1.5.1
+  * Fix emoticon chat css
 
 1.6.2 / 2015-04-05
 ==================
