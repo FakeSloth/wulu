@@ -32,6 +32,7 @@ function money() {
       this.splitTarget(parts[0]);
       let amount = Number(parts[1].trim());
       let currency = Wulu.Economy.currency_name;
+      let currency_name = Wulu.Economy.currency_name;
 
       if (!this.targetUser) return this.sendReply(`User ${this.targetUsername} not found.`);
       if (is.not.number(amount)) return this.sendReply('Must be a number.');
@@ -54,6 +55,7 @@ function money() {
       this.splitTarget(parts[0]);
       let amount = Number(parts[1].trim());
       let currency = Wulu.Economy.currency_name;
+      let currency_name = Wulu.Economy.currency_name;
 
       if (!this.targetUser) return this.sendReply(`User ${this.targetUsername} not found.`);
       if (is.not.number(amount)) return this.sendReply('Must be a number.');
@@ -77,6 +79,7 @@ function money() {
       let amount = Number(parts[1].trim());
       let currency = Wulu.Economy.currency_name;
       let targetName = this.targetUsername;
+      let currency_name = Wulu.Economy.currency_name;
 
       if (!this.targetUser) return this.sendReply(`User ${targetName} not found.`);
       if (is.not.number(amount)) return this.sendReply('Must be a number.');
