@@ -5,6 +5,7 @@
   * Emoticon `xa` -> `xD`
   * Fix pming when using emoticons
   * Fix Economy currency_name not changing
+  * Add feelspink and Sanic emoticons
 
 1.8.0 / 2015-04-09
 ==================
