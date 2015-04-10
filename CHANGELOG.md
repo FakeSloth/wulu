@@ -1,4 +1,4 @@
-1.9.3
+1.9.3 / 2015-04-09
 ==================
 
   * Escape HTML in Poll and reset Poll in room just created

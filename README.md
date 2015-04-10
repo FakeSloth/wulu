@@ -1,6 +1,6 @@
 # wulu [![Version][version]][changelog] [![Build Status][travis-img]][travis-link] [![Dependency Status][deps-img]][deps-link] [![devDependency Status][dev-img]][dev-link]
 
-[version]: https://img.shields.io/badge/version-1.9.2-blue.svg
+[version]: https://img.shields.io/badge/version-1.9.3-blue.svg
 [changelog]: https://github.com/FakeSloth/wulu/blob/master/CHANGELOG.md
 [travis-img]: https://travis-ci.org/FakeSloth/wulu.svg?branch=master
 [travis-link]: https://travis-ci.org/FakeSloth/wulu
