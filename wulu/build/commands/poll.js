@@ -10,7 +10,8 @@ function poll() {
     poll: function poll(target, room, user) {
       if (!this.can('broadcast')) {
         return;
-      }if (Poll[room.id].question) {
+      }if (!Poll[room.id]) Poll.reset(room.id);
+      if (Poll[room.id].question) {
         return this.sendReply('There is currently a poll going on already in this room.');
       }if (!this.canTalk()) {
         return;
@@ -37,7 +38,7 @@ function poll() {
 
       var results = Poll.end(roomPoll, votes);
 
-      room.addRaw(('<div class="infobox">\n                     <h2>Results to ' + roomPoll.question + '</h2>\n                     <font size="1" color="#aaaaaa"><b>Poll ended by <i>' + user.name + '</i></font>\n                     <br><hr>' + results + '</b>\n                   </div>').replace(/(\r\n|\n|\r)/gm, ''));
+      room.addRaw(('<div class="infobox">\n                     <h2>Results to ' + Tools.escapeHTML(roomPoll.question) + '</h2>\n                     <font size="1" color="#aaaaaa"><b>Poll ended by <i>' + user.name + '</i></font>\n                     <br><hr>' + results + '</b>\n                   </div>').replace(/(\r\n|\n|\r)/gm, ''));
       Poll.reset(room.id);
     },
 

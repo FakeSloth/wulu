@@ -55,11 +55,11 @@ function poll() {
     var start = 0;
 
     while (start < roomPoll.optionList.length) {
-      pollOptions += '<button name="send" value="/vote ' + roomPoll.optionList[start] + '">' + roomPoll.optionList[start] + '</button> ';
+      pollOptions += '<button name="send" value="/vote ' + Tools.escapeHTML(roomPoll.optionList[start]) + '">' + Tools.escapeHTML(roomPoll.optionList[start]) + '</button> ';
       start++;
     }
 
-    roomPoll.display = ('<h2>' + roomPoll.question + '  <font size="1" color="#AAAAAA">/vote OPTION</font><br>\n                        <font size="1" color="#aaaaaa">Poll started by <i>' + user.name + '</i></font><br>\n                        <hr>    ' + pollOptions).replace(/(\r\n|\n|\r)/gm, '');
+    roomPoll.display = ('<h2>' + Tools.escapeHTML(roomPoll.question) + '  <font size="1" color="#AAAAAA">/vote OPTION</font><br>\n                        <font size="1" color="#aaaaaa">Poll started by <i>' + user.name + '</i></font><br>\n                        <hr>    ' + pollOptions).replace(/(\r\n|\n|\r)/gm, '');
   };
 
   /**
@@ -91,7 +91,7 @@ function poll() {
     var len = data.length;
     while (len--) {
       if (data[len][1] > 0) {
-        results += '&bull; ' + data[len][0] + ' - ' + Math.floor(data[len][1] / votes * 100) + '% (' + data[len][1] + ')<br>';
+        results += '&bull; ' + Tools.escapeHTML(data[len][0]) + ' - ' + Math.floor(data[len][1] / votes * 100) + '% (' + data[len][1] + ')<br>';
       }
     }
 

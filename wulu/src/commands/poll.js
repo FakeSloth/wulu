@@ -4,6 +4,7 @@ function poll() {
   let commands = {
     poll(target, room, user) {
       if (!this.can('broadcast')) return;
+      if (!Poll[room.id]) Poll.reset(room.id);
       if (Poll[room.id].question) return this.sendReply('There is currently a poll going on already in this room.');
       if (!this.canTalk()) return;
 
@@ -30,7 +31,7 @@ function poll() {
       let results = Poll.end(roomPoll, votes);
 
       room.addRaw(`<div class="infobox">
-                     <h2>Results to ${roomPoll.question}</h2>
+                     <h2>Results to ${Tools.escapeHTML(roomPoll.question)}</h2>
                      <font size="1" color="#aaaaaa"><b>Poll ended by <i>${user.name}</i></font>
                      <br><hr>${results}</b>
                    </div>`.replace(/(\r\n|\n|\r)/gm, ''));
