@@ -68,7 +68,7 @@ function Emoticons(_emotes=emotes) {
     if (!match) return CommandParser.originalParse(message, room, user, connection, levelsDeep);
 
     if (message.length > MAX_MESSAGE_LENGTH && !user.can('ignorelimits')) {
-      connection.popup("Your message is too long:\n\n" + message);
+      connection.popup('Your message is too long:\n\n' + message);
       return false;
     }
 

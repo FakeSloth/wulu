@@ -13,7 +13,8 @@ var _mongoose2 = _interopRequireWildcard(_mongoose);
 var userSchema = new _mongoose2['default'].Schema({
   name: { type: String, lowercase: true, unique: true },
   group: { type: String, 'default': '' },
-  money: { type: Number, 'default': 0 }
+  money: { type: Number, 'default': 0 },
+  symbol: String
 });
 
 exports['default'] = _mongoose2['default'].model('user', userSchema);
