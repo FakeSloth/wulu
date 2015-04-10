@@ -47,6 +47,8 @@ var emotes_keys = Object.keys(emotes);
 
 var patternRegex = createPatternRegex();
 
+var MAX_MESSAGE_LENGTH = 300;
+
 exports['default'] = {
   emotes: emotes,
   Emoticons: Emoticons
@@ -79,6 +81,11 @@ function Emoticons() {
     }
 
     if (!match) return CommandParser.originalParse(message, room, user, connection, levelsDeep);
+
+    if (message.length > MAX_MESSAGE_LENGTH && !user.can('ignorelimits')) {
+      connection.popup('Your message is too long:\n\n' + message);
+      return false;
+    }
 
     // escape HTML
     message = Tools.escapeHTML(message);

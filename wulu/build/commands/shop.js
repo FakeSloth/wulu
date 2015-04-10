@@ -45,14 +45,14 @@ function shop() {
           match = true;
           var price = shop[len][2];
           var currency_name = Wulu.Economy.currency_name;
-          var item_currency = price - money >= 2 ? currency_name + 's' : currency_name;
+          var item_currency = price - money !== 1 ? currency_name + 's' : currency_name;
           if (price > money) {
             return {
               v: self.sendReply('You don\'t have enough money for this. You need ' + (price - money) + ' ' + item_currency + ' more to buy ' + target + '.')
             };
           }
           _Economy2['default'].take(user.name.toLowerCase(), price, function (money) {
-            var currency = money >= 2 ? currency_name + 's' : currency_name;
+            var currency = money !== 1 ? currency_name + 's' : currency_name;
             self.sendReply('You have bought ' + target + ' for ' + price + ' ' + item_currency + '. You now have ' + money + ' ' + currency + ' left.');
             if (target.toLowerCase() === 'symbol') {
               user.canCustomSymbol = true;

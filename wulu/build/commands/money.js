@@ -31,7 +31,7 @@ function money() {
       if (!name) name = user.name.toLowerCase();
       _Economy2['default'].get(name, (function (amount) {
         var currency = Wulu.Economy.currency_name;
-        if (amount >= 2) currency += 's';
+        if (amount !== 1) currency += 's';
         this.sendReplyBox('' + (target || user.name) + ' has ' + amount + ' ' + currency + '.');
         room.update();
       }).bind(this));
@@ -57,10 +57,10 @@ function money() {
         return this.sendReply('Cannot contain a decimal.');
       }if (amount < 1) {
         return this.sendReply('You can\'t give less than one ' + currency + '.');
-      }if (amount >= 2) currency += 's';
+      }if (amount !== 1) currency += 's';
 
       _Economy2['default'].give(this.targetUsername.toLowerCase(), amount, (function (total) {
-        var cash = total >= 2 ? currency_name + 's' : currency_name;
+        var cash = total !== 1 ? currency_name + 's' : currency_name;
         this.sendReply('' + this.targetUsername + ' was given ' + amount + ' ' + currency + '. This user now has ' + total + ' ' + cash + '.');
         Users.get(this.targetUsername).send('' + user.name + ' has given you ' + amount + ' ' + currency + '. You now have ' + total + ' ' + cash + '.');
       }).bind(this));
@@ -85,10 +85,10 @@ function money() {
         return this.sendReply('Cannot contain a decimal.');
       }if (amount < 1) {
         return this.sendReply('You can\'t give less than one ' + currency + '.');
-      }if (amount >= 2) currency += 's';
+      }if (amount !== 1) currency += 's';
 
       _Economy2['default'].take(this.targetUsername.toLowerCase(), amount, (function (total) {
-        var cash = total >= 2 ? currency_name + 's' : currency_name;
+        var cash = total !== 1 ? currency_name + 's' : currency_name;
         this.sendReply('' + this.targetUsername + ' was losted ' + amount + ' ' + currency + '. This user now has ' + total + ' ' + cash + '.');
         Users.get(this.targetUsername).send('' + user.name + ' has taken ' + amount + ' ' + currency + ' from you. You now have ' + total + ' ' + cash + '.');
       }).bind(this));
@@ -113,7 +113,7 @@ function money() {
         return this.sendReply('Cannot contain a decimal.');
       }if (amount < 1) {
         return this.sendReply('You can\'t give less than one ' + currency + '.');
-      }if (amount >= 2) currency += 's';
+      }if (amount !== 1) currency += 's';
 
       var self = this;
       _Economy2['default'].get(user.name.toLowerCase(), function (userAmount) {
@@ -121,8 +121,8 @@ function money() {
         _Economy2['default'].give(targetName.toLowerCase(), amount, function (targetTotal) {
           _Economy2['default'].take(user.name.toLowerCase(), amount, function (userTotal) {
             if (!userTotal) return self.sendReply('Cannot take anymore money from this user.');
-            var targetCash = targetTotal >= 2 ? currency_name + 's' : currency_name;
-            var userCash = userTotal >= 2 ? currency_name + 's' : currency_name;
+            var targetCash = targetTotal !== 1 ? currency_name + 's' : currency_name;
+            var userCash = userTotal !== 1 ? currency_name + 's' : currency_name;
             self.sendReply('You have successfully transferred ' + amount + ' ' + currency + ' to ' + targetName + '. You now have ' + userTotal + ' ' + userCash + '.');
             self.sendReply('' + user.name + ' has transferred ' + amount + ' ' + currency + ' to you. You now have ' + targetTotal + ' ' + targetCash + '.');
           });

@@ -1,3 +1,10 @@
+1.9.2
+==================
+
+  * Fix shop buy command for usernames with spaces
+  * Fix message limit for emoticons
+  * Fix grammatical error of plural noun when specifying quantity zero
+
 1.9.1 / 2015-04-09
 ==================
 
