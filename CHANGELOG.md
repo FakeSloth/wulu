@@ -1,4 +1,4 @@
-1.9.0
+1.9.0 / 2015-04-09
 ==================
 
   * Update css for emoticons to perfectly mimic regular chat
