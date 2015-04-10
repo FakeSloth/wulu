@@ -36,7 +36,7 @@ function shop() {
       if (!target) {
         return this.sendReply('/buy [command] - Buys an item from the shop.');
       }var self = this;
-      _Economy2['default'].get(user.userid, function (money) {
+      _Economy2['default'].get(user.name.toLowerCase(), function (money) {
         var len = shop.length,
             match = undefined;
 
@@ -51,7 +51,7 @@ function shop() {
               v: self.sendReply('You don\'t have enough money for this. You need ' + (price - money) + ' ' + item_currency + ' more to buy ' + target + '.')
             };
           }
-          _Economy2['default'].take(user.userid, price, function (money) {
+          _Economy2['default'].take(user.name.toLowerCase(), price, function (money) {
             var currency = money >= 2 ? currency_name + 's' : currency_name;
             self.sendReply('You have bought ' + target + ' for ' + price + ' ' + item_currency + '. You now have ' + money + ' ' + currency + ' left.');
             if (target.toLowerCase() === 'symbol') {

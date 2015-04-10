@@ -30,7 +30,7 @@ function shop(shop=shop_data) {
     buy(target, room, user) {
       if (!target) return this.sendReply('/buy [command] - Buys an item from the shop.');
       let self = this;
-      Economy.get(user.userid, function(money) {
+      Economy.get(user.name.toLowerCase(), function(money) {
         let len = shop.length, match;
         while(len--) {
           if (target.toLowerCase() !== shop[len][0].toLowerCase()) continue;
@@ -41,7 +41,7 @@ function shop(shop=shop_data) {
           if (price > money) {
             return self.sendReply(`You don't have enough money for this. You need ${price - money} ${item_currency} more to buy ${target}.`);
           }
-          Economy.take(user.userid, price, function(money) {
+          Economy.take(user.name.toLowerCase(), price, function(money) {
             let currency = money >= 2 ? currency_name + 's' : currency_name;
             self.sendReply(`You have bought ${target} for ${price} ${item_currency}. You now have ${money} ${currency} left.`);
             if (target.toLowerCase() === 'symbol') {
