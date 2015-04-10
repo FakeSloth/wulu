@@ -157,12 +157,6 @@ To make the username look like the chat when using emoticons, put this in your c
   font-family: Verdana;
   font-size: 9pt;
 }
-.emote-chat:focus {
-  outline: none;
-}
-.emote-pointer {
-  cursor: pointer;
-}
 ```
 
 Versioning
