@@ -1,4 +1,4 @@
-1.9.2
+1.9.2 / 2015-04-09
 ==================
 
   * Fix shop buy command for usernames with spaces
