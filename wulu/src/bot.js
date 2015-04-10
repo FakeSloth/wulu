@@ -19,10 +19,11 @@ export default class Bot {
    * Create a new user that is the bot
    * and join the global room.
    *
+   * @param {String} ip
    * @return {Object} user
    */
 
-  connect() {
+  connect(ip='127.0.0.1') {
     let connection = this.createConnection();
     let user = new Users.User(connection);
     connection.user = user;

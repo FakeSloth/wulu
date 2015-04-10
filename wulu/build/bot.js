@@ -39,10 +39,13 @@ var Bot = (function () {
      * Create a new user that is the bot
      * and join the global room.
      *
+     * @param {String} ip
      * @return {Object} user
      */
 
     value: function connect() {
+      var ip = arguments[0] === undefined ? '127.0.0.1' : arguments[0];
+
       var connection = this.createConnection();
       var user = new Users.User(connection);
       connection.user = user;
@@ -62,7 +65,7 @@ var Bot = (function () {
      * @return {Object} connection
      */
 
-    value: function createConnection(_x5, workerid) {
+    value: function createConnection(_x6, workerid) {
       var ip = arguments[0] === undefined ? '127.0.0.1' : arguments[0];
       var socketid = arguments[2] === undefined ? 1 : arguments[2];
 
