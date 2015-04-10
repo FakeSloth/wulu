@@ -1,8 +1,13 @@
+1.10.0
+==================
+
+
+
 1.9.3 / 2015-04-09
 ==================
 
   * Escape HTML in Poll and reset Poll in room just created
-  * Refactor away command.
+  * Refactor away command
 
 1.9.2 / 2015-04-09
 ==================
