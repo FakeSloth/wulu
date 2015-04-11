@@ -64,7 +64,7 @@ function shop() {
     var self = this;
     // Add delay because when user first join, they don't have there username yet.
     setTimeout(function () {
-      _User2['default'].findOne({ name: self.name.toLowerCase() }, function (err, userModel) {
+      _User2['default'].findOne({ name: self.userid }, function (err, userModel) {
         if (err) return;
         if (userModel && userModel.symbol) {
           self.customSymbol = userModel.symbol;
@@ -102,7 +102,7 @@ function shop() {
               v: self.sendReply('You don\'t have enough money for this. You need ' + (price - money) + ' ' + item_currency + ' more to buy ' + target + '.')
             };
           }
-          _Economy2['default'].take(user.name.toLowerCase(), price, function (money) {
+          _Economy2['default'].take(user.userid, price, function (money) {
             var currency = money !== 1 ? currency_name + 's' : currency_name;
             self.sendReply('You have bought ' + target + ' for ' + price + ' ' + item_currency + '. You now have ' + money + ' ' + currency + ' left.');
             if (target.toLowerCase() === 'symbol') {
@@ -158,7 +158,7 @@ function shop() {
       if (!user.hasCustomSymbol && !user.hasPermaCustomSymbol) {
         return this.sendReply('You don\'t have a custom symbol.');
       }if (user.hasPermaCustomSymbol) {
-        _User2['default'].findOne({ name: user.name.toLowerCase() }, function (err, user) {
+        _User2['default'].findOne({ name: user.userid }, function (err, user) {
           if (err) return;
           user.symbol = '';
           user.save();
@@ -178,7 +178,7 @@ function shop() {
         return this.sendReply('/permacustomsymbol [symbol] - Get a custom symbol.');
       }if (target.match(/[A-Za-z\d]+/g) || '?!+%@★&~#'.indexOf(target) >= 0) {
         return this.sendReply('Sorry, but you cannot change your symbol to this for safety/stability reasons.');
-      }_User2['default'].findOne({ name: user.name.toLowerCase() }, function (err, userModel) {
+      }_User2['default'].findOne({ name: user.userid }, function (err, userModel) {
         if (err) return;
         if (!userModel) return;
         userModel.symbol = target;

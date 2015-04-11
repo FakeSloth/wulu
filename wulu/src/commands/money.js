@@ -13,9 +13,7 @@ function money() {
     purse: 'wallet',
     wallet(target, room, user) {
       if (!this.canBroadcast()) return;
-      let name = target.toLowerCase();
-      if (!name) name = user.name.toLowerCase();
-      Economy.get(name, function(amount) {
+      Economy.get((target || user.userid), function(amount) {
         let currency = Wulu.Economy.currency_name;
         if (amount !== 1) currency += 's';
         this.sendReplyBox(`${target || user.name} has ${amount} ${currency}.`);
@@ -40,7 +38,7 @@ function money() {
       if (amount < 1) return this.sendReply(`You can't give less than one ${currency}.`);
       if (amount !== 1) currency += 's';
 
-      Economy.give(this.targetUsername.toLowerCase(), amount, function(total) {
+      Economy.give(this.targetUsername, amount, function(total) {
         let cash = total !== 1 ? currency_name + 's' : currency_name;
         this.sendReply(`${this.targetUsername} was given ${amount} ${currency}. This user now has ${total} ${cash}.`);
         Users.get(this.targetUsername).send(`${user.name} has given you ${amount} ${currency}. You now have ${total} ${cash}.`);
@@ -63,7 +61,7 @@ function money() {
       if (amount < 1) return this.sendReply(`You can't give less than one ${currency}.`);
       if (amount !== 1) currency += 's';
 
-      Economy.take(this.targetUsername.toLowerCase(), amount, function(total) {
+      Economy.take(this.targetUsername, amount, function(total) {
         let cash = total !== 1 ? currency_name + 's' : currency_name;
         this.sendReply(`${this.targetUsername} was losted ${amount} ${currency}. This user now has ${total} ${cash}.`);
         Users.get(this.targetUsername).send(`${user.name} has taken ${amount} ${currency} from you. You now have ${total} ${cash}.`);
@@ -88,10 +86,10 @@ function money() {
       if (amount !== 1) currency += 's';
 
       let self = this;
-      Economy.get(user.name.toLowerCase(), function(userAmount) {
+      Economy.get(user.userid, function(userAmount) {
         if (amount > userAmount) return self.sendReply('You cannot transfer more money than what you have.');
-        Economy.give(targetName.toLowerCase(), amount, function(targetTotal) {
-          Economy.take(user.name.toLowerCase(), amount, function(userTotal) {
+        Economy.give(targetName, amount, function(targetTotal) {
+          Economy.take(user.userid, amount, function(userTotal) {
             if (!userTotal) return self.sendReply('Cannot take anymore money from this user.');
             let targetCash = targetTotal !== 1 ? currency_name + 's' : currency_name;
             let userCash = userTotal !== 1 ? currency_name + 's' : currency_name;

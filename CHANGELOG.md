@@ -3,6 +3,8 @@
 
   * Add permanent custom symbol
   * Fix emoticons parsing when using commands
+  * Seperate users Mongo collections into users and usergroups
+    - usernames are now userids in the users collections
 
 1.9.3 / 2015-04-09
 ==================

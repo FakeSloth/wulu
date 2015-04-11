@@ -16,7 +16,7 @@ export default {
    * @param {Function} callback
    */
   get(name, callback) {
-    User.findOne({ name: name }, (err, user) => {
+    User.findOne({ name: toId(name) }, (err, user) => {
       if (err) return;
       if (!user) return callback(0);
       callback(user.money);
@@ -31,7 +31,7 @@ export default {
    * @param {Function} callback
    */
   give(name, amount, callback) {
-    User.findOne({ name: name }, (err, user) => {
+    User.findOne({ name: toId(name) }, (err, user) => {
       if (err) return;
       if (!user) {
         user = new User({
@@ -61,7 +61,7 @@ export default {
    * @param {Function} callback
    */
   take(name, amount, callback) {
-    User.findOne({ name: name }, (err, user) => {
+    User.findOne({ name: toId(name) }, (err, user) => {
       if (err) return;
       if (!user) return;
       user.money -= amount;

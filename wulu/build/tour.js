@@ -59,8 +59,8 @@ function tour() {
       winner = data;
     }
 
-    var wid = winner.toLowerCase();
-    var rid = runnerUp.toLowerCase();
+    var wid = toId(winner);
+    var rid = toId(runnerUp);
     var tourSize = this.generator.users.size;
     var currency_name = Wulu.Economy.currency_name;
 

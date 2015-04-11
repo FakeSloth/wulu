@@ -57,7 +57,7 @@ function shop(shop=shop_data) {
     let self = this;
     // Add delay because when user first join, they don't have there username yet.
     setTimeout(function() {
-      User.findOne({name: self.name.toLowerCase()}, function(err, userModel) {
+      User.findOne({name: self.userid}, function(err, userModel) {
         if (err) return;
         if (userModel && userModel.symbol) {
           self.customSymbol = userModel.symbol;
@@ -89,7 +89,7 @@ function shop(shop=shop_data) {
           if (price > money) {
             return self.sendReply(`You don't have enough money for this. You need ${price - money} ${item_currency} more to buy ${target}.`);
           }
-          Economy.take(user.name.toLowerCase(), price, function(money) {
+          Economy.take(user.userid, price, function(money) {
             let currency = money !== 1 ? currency_name + 's' : currency_name;
             self.sendReply(`You have bought ${target} for ${price} ${item_currency}. You now have ${money} ${currency} left.`);
             if (target.toLowerCase() === 'symbol') {
@@ -131,7 +131,7 @@ function shop(shop=shop_data) {
     resetsymbol(target, room, user) {
       if (!user.hasCustomSymbol && !user.hasPermaCustomSymbol) return this.sendReply('You don\'t have a custom symbol.');
       if (user.hasPermaCustomSymbol) {
-        User.findOne({name: user.name.toLowerCase()}, function(err, user) {
+        User.findOne({name: user.userid}, function(err, user) {
           if (err) return;
           user.symbol = '';
           user.save();
@@ -148,7 +148,7 @@ function shop(shop=shop_data) {
       if (!user.canPermaCustomSymbol) return this.sendReply('You need to buy this item from the shop.');
       if (target.length > 1) return this.sendReply('/permacustomsymbol [symbol] - Get a custom symbol.');
       if (target.match(/[A-Za-z\d]+/g) || '?!+%@\u2605&~#'.indexOf(target) >= 0) return this.sendReply('Sorry, but you cannot change your symbol to this for safety/stability reasons.');
-      User.findOne({name: user.name.toLowerCase()}, function(err, userModel) {
+      User.findOne({name: user.userid}, function(err, userModel) {
         if (err) return;
         if (!userModel) return;
         userModel.symbol = target;

@@ -26,7 +26,7 @@ exports['default'] = {
    * @param {Function} callback
    */
   get: function get(name, callback) {
-    _User2['default'].findOne({ name: name }, function (err, user) {
+    _User2['default'].findOne({ name: toId(name) }, function (err, user) {
       if (err) return;
       if (!user) return callback(0);
       callback(user.money);
@@ -41,7 +41,7 @@ exports['default'] = {
    * @param {Function} callback
    */
   give: function give(name, amount, callback) {
-    _User2['default'].findOne({ name: name }, function (err, user) {
+    _User2['default'].findOne({ name: toId(name) }, function (err, user) {
       if (err) return;
       if (!user) {
         user = new _User2['default']({
@@ -71,7 +71,7 @@ exports['default'] = {
    * @param {Function} callback
    */
   take: function take(name, amount, callback) {
-    _User2['default'].findOne({ name: name }, function (err, user) {
+    _User2['default'].findOne({ name: toId(name) }, function (err, user) {
       if (err) return;
       if (!user) return;
       user.money -= amount;

@@ -43,8 +43,8 @@ function tour(sizeRequiredToEarn=3, color='#088cc7') {
       winner = data;
     }
 
-    let wid = winner.toLowerCase();
-    let rid = runnerUp.toLowerCase();
+    let wid = toId(winner);
+    let rid = toId(runnerUp);
     let tourSize = this.generator.users.size;
     let currency_name = Wulu.Economy.currency_name;
 
