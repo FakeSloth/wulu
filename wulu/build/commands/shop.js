@@ -29,9 +29,52 @@ var global_shop = getShopDisplay(shop_data);
 function shop() {
   var shop = arguments[0] === undefined ? shop_data : arguments[0];
 
-  if (!CommandParser.commands.originalTrn) {
-    CommandParser.commands.originalTrn = CommandParser.commands.trn;
+  /**
+   * Enabling permanent custom symbols
+   */
+
+  if (!Users.User.prototype.originalJoinRoom) {
+    Users.User.prototype.originalJoinRoom = Users.User.prototype.joinRoom;
   }
+
+  Users.User.prototype.getIdentity = function (roomid) {
+    if (this.locked) {
+      return '‽' + this.name;
+    }
+    if (roomid) {
+      if (this.mutedRooms[roomid]) {
+        return '!' + this.name;
+      }
+      var room = Rooms.rooms[roomid];
+      if (room && room.auth) {
+        if (room.auth[this.userid]) {
+          return room.auth[this.userid] + this.name;
+        }
+        if (room.isPrivate === true) return ' ' + this.name;
+      }
+    }
+    if (this.customSymbol) {
+      return this.customSymbol + this.name;
+    }
+    return this.group + this.name;
+  };
+
+  Users.User.prototype.joinRoom = function (room, connection) {
+    if (room !== 'global') return this.originalJoinRoom(room, connection);
+    var self = this;
+    // Add delay because when user first join, they don't have there username yet.
+    setTimeout(function () {
+      _User2['default'].findOne({ name: self.name.toLowerCase() }, function (err, userModel) {
+        if (err) return;
+        if (userModel && userModel.symbol) {
+          self.customSymbol = userModel.symbol;
+          self.updateIdentity();
+          self.hasPermaCustomSymbol = true;
+        }
+      });
+    }, 1000 * 10);
+    return this.originalJoinRoom(room, connection);
+  };
 
   var commands = {
     shop: function shop() {
@@ -105,22 +148,23 @@ function shop() {
       }if (target.match(/[A-Za-z\d]+/g) || '?!+%@★&~#'.indexOf(target) >= 0) {
         return this.sendReply('Sorry, but you cannot change your symbol to this for safety/stability reasons.');
       }user.customSymbol = target;
-      user.oldGetIdentity = user.getIdentity;
-      user.getIdentity = function (roomid) {
-        var name = this.oldGetIdentity(roomid);
-        return this.customSymbol + name.slice(1);
-      };
       user.updateIdentity();
       user.canCustomSymbol = false;
       user.hasCustomSymbol = true;
     },
 
+    resetcustomsymbol: 'resetsymbol',
     resetsymbol: function resetsymbol(target, room, user) {
-      if (!user.hasCustomSymbol) {
+      if (!user.hasCustomSymbol && !user.hasPermaCustomSymbol) {
         return this.sendReply('You don\'t have a custom symbol.');
-      }user.getIdentity = function (roomid) {
-        return this.oldGetIdentity(roomid);
-      };
+      }if (user.hasPermaCustomSymbol) {
+        _User2['default'].findOne({ name: user.name.toLowerCase() }, function (err, user) {
+          if (err) return;
+          user.symbol = '';
+          user.save();
+        });
+        user.hasPermaCustomSymbol = false;
+      }
       user.customSymbol = null;
       user.updateIdentity();
       user.hasCustomSymbol = false;
@@ -134,37 +178,16 @@ function shop() {
         return this.sendReply('/permacustomsymbol [symbol] - Get a custom symbol.');
       }if (target.match(/[A-Za-z\d]+/g) || '?!+%@★&~#'.indexOf(target) >= 0) {
         return this.sendReply('Sorry, but you cannot change your symbol to this for safety/stability reasons.');
-      }_User2['default'].findOne(user.name.toLowerCase(), function (err, user) {
+      }_User2['default'].findOne({ name: user.name.toLowerCase() }, function (err, userModel) {
         if (err) return;
-        user.symbol = target;
-        user.save();
+        if (!userModel) return;
+        userModel.symbol = target;
+        userModel.save();
       });
       user.customSymbol = target;
-      user.oldGetIdentity = user.getIdentity;
-      if (!target) {
-        user.getIdentity = function (roomid) {
-          return this.oldGetIdentity(roomid);
-        };
-      } else {
-        user.getIdentity = function (roomid) {
-          var name = this.oldGetIdentity(roomid);
-          return this.customSymbol + name.slice(1);
-        };
-      }
       user.updateIdentity();
+      user.hasPermaCustomSymbol = true;
       user.canPermaCustomSymbol = false;
-    },
-
-    trn: function trn(target, room, user, connection) {
-      CommandParser.commands.originalTrn(target, room, user, connection);
-      var self = this;
-      _User2['default'].findOne(user.name.toLowerCase(), function (err, userModel) {
-        if (err) return;
-        if (userModel.symbol) {
-          user.canPermaCustomSymbol = true;
-          self.parse('/permacustomsymbol ' + userModel.symbol);
-        }
-      });
     }
   };
 

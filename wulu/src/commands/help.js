@@ -60,6 +60,9 @@ function help() {
       if (check(['pmall', 'masspm'], target)) {
         return this.sendReply('/pmall, /masspm');
       }
+      if (check(['resetsymbol', 'resetcustomsymbol'], target)) {
+        return this.sendReply('/resetsymbol, /resetcustomsymbol');
+      }
       this.sendReply('Alias not found for this command');
     }
   };
