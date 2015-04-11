@@ -14,7 +14,7 @@ var _mongoose = require('mongoose');
 
 var _mongoose2 = _interopRequireWildcard(_mongoose);
 
-var _User = require('./usergroups.js');
+var _User = require('./user');
 
 var _User2 = _interopRequireWildcard(_User);
 
