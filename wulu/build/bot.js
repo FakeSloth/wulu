@@ -96,7 +96,8 @@ var Bot = (function () {
       user.avatar = this.avatar;
       user.group = this.group;
       user.authenticated = true;
-      user.isStaff = true;
+      user.registered = true;
+      if (user.group !== Config.groupsranking[0]) user.isStaff = true;
 
       this.rooms.forEach(function (room) {
         return user.joinRoom(room, connection);

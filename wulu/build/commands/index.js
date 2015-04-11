@@ -54,6 +54,10 @@ var _shop = require('./shop');
 
 var _shop2 = _interopRequireWildcard(_shop);
 
+var _stafflist = require('./stafflist');
+
+var _stafflist2 = _interopRequireWildcard(_stafflist);
+
 var _wulu = require('./wulu');
 
 var _wulu2 = _interopRequireWildcard(_wulu);
@@ -71,6 +75,7 @@ var commands = {
   regdate: _regdate2['default'],
   reload: _reload2['default'],
   shop: _shop2['default'],
+  stafflist: _stafflist2['default'],
   wulu: _wulu2['default']
 };
 

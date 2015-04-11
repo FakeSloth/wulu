@@ -67,7 +67,8 @@ export default class Bot {
     user.avatar = this.avatar;
     user.group = this.group;
     user.authenticated = true;
-    user.isStaff = true;
+    user.registered = true;
+    if (user.group !== Config.groupsranking[0]) user.isStaff = true;
 
     this.rooms.forEach((room) => user.joinRoom(room, connection));
 

@@ -10,6 +10,7 @@ import poll from './poll';
 import regdate from './regdate';
 import reload from './reload';
 import shop from './shop';
+import stafflist from './stafflist';
 import wulu from './wulu';
 
 let commands = {
@@ -25,6 +26,7 @@ let commands = {
   regdate,
   reload,
   shop,
+  stafflist,
   wulu
 };
 
