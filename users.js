@@ -379,10 +379,10 @@ function importUsergroups() {
 	// can't just say usergroups = {} because it's exported
 	for (var i in usergroups) delete usergroups[i];
 
-    Wulu.Mongo.importUsergroups(usergroups, Config);
+	Wulu.Mongo.importUsergroups(usergroups, Config);
 }
 function exportUsergroups() {
-    Wulu.Mongo.exportUsergroups(usergroups);
+	Wulu.Mongo.exportUsergroups(usergroups);
 }
 importUsergroups();
 
