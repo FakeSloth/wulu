@@ -1,6 +1,5 @@
 import jf from 'jsonfile';
 import path from 'path';
-import util from 'util';
 
 export default wulu;
 
