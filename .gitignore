@@ -23,7 +23,6 @@ tmp/**/*
 .installed.cfg
 
 downloads
-build
 dist
 
 # egg related

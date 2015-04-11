@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import mongoose from 'mongoose';
-import User from './group';
+import User from './usergroup';
 
 export default {
   connect_database,
