@@ -68,7 +68,9 @@ function Emoticons() {
   }
 
   CommandParser.parse = function (message, room, user, connection, levelsDeep) {
-    if (message.substr(0, 3) === '/pm') return CommandParser.originalParse(message, room, user, connection, levelsDeep);
+    if (message.charAt(0) === '/' && message.charAt(1) !== '/' || message.charAt(0) === '!') {
+      return CommandParser.originalParse(message, room, user, connection, levelsDeep);
+    }
 
     var match = false;
     var len = emotes_keys.length;

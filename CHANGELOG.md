@@ -2,6 +2,7 @@
 ==================
 
   * Add permanent custom symbol
+  * Fix emoticons parsing when using commands
 
 1.9.3 / 2015-04-09
 ==================
