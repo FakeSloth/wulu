@@ -24,7 +24,7 @@ export default class Bot {
    */
 
   connect(ip='127.0.0.1') {
-    let connection = this.createConnection();
+    let connection = this.createConnection(ip);
     let user = new Users.User(connection);
     connection.user = user;
     this.setup(user, connection);

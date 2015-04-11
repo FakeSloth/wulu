@@ -46,7 +46,7 @@ var Bot = (function () {
     value: function connect() {
       var ip = arguments[0] === undefined ? '127.0.0.1' : arguments[0];
 
-      var connection = this.createConnection();
+      var connection = this.createConnection(ip);
       var user = new Users.User(connection);
       connection.user = user;
       this.setup(user, connection);
