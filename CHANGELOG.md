@@ -4,6 +4,7 @@
   * Add permanent custom symbol
   * Add stafflist command
   * Add and remove some emoticons
+  * Add customavatars
   * Fix emoticons parsing when using commands
   * Seperate users Mongo collections into users and usergroups
     - usernames are now userids in the users collections

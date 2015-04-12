@@ -118,7 +118,6 @@ function money() {
         if (amount > userAmount) return self.sendReply('You cannot transfer more money than what you have.');
         _Economy2['default'].give(targetName, amount, function (targetTotal) {
           _Economy2['default'].take(user.userid, amount, function (userTotal) {
-            if (!userTotal) return self.sendReply('Cannot take anymore money from this user.');
             var targetCash = targetTotal !== 1 ? currency_name + 's' : currency_name;
             var userCash = userTotal !== 1 ? currency_name + 's' : currency_name;
             self.sendReply('You have successfully transferred ' + amount + ' ' + currency + ' to ' + targetName + '. You now have ' + userTotal + ' ' + userCash + '.');
