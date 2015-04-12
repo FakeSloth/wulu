@@ -1,5 +1,6 @@
 import is from 'is_js';
 import Economy from '../economy';
+import User from '../user';
 
 export default money;
 
@@ -96,6 +97,35 @@ function money() {
             self.sendReply(`${user.name} has transferred ${amount} ${currency} to you. You now have ${targetTotal} ${targetCash}.`);
           });
         });
+      });
+    },
+
+    moneyladder: 'richestuser',
+    richladder: 'richestuser',
+    richestusers: 'richestuser',
+    richestuser(target, room) {
+      if (!this.canBroadcast()) return;
+      let self = this;
+      let display = `<center><u><b>Richest Users</b></u></center><br>
+                     <table border="1" cellspacing="0" cellpadding="5" width="100%">
+                       <tbody>
+                         <tr>
+                           <th>Rank</th>
+                           <th>Username</th>
+                           <th>Money</th>
+                       </tr>`.replace(/(\r\n|\n|\r)/gm, '');
+      User.find().sort({money: -1}).limit(10).exec(function(err, users) {
+        if (err) return;
+        users.forEach((user, index) => {
+          display += `<tr>
+                        <td>${index + 1}</td>
+                        <td>${user.name}</td>
+                        <td>${user.money}</td>
+                      </tr>`.replace(/(\r\n|\n|\r)/gm, '');
+        });
+        display += '</tbody></table>';
+        self.sendReply('|raw|' + display);
+        room.update();
       });
     }
   };

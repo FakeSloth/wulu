@@ -14,6 +14,10 @@ var _Economy = require('../economy');
 
 var _Economy2 = _interopRequireWildcard(_Economy);
 
+var _User = require('../user');
+
+var _User2 = _interopRequireWildcard(_User);
+
 exports['default'] = money;
 
 /**
@@ -124,6 +128,25 @@ function money() {
             self.sendReply('' + user.name + ' has transferred ' + amount + ' ' + currency + ' to you. You now have ' + targetTotal + ' ' + targetCash + '.');
           });
         });
+      });
+    },
+
+    moneyladder: 'richestuser',
+    richladder: 'richestuser',
+    richestusers: 'richestuser',
+    richestuser: function richestuser(target, room) {
+      if (!this.canBroadcast()) {
+        return;
+      }var self = this;
+      var display = '<center><u><b>Richest Users</b></u></center><br>\n                     <table border="1" cellspacing="0" cellpadding="5" width="100%">\n                       <tbody>\n                         <tr>\n                           <th>Rank</th>\n                           <th>Username</th>\n                           <th>Money</th>\n                       </tr>'.replace(/(\r\n|\n|\r)/gm, '');
+      _User2['default'].find().sort({ money: -1 }).limit(10).exec(function (err, users) {
+        if (err) return;
+        users.forEach(function (user, index) {
+          display += ('<tr>\n                        <td>' + (index + 1) + '</td>\n                        <td>' + user.name + '</td>\n                        <td>' + user.money + '</td>\n                      </tr>').replace(/(\r\n|\n|\r)/gm, '');
+        });
+        display += '</tbody></table>';
+        self.sendReply('|raw|' + display);
+        room.update();
       });
     }
   };

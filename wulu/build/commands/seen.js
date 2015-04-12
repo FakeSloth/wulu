@@ -18,7 +18,7 @@ exports['default'] = seen;
 
 function seen() {
   var commands = {
-    seen: function seen(target, room, user) {
+    seen: function seen(target, room) {
       if (!this.canBroadcast()) {
         return;
       }if (!target) {

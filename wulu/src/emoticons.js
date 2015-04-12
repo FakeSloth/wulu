@@ -20,7 +20,7 @@ let emotes = {
   'oshit': 'http://i.imgur.com/yr5DjuZ.png',
   'PJSalt': 'http://static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-18be1a297459453f-36x30.png',
   'Sanic': 'http://i.imgur.com/Y6etmna.png',
-  'wtf1': 'http://i.imgur.com/kwR8Re9.png',
+  'wtfman': 'http://i.imgur.com/kwR8Re9.png',
   'xD': 'http://i.imgur.com/V728AvL.png'
 };
 

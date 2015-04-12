@@ -64,7 +64,7 @@ function usermod() {
   Users.User.prototype.onDisconnect = function(connection) {
     let self = this;
     User.findOne({ name: this.userid }, function(err, user) {
-      if (err) return; 
+      if (err) return;
       if (!user) {
         user = new User({
           name: self.userid,

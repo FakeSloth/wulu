@@ -5,7 +5,7 @@ export default seen;
 
 function seen() {
   let commands = {
-    seen(target, room, user) {
+    seen(target, room) {
       if (!this.canBroadcast()) return;
       if (!target) return this.sendReply('/seen [username] - Shows when the user last connected on the server.');
       this.splitTarget(target);

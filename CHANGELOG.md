@@ -2,7 +2,7 @@
 ==================
 
   * Add permanent custom symbol
-  * Add stafflist, hide, and seen command
+  * Add stafflist, hide, seen, and richestusers command
   * Add and remove some emoticons
   * Add customavatars
   * Refactor shop and create new module called `UserMod` for custom

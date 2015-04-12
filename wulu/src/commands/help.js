@@ -12,6 +12,7 @@ let display = `<center><b>List of commands:</b></center>
               <b>/customsymbol</b> <i>symbol</i> - Get a custom symbol.
               <b>/define</b> <i>word</i> - Shows the definition of a word.
               <b>/emotes</b> - Get a list of emoticons.
+              <b>/moneyladder</b> - Shows the richest users.
               <b>/poof</b> - Disconnects the user and leaves a message in the room.
               <b>/regdate</b> <i>user</i> - Shows registration date of the user.
               <b>/resetsymbol</b> - Reset custom symbol if you have one.
@@ -63,6 +64,9 @@ function help() {
       }
       if (check(['resetsymbol', 'resetcustomsymbol'], target)) {
         return this.sendReply('/resetsymbol, /resetcustomsymbol');
+      }
+      if (check(['richestuser', 'richestusers', 'moneyladder', 'richladder'], target)) {
+        return this.sendReply('/richestuser, /richestusers, /moneyladder, /richladder');
       }
       this.sendReply('Alias not found for this command');
     }
