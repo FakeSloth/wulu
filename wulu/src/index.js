@@ -6,6 +6,7 @@ import Mongo from './build/mongo';
 import Poll from './build/poll';
 import Sysop from './build/sysop';
 import Tour from './build/tour';
+import UserMod from './build/usermod';
 
 export default {
   Bot,
@@ -15,5 +16,6 @@ export default {
   Mongo,
   Poll,
   Sysop,
-  Tour
+  Tour,
+  UserMod
 };

@@ -29,53 +29,6 @@ var global_shop = getShopDisplay(shop_data);
 function shop() {
   var shop = arguments[0] === undefined ? shop_data : arguments[0];
 
-  /**
-   * Enabling permanent custom symbols
-   */
-
-  if (!Users.User.prototype.originalJoinRoom) {
-    Users.User.prototype.originalJoinRoom = Users.User.prototype.joinRoom;
-  }
-
-  Users.User.prototype.getIdentity = function (roomid) {
-    if (this.locked) {
-      return '‽' + this.name;
-    }
-    if (roomid) {
-      if (this.mutedRooms[roomid]) {
-        return '!' + this.name;
-      }
-      var room = Rooms.rooms[roomid];
-      if (room && room.auth) {
-        if (room.auth[this.userid]) {
-          return room.auth[this.userid] + this.name;
-        }
-        if (room.isPrivate === true) return ' ' + this.name;
-      }
-    }
-    if (this.customSymbol) {
-      return this.customSymbol + this.name;
-    }
-    return this.group + this.name;
-  };
-
-  Users.User.prototype.joinRoom = function (room, connection) {
-    if (room !== 'global') return this.originalJoinRoom(room, connection);
-    var self = this;
-    // Add delay because when user first join, they don't have there username yet.
-    setTimeout(function () {
-      _User2['default'].findOne({ name: self.userid }, function (err, userModel) {
-        if (err) return;
-        if (userModel && userModel.symbol) {
-          self.customSymbol = userModel.symbol;
-          self.updateIdentity();
-          self.hasPermaCustomSymbol = true;
-        }
-      });
-    }, 1000 * 10);
-    return this.originalJoinRoom(room, connection);
-  };
-
   var commands = {
     shop: function shop() {
       if (!this.canBroadcast()) {
@@ -171,6 +124,7 @@ function shop() {
       this.sendReply('Your symbol has been reset.');
     },
 
+    permasymbol: 'permacustomsymbol',
     permacustomsymbol: function permacustomsymbol(target, room, user) {
       if (!user.canPermaCustomSymbol) {
         return this.sendReply('You need to buy this item from the shop.');

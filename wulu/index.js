@@ -36,6 +36,10 @@ var _Tour = require('./build/tour');
 
 var _Tour2 = _interopRequireWildcard(_Tour);
 
+var _UserMod = require('./build/usermod');
+
+var _UserMod2 = _interopRequireWildcard(_UserMod);
+
 exports['default'] = {
   Bot: _Bot2['default'],
   Commands: _Commands2['default'],
@@ -44,6 +48,7 @@ exports['default'] = {
   Mongo: _Mongo2['default'],
   Poll: _Poll2['default'],
   Sysop: _Sysop2['default'],
-  Tour: _Tour2['default']
+  Tour: _Tour2['default'],
+  UserMod: _UserMod2['default']
 };
 module.exports = exports['default'];

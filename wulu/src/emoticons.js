@@ -83,7 +83,7 @@ function Emoticons(_emotes=emotes) {
     // **bold**
     message = message.replace(/\*\*([^< ](?:[^<]*?[^< ])?)\*\*/g, '<b>$1</b>');
 
-    room.addRaw(`<div class="chat"><small>${user.customSymbol || user.group}</small><button name="parseCommand" value="/user ${user.name}" class="emote-chat"><b><font class="emote-pointer" color="${color(user.userid)}">${user.name}:</font></b></button><em class="mine">${message}</div>`);
+    room.addRaw(`<div class="chat"><small>${user.getIdentity().charAt(0)}</small><button name="parseCommand" value="/user ${user.name}" class="emote-chat"><b><font class="emote-pointer" color="${color(user.userid)}">${user.name}:</font></b></button><em class="mine">${message}</div>`);
 
     return false;
   };
