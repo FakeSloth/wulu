@@ -2,10 +2,11 @@
 ==================
 
   * Add permanent custom symbol
+  * Add stafflist command
+  * Add and remove some emoticons
   * Fix emoticons parsing when using commands
   * Seperate users Mongo collections into users and usergroups
     - usernames are now userids in the users collections
-  * Add stafflist command
   * dev-deps: eslint@^0.19.0
 
 1.9.3 / 2015-04-09
