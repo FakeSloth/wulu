@@ -15,6 +15,7 @@ let display = `<center><b>List of commands:</b></center>
               <b>/poof</b> - Disconnects the user and leaves a message in the room.
               <b>/regdate</b> <i>user</i> - Shows registration date of the user.
               <b>/resetsymbol</b> - Reset custom symbol if you have one.
+              <b>/seen</b> <i>username</i> - Shows when the user last connected on the server.
               <b>/shop</b> - Displays the shop.
               <b>/transfer</b> <i>user</i>, <i>amount</i> - Transfer a certain amount of money to a user.
               <b>/urbandefine</b> <i>word</i> - Shows the urban definition of the word.

@@ -2,11 +2,11 @@
 ==================
 
   * Add permanent custom symbol
-  * Add stafflist and hide command
+  * Add stafflist, hide, and seen command
   * Add and remove some emoticons
   * Add customavatars
-  * Refactor shop and create new module called `UserMod` for perma custom
-  symbols and hiding
+  * Refactor shop and create new module called `UserMod` for custom
+  symbols, hiding, and seen
   * Fix emoticons parsing when using commands
   * Seperate users Mongo collections into users and usergroups
     - usernames are now userids in the users collections

@@ -10,6 +10,7 @@ import poof from './poof';
 import poll from './poll';
 import regdate from './regdate';
 import reload from './reload';
+import seen from './seen';
 import shop from './shop';
 import stafflist from './stafflist';
 import wulu from './wulu';
@@ -27,6 +28,7 @@ let commands = {
   poll,
   regdate,
   reload,
+  seen,
   shop,
   stafflist,
   wulu

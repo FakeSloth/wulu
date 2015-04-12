@@ -4,7 +4,7 @@ export default usermod;
 
 /**
  * Modifies user's functionality to
- * enable permanent custom symbols and hiding
+ * enable custom symbols, hiding, and seen
  */
 
 function usermod() {
@@ -12,6 +12,11 @@ function usermod() {
     Users.User.prototype.originalJoinRoom = Users.User.prototype.joinRoom;
   }
 
+  if (!Users.User.prototype.originalOnDisconnect) {
+    Users.User.prototype.originalOnDisconnect = Users.User.prototype.onDisconnect;
+  }
+
+  // Custom symbol and hiding
   Users.User.prototype.getIdentity = function(roomid) {
     if (this.locked) {
       return '‽' + this.name;
@@ -37,6 +42,7 @@ function usermod() {
     return this.group + this.name;
   };
 
+  // Permanent custom symbols
   Users.User.prototype.joinRoom = function(room, connection) {
     if (room !== 'global') return this.originalJoinRoom(room, connection);
     let self = this;
@@ -52,5 +58,23 @@ function usermod() {
       });
     }, 1000 * 10);
     return this.originalJoinRoom(room, connection);
+  };
+
+  // Seen
+  Users.User.prototype.onDisconnect = function(connection) {
+    let self = this;
+    User.findOne({ name: this.userid }, function(err, user) {
+      if (err) return; 
+      if (!user) {
+        user = new User({
+          name: self.userid,
+          seen: Date.now()
+        });
+        return user.save();
+      }
+      user.seen = Date.now();
+      user.save();
+    });
+    this.originalOnDisconnect(connection);
   };
 }
