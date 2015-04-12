@@ -18,6 +18,7 @@ let display = `<center><b>List of commands:</b></center>
               <b>/resetsymbol</b> - Reset custom symbol if you have one.
               <b>/seen</b> <i>username</i> - Shows when the user last connected on the server.
               <b>/shop</b> - Displays the shop.
+              <b>/stafflist</b> - Shows the staff.
               <b>/transfer</b> <i>user</i>, <i>amount</i> - Transfer a certain amount of money to a user.
               <b>/urbandefine</b> <i>word</i> - Shows the urban definition of the word.
               <b>/wallet</b> <i>user</i> - Displays how much money a user has. Parameter is optional.

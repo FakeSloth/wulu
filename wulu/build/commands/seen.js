@@ -23,17 +23,17 @@ function seen() {
         return;
       }if (!target) {
         return this.sendReply('/seen [username] - Shows when the user last connected on the server.');
-      }this.splitTarget(target);
-      if (this.targetUser) {
-        return this.sendReplyBox('' + this.targetUsername + ' is <b>currently online</b>.');
+      }var user = Users.get(target);
+      if (user && user.connected) {
+        return this.sendReplyBox('' + target + ' is <b>currently online</b>.');
       }var self = this;
       _User2['default'].findOne({ name: toId(target) }, function (err, user) {
         if (err) return;
         if (!user || !user.seen) {
-          self.sendReplyBox('' + self.targetUsername + ' has never been online on this server.');
+          self.sendReplyBox('' + target + ' has never been online on this server.');
           return room.update();
         }
-        self.sendReplyBox('' + self.targetUsername + ' was last seen <b>' + _moment2['default'](user.seen).fromNow() + '</b>.');
+        self.sendReplyBox('' + target + ' was last seen <b>' + _moment2['default'](user.seen).fromNow() + '</b>.');
         room.update();
       });
     }
