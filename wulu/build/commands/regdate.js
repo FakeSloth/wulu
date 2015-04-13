@@ -26,7 +26,7 @@ function regdate() {
       var options = {
         host: 'www.pokemonshowdown.com',
         port: 80,
-        path: '/forum/~' + target
+        path: '/users/~' + target
       };
 
       var content = '';

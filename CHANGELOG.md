@@ -8,6 +8,8 @@
   * Refactor shop and create new module called `UserMod` for custom
   symbols, hiding, and seen
   * Fix emoticons parsing when using commands
+  * Fix regdate
+  * Fix message transfermoney sending to the wrong user
   * Seperate users Mongo collections into users and usergroups
     - usernames are now userids in the users collections
   * dev-deps: eslint@^0.19.0

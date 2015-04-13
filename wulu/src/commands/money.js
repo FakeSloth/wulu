@@ -94,7 +94,7 @@ function money() {
             let targetCash = targetTotal !== 1 ? currency_name + 's' : currency_name;
             let userCash = userTotal !== 1 ? currency_name + 's' : currency_name;
             self.sendReply(`You have successfully transferred ${amount} ${currency} to ${targetName}. You now have ${userTotal} ${userCash}.`);
-            self.sendReply(`${user.name} has transferred ${amount} ${currency} to you. You now have ${targetTotal} ${targetCash}.`);
+            self.targetUser.send(`${user.name} has transferred ${amount} ${currency} to you. You now have ${targetTotal} ${targetCash}.`);
           });
         });
       });

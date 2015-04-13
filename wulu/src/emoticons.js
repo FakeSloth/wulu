@@ -2,7 +2,6 @@ import color from '../color';
 import is from 'is_js';
 
 let emotes = {
-  'FakeSloth': 'http://i.imgur.com/chqy1tA.png',
   'feelsbd': 'http://i.imgur.com/YyEdmwX.png',
   'feelsdd': 'http://i.imgur.com/fXtdLtV.png',
   'feelsgd': 'http://i.imgur.com/Jf0n4BL.png',
@@ -13,7 +12,6 @@ let emotes = {
   'feelspink': 'http://i.imgur.com/jqfB8Di.png',
   'feelsrs': 'http://i.imgur.com/qGEot0R.png',
   'feelssc': 'http://i.imgur.com/cm6oTZ1.png',
-  'fukya': 'http://i.imgur.com/ampqCZi.gif',
   'Kappa': 'http://static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-ddc6e3a8732cb50f-25x28.png',
   'niglol': 'http://i.imgur.com/SlzCghq.png',
   'Obama': 'http://i.imgur.com/rBA9M7A.png',
@@ -47,9 +45,8 @@ function Emoticons(_emotes=emotes) {
   }
 
   CommandParser.parse = function(message, room, user, connection, levelsDeep) {
-    if ((message.charAt(0) === '/' && message.charAt(1) !== '/') || message.charAt(0) === '!') {
-      return CommandParser.originalParse(message, room, user, connection, levelsDeep);
-    }
+    message = CommandParser.originalParse(message, room, user, connection, levelsDeep);
+    if (!message) return;
 
     let match = false;
     let len = emotes_keys.length;
@@ -61,12 +58,7 @@ function Emoticons(_emotes=emotes) {
       }
     }
 
-    if (!match) return CommandParser.originalParse(message, room, user, connection, levelsDeep);
-
-    if (message.length > MAX_MESSAGE_LENGTH && !user.can('ignorelimits')) {
-      connection.popup('Your message is too long:\n\n' + message);
-      return false;
-    }
+    if (!match) return message;
 
     // escape HTML
     message = Tools.escapeHTML(message);
