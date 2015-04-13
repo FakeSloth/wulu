@@ -26,8 +26,6 @@ let emotes_keys = Object.keys(emotes);
 
 let patternRegex = createPatternRegex();
 
-const MAX_MESSAGE_LENGTH = 300;
-
 export default {
   emotes,
   Emoticons
