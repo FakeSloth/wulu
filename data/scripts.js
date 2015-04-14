@@ -285,7 +285,7 @@ exports.BattleScripts = {
 			hits = Math.floor(hits);
 			var nullDamage = true;
 			var moveDamage;
-			// There is no need to recursively check the Â´sleepUsableÂ´ flag as Sleep Talk can only be used while asleep.
+			// There is no need to recursively check the ´sleepUsable´ flag as Sleep Talk can only be used while asleep.
 			var isSleepUsable = move.sleepUsable || this.getMove(move.sourceEffect).sleepUsable;
 			var i;
 			for (i = 0; i < hits && target.hp && pokemon.hp; i++) {
@@ -555,7 +555,7 @@ exports.BattleScripts = {
 		var template = this.getTemplate(pokemon.canMegaEvo);
 		var side = pokemon.side;
 
-		// PokÃ©mon affected by Sky Drop cannot mega evolve. Enforce it here for now.
+		// Pokémon affected by Sky Drop cannot mega evolve. Enforce it here for now.
 		var foeActive = side.foe.active;
 		for (var i = 0; i < foeActive.length; i++) {
 			if (foeActive[i].volatiles['skydrop'] && foeActive[i].volatiles['skydrop'].source === pokemon) {
@@ -1898,7 +1898,7 @@ exports.BattleScripts = {
 				if (this.random(5) >= 1) continue;
 				break;
 			case 'Unreleased':
-				// Unreleased PokÃ©mon have 20% the normal rate
+				// Unreleased Pokémon have 20% the normal rate
 				if (this.random(5) >= 1) continue;
 			}
 
@@ -2047,7 +2047,7 @@ exports.BattleScripts = {
 				if (this.random(5) >= 1) continue;
 				break;
 			case 'Unreleased':
-				// Unreleased PokÃ©mon have 20% the normal rate
+				// Unreleased Pokémon have 20% the normal rate
 				if (this.random(5) >= 1) continue;
 			}
 
@@ -2305,7 +2305,7 @@ exports.BattleScripts = {
 						counter['adaptability']++;
 						// STAB:
 						// Bounce, Flame Charge, Sky Drop aren't considered STABs.
-						// If they're in the PokÃ©mon's movepool and are STAB, consider the PokÃ©mon not to have that type as a STAB.
+						// If they're in the Pokémon's movepool and are STAB, consider the Pokémon not to have that type as a STAB.
 						if (moveid !== 'bounce' && moveid !== 'flamecharge' && moveid !== 'skydrop') hasStab = true;
 					}
 					if (hasAbility['Protean']) hasStab = true;
@@ -2802,7 +2802,7 @@ exports.BattleScripts = {
 			evs.atk = 252;
 			evs.spa = 0;
 		} else {
-			// Fallback in case a PokÃ©mon lacks attacks... go by stats
+			// Fallback in case a Pokémon lacks attacks... go by stats
 			if (template.baseStats.spa >= template.baseStats.atk) {
 				evs.atk = 0;
 				evs.spa = 252;
@@ -3032,7 +3032,10 @@ exports.BattleScripts = {
 		var pokemonPool = [];
 		for (var id in this.data.FormatsData) {
 			var template = this.getTemplate(id);
-			if (!excludedTiers[template.tier] && template.types.indexOf(type) > -1 && !template.isMega && !template.isPrimal && !template.isNonstandard && template.randomBattleMoves) {
+			var types = template.types;
+			if (template.baseSpecies === 'Castform') types = ['Normal'];
+			if (template.speciesid === 'meloettapirouette') types = ['Normal', 'Psychic'];
+			if (!excludedTiers[template.tier] && types.indexOf(type) > -1 && !template.isMega && !template.isPrimal && !template.isNonstandard && template.randomBattleMoves) {
 				pokemonPool.push(id);
 			}
 		}
@@ -3070,7 +3073,7 @@ exports.BattleScripts = {
 				if (this.random(5) >= 1) continue;
 				break;
 			case 'Unreleased':
-				// Unreleased PokÃ©mon have 20% the normal rate
+				// Unreleased Pokémon have 20% the normal rate
 				if (this.random(5) >= 1) continue;
 			}
 
@@ -3128,7 +3131,7 @@ exports.BattleScripts = {
 	randomSeasonalStaffTeam: function (side) {
 		var team = [];
 		var variant = this.random(2);
-		// Hardcoded sets of the available PokÃ©mon.
+		// Hardcoded sets of the available Pokémon.
 		var sets = {
 			// Admins.
 			'~Antar': {
@@ -3348,12 +3351,6 @@ exports.BattleScripts = {
 				moves: ['airslash', 'flamethrower', 'nobleroar', 'hydropump'],
 				baseSignatureMove: 'hydrocannon', signatureMove: "HYDRO IMPACT",
 				evs: {atk:4, spa:252, spe:252}, nature: 'Hasty'
-			},
-			'@imanalt': {
-				species: 'Rhydon', ability: 'Prankster', item: 'Eviolite', gender: 'M',
-				moves: ['heartswap', 'rockblast', 'stealthrock', 'substitute', 'batonpass'],
-				baseSignatureMove: 'naturepower', signatureMove: "FREE GENV BH",
-				evs: {hp:252, atk:252, spd:4}, nature: 'Adamant'
 			},
 			'@innovamania': {
 				species: 'Arceus', ability: 'Pick Up', item: 'Black Glasses', gender: 'M',
@@ -3629,7 +3626,7 @@ exports.BattleScripts = {
 				baseSignatureMove: 'whirlwind', signatureMove: "True Support",
 				evs: {hp:252, def:192, spa:64}, nature: 'Modest'
 			},
-			'%Astâ˜†arA': {
+			'%Ast?arA': {
 				species: 'Jirachi', ability: 'Cursed Body', item: ['Leftovers', 'Sitrus Berry'][this.random(2)], gender: 'F',
 				moves: ['psychic', 'moonblast', 'nastyplot', 'recover', 'surf'],
 				baseSignatureMove: 'psywave', signatureMove: "Star Bolt Desperation",
@@ -3761,6 +3758,12 @@ exports.BattleScripts = {
 				moves: ['psywave', ['poisonfang', 'shadowstrike'][this.random(2)], ['uturn', 'rapidspin'][this.random(2)]],
 				baseSignatureMove: 'healingwish', signatureMove: "Be Thankful I Sacrificed Myself",
 				evs: {hp:252, def:136, spd:120}, nature: 'Impish'
+			},
+			'+imanalt': {
+				species: 'Rhydon', ability: 'Prankster', item: 'Eviolite', gender: 'M',
+				moves: ['heartswap', 'rockblast', 'stealthrock', 'substitute', 'batonpass'],
+				baseSignatureMove: 'naturepower', signatureMove: "FREE GENV BH",
+				evs: {hp:252, atk:252, spd:4}, nature: 'Adamant'
 			},
 			'+Limi': {
 				species: 'Primeape', ability: 'Poison Heal', item: 'Leftovers', gender: 'M',

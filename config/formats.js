@@ -114,7 +114,7 @@ exports.Formats = [
 		ruleset: ['Pokemon', 'Standard GBU', 'Team Preview GBU'],
 		requirePentagon: true,
 		validateTeam: function (team, format) {
-			if (team.length < 3) return ['You must bring at least three Pok√©mon.'];
+			if (team.length < 3) return ['You must bring at least three PokÈmon.'];
 		},
 		onBegin: function () {
 			this.debug('cutting down to 3');
@@ -191,7 +191,7 @@ exports.Formats = [
 		banlist: ['Tornadus + Defiant', 'Thundurus + Defiant', 'Landorus + Sheer Force'],
 		requirePentagon: true,
 		validateTeam: function (team, format) {
-			if (team.length < 4) return ['You must bring at least four Pok√©mon.'];
+			if (team.length < 4) return ['You must bring at least four PokÈmon.'];
 		},
 		onBegin: function () {
 			this.debug('cutting down to 4');
@@ -255,7 +255,7 @@ exports.Formats = [
 		ruleset: ['Pokemon', 'Standard GBU', 'Team Preview'],
 		requirePentagon: true,
 		validateTeam: function (team, format) {
-			if (team.length < 6) return ['You must have six Pok√©mon.'];
+			if (team.length < 6) return ['You must have six PokÈmon.'];
 		}
 	},
 	{
@@ -295,7 +295,7 @@ exports.Formats = [
 		banlist: ['Unreleased', 'Arceus', 'Archeops', 'Darkrai', 'Deoxys', 'Deoxys-Attack', 'Deoxys-Speed', 'Dialga', 'Giratina', 'Giratina-Origin',
 			'Groudon', 'Ho-Oh', 'Keldeo', 'Kyogre', 'Kyurem-Black', 'Kyurem-White', 'Lugia', 'Mewtwo', 'Palkia', 'Rayquaza',
 			'Regigigas', 'Reshiram', 'Shaymin-Sky', 'Shedinja', 'Slaking', 'Xerneas', 'Yveltal', 'Zekrom',
-			'Blazikenite', 'Gengarite', 'Kangaskhanite', 'Mawilite', 'Salamencite', 'Soul Dew'
+			'Blazikenite', 'Gengarite', 'Kangaskhanite', 'Mawilite', 'Salamencite', 'Soul Dew', 'Assist'
 		],
 		validateSet: (function () {
 			var pokemonWithAbility;
@@ -323,7 +323,7 @@ exports.Formats = [
 				'Sableye':1, 'Smeargle':1
 			};
 			var restrictedAbilities = {
-				'Huge Power':1, 'Imposter':1, 'Parental Bond':1, 'Pure Power':1, 'Shadow Tag':1, 'Wonder Guard':1
+				'Arena Trap':1, 'Huge Power':1, 'Imposter':1, 'Parental Bond':1, 'Pure Power':1, 'Shadow Tag':1, 'Wonder Guard':1
 			};
 			return function (set, teamHas) {
 				var format = this.getFormat('inheritance');
@@ -487,15 +487,8 @@ exports.Formats = [
 
 					if (ability.name === template.abilities['H']) {
 						isHidden = true;
-
 						if (template.unreleasedHidden && banlistTable['illegal']) {
 							problems.push(name + "'s hidden ability is unreleased.");
-						} else if (this.gen === 5 && set.level < 10 && (template.maleOnlyHidden || template.gender === 'N')) {
-							problems.push(name + " must be at least level 10 with its hidden ability.");
-						}
-						if (template.maleOnlyHidden) {
-							set.gender = 'M';
-							lsetData.sources = ['5D'];
 						}
 					}
 
@@ -540,9 +533,6 @@ exports.Formats = [
 								if (eventData.isHidden !== undefined && eventData.isHidden !== isHidden) {
 									problems.push(name + (isHidden ? " can't have" : " must have") + " its hidden ability because it has a move only available from a specific event.");
 								}
-								if (this.gen <= 5 && eventData.abilities && eventData.abilities.indexOf(ability.id) < 0) {
-									problems.push(name + " must have " + eventData.abilities.join(" or ") + " because it has a move only available from a specific event.");
-								}
 								if (eventData.gender) {
 									set.gender = eventData.gender;
 								}
@@ -567,15 +557,6 @@ exports.Formats = [
 							if (!compatibleSource) {
 								problems.push(name + " has moves incompatible with its hidden ability.");
 							}
-						}
-					}
-					if (!lsetData.sources && lsetData.sourcesBefore <= 3 && this.getAbility(set.ability).gen === 4 && !template.prevo && this.gen <= 5) {
-						problems.push(name + " has a gen 4 ability and isn't evolved - it can't use anything from gen 3.");
-					}
-					if (!lsetData.sources && lsetData.sourcesBefore >= 3 && (isHidden || this.gen <= 5) && template.gen <= lsetData.sourcesBefore) {
-						var oldAbilities = this.mod('gen' + lsetData.sourcesBefore).getTemplate(template.species).abilities;
-						if (ability.name !== oldAbilities['0'] && ability.name !== oldAbilities['1'] && !oldAbilities['H']) {
-							problems.push(name + " has moves incompatible with its ability.");
 						}
 					}
 
@@ -648,7 +629,6 @@ exports.Formats = [
 
 			var sources = [];
 			var sourcesBefore = 0;
-			var noFutureGen = this.gen >= 3 ? true : !!(format.banlistTable && format.banlistTable['tradeback']);
 
 			do {
 				alreadyChecked[template.speciesid] = true;
@@ -665,15 +645,14 @@ exports.Formats = [
 
 						for (var i = 0, len = lset.length; i < len; i++) {
 							var learned = lset[i];
-							if (noFutureGen && parseInt(learned.charAt(0), 10) > this.gen) continue;
 							if (learned.charAt(0) !== '6' && isHidden && !this.mod('gen' + learned.charAt(0)).getTemplate(template.species).abilities['H']) {
 								incompatibleHidden = true;
 								continue;
 							}
 							if (!template.isNonstandard) {
-								if (this.gen >= 4 && learned.charAt(0) <= 3 && move in {'cut':1, 'fly':1, 'surf':1, 'strength':1, 'flash':1, 'rocksmash':1, 'waterfall':1, 'dive':1}) continue;
-								if (this.gen >= 5 && learned.charAt(0) <= 4 && move in {'cut':1, 'fly':1, 'surf':1, 'strength':1, 'rocksmash':1, 'waterfall':1, 'rockclimb':1}) continue;
-								if (this.gen >= 5 && move in {'defog':1, 'whirlpool':1} && learned.charAt(0) <= 4) blockedHM = true;
+								if (learned.charAt(0) <= 3 && move in {'cut':1, 'fly':1, 'surf':1, 'strength':1, 'flash':1, 'rocksmash':1, 'waterfall':1, 'dive':1}) continue;
+								if (learned.charAt(0) <= 4 && move in {'cut':1, 'fly':1, 'surf':1, 'strength':1, 'rocksmash':1, 'waterfall':1, 'rockclimb':1}) continue;
+								if (move in {'defog':1, 'whirlpool':1} && learned.charAt(0) <= 4) blockedHM = true;
 							}
 							if (learned.substr(0, 2) in {'4L':1, '5L':1, '6L':1}) {
 								if (level >= parseInt(learned.substr(2), 10)) {
@@ -716,10 +695,8 @@ exports.Formats = [
 										}
 									}
 									if (!atLeastOne) sources.push(learned + template.id);
-									if (!noFutureGen) sourcesBefore = Math.max(sourcesBefore, parseInt(learned.charAt(0), 10));
 								} else if (learned.charAt(1) === 'S') {
 									sources.push(learned + ' ' + template.id);
-									if (!noFutureGen) sourcesBefore = Math.max(sourcesBefore, parseInt(learned.charAt(0), 10));
 								} else {
 									var minLevel = (template.evoLevel && template.evoLevel > 10) ? template.evoLevel : 10;
 									if (set.level < minLevel) continue;
@@ -734,7 +711,6 @@ exports.Formats = [
 				} else if (template.prevo) {
 					template = this.getTemplate(template.prevo);
 					if (template.gen > Math.max(2, this.gen)) template = null;
-					if (template && !template.abilities['H']) isHidden = false;
 				} else if (template.baseSpecies !== template.species && template.baseSpecies !== 'Kyurem' && template.baseSpecies !== 'Pikachu') {
 					template = this.getTemplate(template.baseSpecies);
 				} else {
@@ -924,7 +900,7 @@ exports.Formats = [
 				pokemon.addVolatile('curse', pokemon);
 				this.add('-message', pokemon.name + "'s Wonder Guard has cursed it!");
 			}
-			// Weak Pok√©mon get a boost so they can fight amongst the other monsters.
+			// Weak PokÈmon get a boost so they can fight amongst the other monsters.
 			// Innovamania is just useless, so the boosts are a prank.
 			if (name === 'test2017' && !pokemon.illusion) {
 				this.boost({atk:1}, pokemon, pokemon, 'innate ability');
@@ -1020,7 +996,7 @@ exports.Formats = [
 			}
 
 			// Edgy switch-in sentences go here.
-			// Sentences vary in style and how they are presented, so each Pok√©mon has its own way of sending them.
+			// Sentences vary in style and how they are presented, so each PokÈmon has its own way of sending them.
 			var sentences = [];
 			var sentence = '';
 
@@ -1047,50 +1023,50 @@ exports.Formats = [
 				var dice = this.random(4);
 				if (dice === 1) {
 					// Fullscreen toucan!
-					this.add('-message', '‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñÑ‚ñÑ‚ñÑ‚ñÄ‚ñÄ‚ñÄ‚ñÑ‚ñÑ‚ñà‚ñà‚ñà‚ñÑ');
-					this.add('-message', '‚ñë‚ñë‚ñë‚ñë‚ñë‚ñÑ‚ñÄ‚ñÄ‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñê‚ñë‚ñÄ‚ñà‚ñà‚ñå');
-					this.add('-message', '‚ñë‚ñë‚ñë‚ñÑ‚ñÄ‚ñë‚ñë‚ñë‚ñë‚ñÑ‚ñÑ‚ñà‚ñà‚ñà‚ñë‚ñå‚ñÄ‚ñÄ‚ñë‚ñÄ‚ñà');
-					this.add('-message', '‚ñë‚ñë‚ñÑ‚ñà‚ñë‚ñë‚ñÑ‚ñÄ‚ñÄ‚ñí‚ñí‚ñí‚ñí‚ñí‚ñÑ‚ñê‚ñë‚ñë‚ñë‚ñë‚ñà‚ñå');
-					this.add('-message', '‚ñë‚ñê‚ñà‚ñÄ‚ñÑ‚ñÄ‚ñÑ‚ñÑ‚ñÑ‚ñÑ‚ñÄ‚ñÄ‚ñÄ‚ñÄ‚ñå‚ñë‚ñë‚ñë‚ñë‚ñë‚ñê‚ñà‚ñÑ');
-					this.add('-message', '‚ñë‚ñå‚ñÑ‚ñÑ‚ñÄ‚ñÄ‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñå‚ñë‚ñë‚ñë‚ñë‚ñÑ‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñÑ');
-					this.add('-message', '‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñê‚ñë‚ñë‚ñë‚ñë‚ñê‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñÑ');
-					this.add('-message', '‚ñë‚ñëblessed by‚ñë‚ñë‚ñë‚ñë‚ñê‚ñë‚ñë‚ñë‚ñë‚ñê‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñÑ');
-					this.add('-message', '‚ñë‚ñële toucan‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñÄ‚ñÑ‚ñë‚ñë‚ñë‚ñê‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñÑ');
-					this.add('-message', '‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë of ‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñÄ‚ñÑ‚ñÑ‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñÑ');
-					this.add('-message', '‚ñë‚ñë‚ñë‚ñë‚ñëluck‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñà‚ñÄ‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà');
+					this.add('-message', '¶¶¶¶¶¶¶¶___ØØØ__¶¶¶_');
+					this.add('-message', '¶¶¶¶¶_ØØ¶¶¶¶¶¶¶¶¶Ø¶¶¶');
+					this.add('-message', '¶¶¶_Ø¶¶¶¶__¶¶¶¶¶ØØ¶Ø¶');
+					this.add('-message', '¶¶_¶¶¶_ØØ¶¶¶¶¶_¶¶¶¶¶¶¶');
+					this.add('-message', '¶¶¶Ø_Ø____ØØØØ¶¶¶¶¶¶¶¶_');
+					this.add('-message', '¶¶__ØØ¶¶¶¶¶¶¶¶¶¶¶¶¶_¶¶¶¶¶¶¶_');
+					this.add('-message', '¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶_');
+					this.add('-message', '¶¶blessed by¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶_');
+					this.add('-message', '¶¶le toucan¶¶¶¶¶¶Ø_¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶_');
+					this.add('-message', '¶¶¶¶¶¶ of ¶¶¶¶¶¶¶¶Ø__¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶_');
+					this.add('-message', '¶¶¶¶¶luck¶¶¶¶¶¶¶¶¶¶¶¶¶¶Ø¶¶¶¶¶¶');
 				} else if (dice === 2) {
 					// Too spammy, sends it to chat only.
-					this.add('c|~Joim|‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñÑ‚ñê');
-					this.add('c|~Joim|‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñÑ‚ñÑ‚ñÑ‚ñë‚ñë‚ñÑ‚ñà‚ñà‚ñÑ');
-					this.add('c|~Joim|‚ñë‚ñë‚ñë‚ñë‚ñë‚ñê‚ñÄ‚ñà‚ñÄ‚ñå‚ñë‚ñë‚ñë‚ñë‚ñÄ‚ñà‚ñÑ');
-					this.add('c|~Joim|‚ñë‚ñë‚ñë‚ñë‚ñë‚ñê‚ñà‚ñÑ‚ñà‚ñå‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñÄ‚ñà‚ñÑ');
-					this.add('c|~Joim|‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñÄ‚ñÑ‚ñÄ‚ñë‚ñë‚ñë‚ñÑ‚ñÑ‚ñÑ‚ñÑ‚ñÑ‚ñÄ‚ñÄ');
-					this.add('c|~Joim|‚ñë‚ñë‚ñë‚ñë‚ñÑ‚ñÑ‚ñÑ‚ñà‚ñà‚ñÄ‚ñÄ‚ñÄ‚ñÄ');
-					this.add('c|~Joim|‚ñë‚ñë‚ñë‚ñà‚ñÄ‚ñÑ‚ñÑ‚ñÑ‚ñà‚ñë‚ñÄ‚ñÄ');
-					this.add('c|~Joim|‚ñë‚ñë‚ñë‚ñå‚ñë‚ñÑ‚ñÑ‚ñÑ‚ñê‚ñå‚ñÄ‚ñÄ‚ñÄ');
-					this.add('c|~Joim|‚ñÑ‚ñë‚ñê‚ñë‚ñë‚ñë‚ñÑ‚ñÑ‚ñë‚ñà‚ñë‚ñÄ‚ñÄ U HAVE BEEN SPOOKED');
-					this.add('c|~Joim|‚ñÄ‚ñà‚ñå‚ñë‚ñë‚ñë‚ñÑ‚ñë‚ñÄ‚ñà‚ñÄ‚ñë‚ñÄ');
-					this.add('c|~Joim|‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñÑ‚ñÑ‚ñê‚ñå‚ñÑ‚ñÑ BY THE');
-					this.add('c|~Joim|‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñÄ‚ñà‚ñà‚ñà‚ñÄ‚ñà‚ñë‚ñÑ');
-					this.add('c|~Joim|‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñê‚ñå‚ñÄ‚ñÑ‚ñÄ‚ñÑ‚ñÄ‚ñê‚ñÑ SPOOKY SKILENTON');
-					this.add('c|~Joim|‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñê‚ñÄ‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñê‚ñå');
-					this.add('c|~Joim|‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñà‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñà');
-					this.add('c|~Joim|‚ñë‚ñë‚ñë‚ñë‚ñë‚ñê‚ñå‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñà');
-					this.add('c|~Joim|‚ñë‚ñë‚ñë‚ñë‚ñë‚ñà‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñê‚ñåSEND THIS TO 7 PPL OR SKELINTONS WILL EAT YOU');
+					this.add('c|~Joim|¶¶¶¶¶¶¶¶¶¶¶¶_¶');
+					this.add('c|~Joim|¶¶¶¶¶¶___¶¶_¶¶_');
+					this.add('c|~Joim|¶¶¶¶¶¶Ø¶Ø¶¶¶¶¶Ø¶_');
+					this.add('c|~Joim|¶¶¶¶¶¶¶_¶¶¶¶¶¶¶¶Ø¶_');
+					this.add('c|~Joim|¶¶¶¶¶¶Ø_Ø¶¶¶_____ØØ');
+					this.add('c|~Joim|¶¶¶¶___¶¶ØØØØ');
+					this.add('c|~Joim|¶¶¶¶Ø___¶¶ØØ');
+					this.add('c|~Joim|¶¶¶¶¶___¶¶ØØØ');
+					this.add('c|~Joim|_¶¶¶¶¶__¶¶¶ØØ U HAVE BEEN SPOOKED');
+					this.add('c|~Joim|Ø¶¶¶¶¶_¶Ø¶Ø¶Ø');
+					this.add('c|~Joim|¶¶¶¶¶¶¶__¶¶__ BY THE');
+					this.add('c|~Joim|¶¶¶¶¶¶¶Ø¶¶¶Ø¶¶_');
+					this.add('c|~Joim|¶¶¶¶¶¶¶¶Ø_Ø_Ø¶_ SPOOKY SKILENTON');
+					this.add('c|~Joim|¶¶¶¶¶¶¶Ø¶¶¶¶¶¶¶¶');
+					this.add('c|~Joim|¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶');
+					this.add('c|~Joim|¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶');
+					this.add('c|~Joim|¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶SEND THIS TO 7 PPL OR SKELINTONS WILL EAT YOU');
 				} else if (dice === 3) {
-					this.add('-message', '‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñÑ‚ñÑ‚ñÑ‚ñÑ‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñÑ‚ñÑ‚ñÑ‚ñÑ‚ñÑ');
-					this.add('-message', '‚ñë‚ñë‚ñë‚ñà‚ñë‚ñë‚ñë‚ñë‚ñÑ‚ñÄ‚ñà‚ñÄ‚ñÄ‚ñÑ‚ñë‚ñë‚ñÄ‚ñÄ‚ñÄ‚ñÑ‚ñë‚ñë‚ñë‚ñë‚ñê‚ñà‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñÑ‚ñÄ‚ñà‚ñÄ‚ñÄ‚ñÑ‚ñë‚ñë‚ñë‚ñÄ‚ñà‚ñÑ');
-					this.add('-message', '‚ñë‚ñë‚ñà‚ñë‚ñë‚ñë‚ñë‚ñÄ‚ñë‚ñê‚ñå‚ñë‚ñë‚ñê‚ñå‚ñë‚ñë‚ñë‚ñë‚ñë‚ñÄ‚ñë‚ñë‚ñë‚ñê‚ñà‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñÄ‚ñë‚ñê‚ñå‚ñë‚ñë‚ñê‚ñå‚ñë‚ñë‚ñë‚ñë‚ñà‚ñÄ');
-					this.add('-message', '‚ñë‚ñê‚ñå‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñÄ‚ñÑ‚ñÑ‚ñÄ‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñê‚ñà‚ñÑ‚ñÑ‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñÄ‚ñÑ‚ñÑ‚ñÄ‚ñë‚ñë‚ñë‚ñë‚ñë‚ñê‚ñå');
-					this.add('-message', '‚ñë‚ñà‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñÄ‚ñà‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñà');
-					this.add('-message', '‚ñê‚ñà‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñà‚ñå‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñà');
-					this.add('-message', '‚ñê‚ñà‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñà‚ñå‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñà');
-					this.add('-message', '‚ñë‚ñà‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñà‚ñÑ‚ñë‚ñë‚ñë‚ñÑ‚ñà‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñà');
-					this.add('-message', '‚ñë‚ñê‚ñå‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñÄ‚ñà‚ñà‚ñà‚ñÄ‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñê‚ñå');
-					this.add('-message', '‚ñë‚ñë‚ñà‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñÄ‚ñÑ‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñÑ‚ñÄ‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñà');
-					this.add('-message', '‚ñë‚ñë‚ñë‚ñà‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñÄ‚ñÑ‚ñÑ‚ñÑ‚ñÑ‚ñÑ‚ñÑ‚ñÑ‚ñÄ‚ñÄ‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñà');
+					this.add('-message', '¶¶¶¶¶¶¶¶¶¶¶¶____¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶_____');
+					this.add('-message', '¶¶¶¶¶¶¶¶_Ø¶ØØ_¶¶ØØØ_¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶_Ø¶ØØ_¶¶¶Ø¶_');
+					this.add('-message', '¶¶¶¶¶¶¶Ø¶¶¶¶¶¶¶¶¶¶¶¶Ø¶¶¶¶¶¶¶¶¶¶¶¶¶Ø¶¶¶¶¶¶¶¶¶¶¶¶Ø');
+					this.add('-message', '¶¶¶¶¶¶¶¶¶¶Ø__Ø¶¶¶¶¶¶¶¶¶¶¶¶__¶¶¶¶¶¶¶¶¶Ø__Ø¶¶¶¶¶¶¶');
+					this.add('-message', '¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶Ø¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶');
+					this.add('-message', '¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶');
+					this.add('-message', '¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶');
+					this.add('-message', '¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶_¶¶¶_¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶');
+					this.add('-message', '¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶Ø¶¶¶Ø¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶');
+					this.add('-message', '¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶Ø_¶¶¶¶¶¶¶¶¶¶_Ø¶¶¶¶¶¶¶¶¶¶¶¶¶');
+					this.add('-message', '¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶Ø_______ØØ¶¶¶¶¶¶¶¶¶¶¶¶¶¶');
 				} else {
-					sentences = ["Gen 1 OU is a true skill metagame.", "Finally a good reason to punch a teenager in the face!", "So here we are again, it's always such a pleasure.", "( Õù¬∞ Õú ñÕ°¬∞)"].randomize();
+					sentences = ["Gen 1 OU is a true skill metagame.", "Finally a good reason to punch a teenager in the face!", "So here we are again, it's always such a pleasure.", "( ?∞ ???∞)"].randomize();
 					sentence = sentences[0];
 					this.add('c|~Joim|' + sentence);
 				}
@@ -1114,7 +1090,7 @@ exports.Formats = [
 				this.add('c|&jdarden|Did someone call for some BALK?');
 			}
 			if (name === 'okuu') {
-				sentences = ["Current Discussion Topics: Benefits of Nuclear Energy, green raymoo worst raymoo, ...", "Current Discussion Topics: I ate the Sun - AMA, Card Games inside of Fighting Games, ...", "Current Discussion Topics: Our testing process shouldn't include Klaxons, Please remove Orin from keyboard prior to entering chat, ...", "Current Discussion Topics: Please refrain from eating crow, We'll get out of Beta once we handle all of this Alpha Decay, ...", "Current Discussion Topics: Schroedinger's Chen might still be in that box, I'm So Meta Even This Acronym, ...", "Current Discussion Topics: What kind of idiot throws knives into a thermonuclear explosion?, „Çè„Åã„Çâ„Å™„ÅÑ „Éè„Éè„Éè, ..."].randomize();
+				sentences = ["Current Discussion Topics: Benefits of Nuclear Energy, green raymoo worst raymoo, ...", "Current Discussion Topics: I ate the Sun - AMA, Card Games inside of Fighting Games, ...", "Current Discussion Topics: Our testing process shouldn't include Klaxons, Please remove Orin from keyboard prior to entering chat, ...", "Current Discussion Topics: Please refrain from eating crow, We'll get out of Beta once we handle all of this Alpha Decay, ...", "Current Discussion Topics: Schroedinger's Chen might still be in that box, I'm So Meta Even This Acronym, ...", "Current Discussion Topics: What kind of idiot throws knives into a thermonuclear explosion?, ????? ???, ..."].randomize();
 				this.add("raw|<div class=\"broadcast-blue\"><b>" + sentences[0] + "</b></div>");
 			}
 			if (name === 'sirdonovan') {
@@ -1159,7 +1135,7 @@ exports.Formats = [
 				this.add('c|@BiGGiE|' + sentences[0]);
 			}
 			if (name === 'blitzamirin') {
-				this.add('c|@Blitzamirin|How Can Mirrors Be Real If Our Eyes Aren\'t Real? ‚ï∞( ~ ‚óï ·óú ‚óï ~ )‡©≠‚îÅ‚òÜÔæü.*ÔΩ•ÔΩ°Ôæü');
+				this.add('c|@Blitzamirin|How Can Mirrors Be Real If Our Eyes Aren\'t Real? ?( ~ ? ? ? ~ )????.*???');
 			}
 			if (name === 'businesstortoise') {
 				this.add('c|@Business Tortoise|' + ["Another day, another smile :)", "Hello this is steve, how may I help you?"][this.random(2)]);
@@ -1195,7 +1171,7 @@ exports.Formats = [
 				this.add('c|@Electrolyte|Eyyy where the middle school azn girls at??');
 			}
 			if (name === 'eos') {
-				this.add('c|@Eos|·ï¶‡ºº‡∫àŸÑÕú‡∫à‡ºΩ·ï§');
+				this.add('c|@Eos|????????');
 			}
 			if (name === 'formerhope') {
 				this.add('c|@Former Hope|/me enters battle');
@@ -1203,51 +1179,51 @@ exports.Formats = [
 			if (name === 'genesect') {
 				pokemon.phraseIndex = this.random(6);
 				if (pokemon.phraseIndex === 5) {
-					this.add('-message', '‚ñë‚ñë ‚ñë‚ñë ‚ñà‚ñà ‚ñà‚ñà ‚ñà‚ñà ‚ñà‚ñà ‚ñà‚ñà ‚ñë‚ñë ‚ñë‚ñë');
-					this.add('-message', '‚ñë‚ñë ‚ñà‚ñà ‚ñì‚ñì ‚ñì‚ñì ‚ñì‚ñì ‚ñì‚ñì ‚ñì‚ñì ‚ñà‚ñà ‚ñë‚ñë');
-					this.add('-message', '‚ñà‚ñà ‚ñì‚ñì ‚ñì‚ñì ‚ñì‚ñì ‚ñì‚ñì ‚ñì‚ñì ‚ñì‚ñì ‚ñì‚ñì ‚ñà‚ñà');
-					this.add('-message', '‚ñà‚ñà ‚ñì‚ñì ‚ñì‚ñì ‚ñà‚ñà ‚ñà‚ñà ‚ñà‚ñà ‚ñì‚ñì ‚ñì‚ñì ‚ñà‚ñà');
-					this.add('-message', '‚ñà‚ñà ‚ñà‚ñà ‚ñà‚ñà ‚ñà‚ñà ‚ñë‚ñë ‚ñà‚ñà ‚ñà‚ñà ‚ñà‚ñà ‚ñà‚ñà');
-					this.add('-message', '‚ñà‚ñà ‚ñí‚ñí ‚ñí‚ñí ‚ñà‚ñà ‚ñà‚ñà ‚ñà‚ñà ‚ñí‚ñí ‚ñí‚ñí ‚ñà‚ñà');
-					this.add('-message', '‚ñà‚ñà ‚ñí‚ñí ‚ñí‚ñí ‚ñí‚ñí ‚ñí‚ñí ‚ñí‚ñí ‚ñí‚ñí ‚ñí‚ñí ‚ñà‚ñà');
-					this.add('-message', '‚ñë‚ñë ‚ñà‚ñà ‚ñí‚ñí ‚ñí‚ñí ‚ñí‚ñí ‚ñí‚ñí ‚ñí‚ñí ‚ñà‚ñà ‚ñë‚ñë');
-					this.add('-message', '‚ñë‚ñë ‚ñë‚ñë ‚ñà‚ñà ‚ñà‚ñà ‚ñà‚ñà ‚ñà‚ñà ‚ñà‚ñà ‚ñë‚ñë ‚ñë‚ñë');
+					this.add('-message', '¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶');
+					this.add('-message', '¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶');
+					this.add('-message', '¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶');
+					this.add('-message', '¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶');
+					this.add('-message', '¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶');
+					this.add('-message', '¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶');
+					this.add('-message', '¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶');
+					this.add('-message', '¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶');
+					this.add('-message', '¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶ ¶¶');
 				} else if (pokemon.phraseIndex === 4) {
-					this.add('c|@Genesect|‚î¨‚î¥‚î¨‚î¥‚î§   ï‚îú‚î¨‚î¥‚î¨‚î¥');
-					this.add('c|@Genesect|‚î¨‚î¥‚î¨‚î¥‚î§  ï‚Ä¢‚îú‚î¨‚î¥‚î¨‚î¥');
-					this.add('c|@Genesect|‚î¨‚î¥‚î¨‚î¥‚î§ ï‚Ä¢·¥•‚îú‚î¨‚î¥‚î¨‚î¥');
+					this.add('c|@Genesect|----¶  ?+----');
+					this.add('c|@Genesect|----¶ ?ï+----');
+					this.add('c|@Genesect|----¶?ï?+----');
 					this.add('c|@Genesect|Shitposting?');
 				} else if (pokemon.phraseIndex === 3) {
-					this.add('-message', '‚ñÑ ‚ñÑ‚ñÑ‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñÑ‚ñÑ‚ñÑ‚ñÑ‚ñë‚ñë‚ñë‚ñë‚ñå‚ñÑ‚ñÑ‚ñÑ‚ñÑ‚ñÑ‚ñë‚ñë‚ñë‚ñë‚ñë‚ñê‚ñå');
-					this.add('-message', '‚ñí‚ñÄ‚ñà‚ñå‚ñë‚ñë‚ñë‚ñê‚ñÄ‚ñÄ‚ñÑ‚ñÑ‚ñê‚ñå‚ñí‚ñë‚ñë‚ñí‚ñÄ‚ñí‚ñÑ‚ñí‚ñà‚ñÑ‚ñë‚ñë‚ñë‚ñë‚ñê‚ñå');
-					this.add('-message', '‚ñë‚ñë‚ñÄ‚ñà‚ñí‚ñë‚ñë‚ñì‚ñë‚ñë‚ñà‚ñê‚ñà‚ñå‚ñå‚ñë‚ñë‚ñí‚ñë‚ñê‚ñå‚ñà‚ñå‚ñê‚ñå‚ñë‚ñë‚ñê‚ñå‚ñë');
-					this.add('-message', '‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñì‚ñÄ‚ñë‚ñë‚ñí‚ñê‚ñÄ‚ñÑ‚ñÄ‚ñÄ‚ñÄ‚ñÄ‚ñí‚ñí‚ñÄ‚ñÄ‚ñë‚ñë‚ñÄ‚ñå‚ñí‚ñÄ‚ñë‚ñë');
-					this.add('-message', '‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñå‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñÄ‚ñÑ‚ñÑ‚ñÑ‚ñÑ‚ñÄ‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñå‚ñë‚ñë‚ñë‚ñë');
-					this.add('-message', '‚ñë‚ñë‚ñë‚ñë‚ñë‚ñÑ‚ñå‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñí‚ñë‚ñë‚ñë‚ñë');
+					this.add('-message', '_ __¶¶¶¶¶¶¶____¶¶¶¶¶_____¶¶¶¶¶¶¶');
+					this.add('-message', '¶Ø¶¶¶¶¶¶ØØ__¶¶¶¶¶¶Ø¶_¶¶_¶¶¶¶¶¶');
+					this.add('-message', '¶¶Ø¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶');
+					this.add('-message', '¶¶¶¶¶¶¶Ø¶¶¶¶Ø_ØØØØ¶¶ØØ¶¶Ø¶¶Ø¶¶');
+					this.add('-message', '¶¶¶¶¶¶¶¶¶¶¶¶¶Ø____Ø¶¶¶¶¶¶¶¶¶¶¶');
+					this.add('-message', '¶¶¶¶¶_¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶');
 				} else if (pokemon.phraseIndex === 2) {
 					this.add('c|@Genesect|Born too early to explore the universe');
 					this.add('c|@Genesect|Born too late to explore the world');
-					this.add('c|@Genesect|Born just in time to explore Ôº§Ôº°ÔºÆÔº´Ôº≠Ôº•Ôº≠Ôº•Ôº≥');
+					this.add('c|@Genesect|Born just in time to explore DANKMEMES');
 				} else if (pokemon.phraseIndex === 1) {
-					this.add('-message', '‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñÑ‚ñÑ‚ñÑ‚ñÑ‚ñÑ‚ñÑ‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë');
-					this.add('-message', '‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñÑ‚ñÄ‚ñà‚ñÄ‚ñà‚ñÑ‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñÑ‚ñÑ');
-					this.add('-message', '‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñê‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñå');
-					this.add('-message', '‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñå');
-					this.add('-message', '‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñê‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñå');
-					this.add('-message', '‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñÑ');
-					this.add('-message', '‚ñë‚ñë‚ñë‚ñÑ‚ñà‚ñê‚ñà‚ñÑ‚ñà‚ñÄ‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñÄ‚ñà‚ñÑ‚ñà‚ñê‚ñà‚ñÑ');
-					this.add('-message', '‚ñë‚ñÑ‚ñà‚ñà‚ñå‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñÑ‚ñà‚ñÑ‚ñà‚ñÑ‚ñà‚ñÑ‚ñà‚ñÑ‚ñà‚ñÑ‚ñà‚ñà‚ñà‚ñà‚ñà‚ñå‚ñà‚ñà‚ñå');
-					this.add('-message', '‚ñà‚ñà‚ñà‚ñà‚ñÑ‚ñÄ‚ñÄ‚ñÄ‚ñÄ‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñÄ‚ñÄ‚ñÄ‚ñÄ‚ñÑ‚ñà‚ñà‚ñà');
-					this.add('-message', '‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñÑ‚ñÑ‚ñÑ‚ñÑ‚ñÑ‚ñÑ‚ñÑ‚ñÑ‚ñÑ‚ñÑ‚ñÑ‚ñÑ‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñÄ');
-					this.add('-message', '‚ñë‚ñë‚ñë‚ñÄ‚ñÄ‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñÄ');
+					this.add('-message', '¶¶¶¶¶¶¶¶¶¶______¶¶¶¶¶¶¶¶¶¶');
+					this.add('-message', '¶¶¶¶¶¶¶¶_Ø¶Ø¶_¶¶¶¶¶¶¶¶¶¶__');
+					this.add('-message', '¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶');
+					this.add('-message', '¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶');
+					this.add('-message', '¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶');
+					this.add('-message', '¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶_');
+					this.add('-message', '¶¶¶_¶¶¶_¶Ø¶¶¶¶¶¶¶¶¶¶¶¶¶Ø¶_¶¶¶_');
+					this.add('-message', '¶_¶¶¶¶¶¶¶¶¶_¶_¶_¶_¶_¶_¶¶¶¶¶¶¶¶¶');
+					this.add('-message', '¶¶¶¶_ØØØØ¶¶¶¶¶¶¶¶¶¶¶¶ØØØØ_¶¶¶');
+					this.add('-message', '¶¶¶¶¶¶¶¶¶____________¶¶¶¶¶¶Ø');
+					this.add('-message', '¶¶¶ØØ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶Ø');
 					this.add('c|@Genesect|/me tips fedora');
 				} else {
-					sentences = ["(‡∏á Õ† Õ†¬∞ ÕüŸÑÕú Õ°¬∞)‡∏á s·¥è·¥ú…¥·¥Ös ·¥Ö·¥è…¥…¢·¥á Ä·¥è·¥ús... …™·¥ç …™…¥ (‡∏á Õ† Õ†¬∞ ÕüŸÑÕú Õ°¬∞)‡∏á", 'http://pastebin.com/8r0jgDd7 become a mod today!'].randomize();
+					sentences = ["(? ? ?∞ ??? ?∞)? s????s ????????s... ?? ?? (? ? ?∞ ??? ?∞)?", 'http://pastebin.com/8r0jgDd7 become a mod today!'].randomize();
 					this.add('c|@Genesect|' + sentences[0]);
 				}
 			}
 			if (name === 'goddessbriyella') {
-				this.add('c|@Goddess Briyella|‚ô• ^_^ ‚ô•');
+				this.add('c|@Goddess Briyella|? ^_^ ?');
 			}
 			if (name === 'hippopotas') {
 				this.add('-message', '@Hippopotas\'s Sand Stream whipped up a sandstorm!');
@@ -1255,11 +1231,8 @@ exports.Formats = [
 			if (name === 'hydroimpact') {
 				this.add('c|@HYDRO IMPACT|Think about the name first and then the Pokemon. Look beyond the "simple" detail.');
 			}
-			if (name === 'imanalt') {
-				this.add('c|@imanalt|muh bulk');
-			}
 			if (name === 'innovamania') {
-				sentences = ['Don\'t take this seriously', 'These Black Glasses sure look cool', 'Ready for some fun?( Õ°¬∞ Õú ñ Õ°¬∞)', '( Õ°¬∞ Õú ñ Õ°¬∞'];
+				sentences = ['Don\'t take this seriously', 'These Black Glasses sure look cool', 'Ready for some fun?( ?∞ ?? ?∞)', '( ?∞ ?? ?∞'];
 				this.add('c|@innovamania|' + sentences[this.random(4)]);
 			}
 			if (name === 'jac') {
@@ -1269,7 +1242,7 @@ exports.Formats = [
 				this.add('c|@jin of the gale|' + ['3...2...1... LET IT RIP!', 'My bit-beast is going to eat you alive!'][this.random(2)]);
 			}
 			if (name === 'kostitsynkun') {
-				this.add('c|@Kostitsyn-kun|Kyun ‚òÖ Kyun~');
+				this.add('c|@Kostitsyn-kun|Kyun ? Kyun~');
 			}
 			if (name === 'kupo') {
 				this.add('c|@kupo|abc!');
@@ -1298,13 +1271,13 @@ exports.Formats = [
 				this.add('c|@Marty|Prepare yourself.');
 			}
 			if (name === 'morfent') {
-				this.add('c|@Morfent|``‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚ñÄ‚ñà‚ñà‚ñà‚ñà‚ñà‚ñÑ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚ñ≤``');
-				this.add('c|@Morfent|``‚îÄ‚îÄ‚îÄ‚ñÑ‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñÑ‚îÄ‚îÄ‚óÄ‚ñà‚ñ∂``');
-				this.add('c|@Morfent|``‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚ñÑ‚ñà‚ñà‚ñà‚ñà‚ñÄ‚ñà‚ñÑ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚ñà``');
-				this.add('c|@Morfent|``‚îÄ‚îÄ‚îÄ‚ñÑ‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñÑ  - I``');
-				this.add('c|@Morfent|``‚îÄ‚ñÑ‚ñà‚ñà‚ñà‚ñà‚ñà.‚ñº.‚ñº.‚ñº.‚ñº.‚ñº.‚ñº.‚ñº   - cast``');
-				this.add('c|@Morfent|``‚ñÑ‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñÑ.‚ñ≤.‚ñ≤.‚ñ≤.‚ñ≤.‚ñ≤.‚ñ≤   - magic``');
-				this.add('c|@Morfent|``‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñÄ‚ñÄ - shitpost``');
+				this.add('c|@Morfent|``------Ø¶¶¶¶¶_------?``');
+				this.add('c|@Morfent|``---_¶¶¶¶¶¶¶¶¶¶¶_--?¶?``');
+				this.add('c|@Morfent|``-----_¶¶¶¶Ø¶_------¶``');
+				this.add('c|@Morfent|``---_¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶_  - I``');
+				this.add('c|@Morfent|``-_¶¶¶¶¶.?.?.?.?.?.?.?   - cast``');
+				this.add('c|@Morfent|``_¶¶¶¶¶¶¶_.?.?.?.?.?.?   - magic``');
+				this.add('c|@Morfent|``¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶ØØ - shitpost``');
 			}
 			if (name === 'naniman') {
 				this.add('c|@Nani Man|rof');
@@ -1342,9 +1315,9 @@ exports.Formats = [
 				this.add('-message', 'sraclrlamtio got prmotd to driier');
 			}
 			if (name === 'scotteh') {
-				this.add('c|@Scotteh|‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚ñÑ‚ñÑ‚ñà‚ñà‚ñà‚ñà‚ñÄ‚ñà‚ñÑ');
-				this.add('c|@Scotteh|‚îÄ‚îÄ‚îÄ‚ñÑ‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñÑ');
-				this.add('c|@Scotteh|‚îÄ‚ñÑ‚ñà‚ñà‚ñà‚ñà‚ñà.‚ñº.‚ñº.‚ñº.‚ñº.‚ñº.‚ñº.‚ñº');
+				this.add('c|@Scotteh|-----__¶¶¶¶Ø¶_');
+				this.add('c|@Scotteh|---_¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶_');
+				this.add('c|@Scotteh|-_¶¶¶¶¶.?.?.?.?.?.?.?');
 			}
 			if (name === 'shamethat') {
 				sentences = ['no guys stop fighting', 'mature people use their words', 'please direct all attacks to user: beowulf'];
@@ -1415,7 +1388,7 @@ exports.Formats = [
 
 			// Drivers.
 			if (name === 'acedia') {
-				this.add('c|%Acedia|Time for a true display of skill ( Õ°¬∞ Õú ñ Õ°¬∞)');
+				this.add('c|%Acedia|Time for a true display of skill ( ?∞ ?? ?∞)');
 			}
 			if (name === 'aelita') {
 				this.add('c|%Aelita|Transfer: Aelita. Scanner: Aelita. Virtualization!');
@@ -1429,7 +1402,7 @@ exports.Formats = [
 				this.add('c|%Articuno|' + sentences[this.random(3)]);
 			}
 			if (name === 'astara') {
-				this.add('c|%Ast‚òÜarA|I\'d rather take a nap, I hope you won\'t be a petilil shit, Eat some rare candies and get on my level.');
+				this.add('c|%Ast?arA|I\'d rather take a nap, I hope you won\'t be a petilil shit, Eat some rare candies and get on my level.');
 			}
 			if (name === 'astyanax') {
 				this.add('c|%Astyanax|:^) Top kek');
@@ -1452,7 +1425,7 @@ exports.Formats = [
 				this.add('c|%bloobblob|Contract?');
 			}
 			if (name === 'charlescarmichael') {
-				this.add('c|%Charles Carmichael|If Taylor Swift were in a Fast and Furious movie, it‚Äôd be called Taylor Drift.');
+				this.add('c|%Charles Carmichael|If Taylor Swift were in a Fast and Furious movie, itíd be called Taylor Drift.');
 			}
 			if (name === 'crestfall') {
 				sentences = ['On wings of night.', 'Let us hunt those who have fallen to darkness.'];
@@ -1471,7 +1444,7 @@ exports.Formats = [
 				this.add('c|%LJDarkrai|Azideias');
 			}
 			if (name === 'majorbling') {
-				sentences = ['(„Çû‡πë‚öà À≥Ã´‚öà‡πë) ‚ô°', 'If you can\'t win contests as well as battles, your team is bad~ <3', '‚ô° Dedenne is too cute to KO ‚ô°'];
+				sentences = ['(??? ????) ?', 'If you can\'t win contests as well as battles, your team is bad~ <3', '? Dedenne is too cute to KO ?'];
 				this.add('c|%Majorbling|' + sentences[this.random(3)]);
 			}
 			if (name === 'raseri') {
@@ -1581,6 +1554,9 @@ exports.Formats = [
 			}
 			if (name === 'diatom') {
 				this.add('-message', pokemon.side.foe.name + ' was banned by Diatom. (you should be thankful you are banned and not permabanned)');
+			}
+			if (name === 'imanalt') {
+				this.add('c|+imanalt|muh bulk');
 			}
 			if (name === 'mattl') {
 				this.add('c|+MattL|The annoyance I will cause is not well-defined.');
@@ -1727,18 +1703,18 @@ exports.Formats = [
 				this.add('c|@barton|' + ['ok', 'haha?'][this.random(2)]);
 			}
 			if (name === 'bean') {
-				sentences = ['that\'s it ur getting banned', 'meow', '(‚úñ‚ï≠‚ïÆ‚úñ)'];
+				sentences = ['that\'s it ur getting banned', 'meow', '(????)'];
 				this.add('c|@bean|' + sentences[this.random(3)]);
 			}
 			if (name === 'beowulf') {
 				this.add('c|@Beowulf|There is no need to be mad');
 			}
 			if (name === 'biggie') {
-				sentences = ['It was all a dream', 'It\'s gotta be the shoes', '„ÉΩ‡ºº‡∫àŸÑÕú‡∫à‡ºΩÔæâ RIOT „ÉΩ‡ºº‡∫àŸÑÕú‡∫à‡ºΩÔæâ'];
+				sentences = ['It was all a dream', 'It\'s gotta be the shoes', '???????? RIOT ????????'];
 				this.add('c|@BiGGiE|' + sentences[this.random(3)]);
 			}
 			if (name === 'blitzamirin') {
-				this.add('c|@Blitzamirin| The Mirror Can Lie It Doesn\'t Show What\'s Inside! ‚ï∞„Ä≥~ ‚úñ –î ‚úñ ~„Äµ‚äÉ‚îÅ‚òÜÔæü.*ÔΩ•ÔΩ°Ôæü');
+				this.add('c|@Blitzamirin| The Mirror Can Lie It Doesn\'t Show What\'s Inside! ??~ ? ? ? ~?????.*???');
 			}
 			if (name === 'businesstortoise') {
 				this.add('c|@Business Tortoise|couldn\'t meet my deadline...');
@@ -1764,37 +1740,37 @@ exports.Formats = [
 			}
 			if (name === 'dell') {
 				this.add('c|@Dell|All because I couldn\'t use Yoshi...');
-				this.add('c|@Dell|‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚ñà‚ñà‚ñà‚ñà‚îÄ‚ñà‚ñà‚ñà‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ');
-				this.add('c|@Dell|‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚ñà‚ñà‚ñí‚ñí‚ñí‚ñà‚ñí‚ñí‚ñí‚ñà‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ');
-				this.add('c|@Dell|‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚ñà‚ñà‚ñí‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚ñà‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ');
-				this.add('c|@Dell|‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚îÄ‚îÄ‚ñà‚ñà‚îÄ‚ñà‚ñà‚îÄ‚îÄ‚ñà‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ');
-				this.add('c|@Dell|‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚îÄ‚îÄ‚îÄ‚ñà‚ñà‚îÄ‚ñà‚ñà‚îÄ‚îÄ‚ñà‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ');
-				this.add('c|@Dell|‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚ñà‚ñà‚ñí‚ñí‚ñí‚ñà‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚ñà‚ñà‚ñà‚îÄ‚îÄ‚îÄ‚îÄ');
-				this.add('c|@Dell|‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚ñà‚ñà‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚îÄ‚îÄ‚îÄ‚ñí‚îÄ‚îÄ‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚îÄ‚îÄ‚îÄ');
-				this.add('c|@Dell|‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚ñà‚ñà‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñà‚ñà‚ñà‚îÄ');
-				this.add('c|@Dell|‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚ñà‚ñà‚ñí‚ñí‚ñí‚ñí‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñà‚îÄ');
-				this.add('c|@Dell|‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚ñà‚ñà‚ñí‚ñí‚ñí‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñà‚ñí‚ñà‚ñí‚ñà‚ñà');
-				this.add('c|@Dell|‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚ñà‚ñà‚ñí‚ñí‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñà');
-				this.add('c|@Dell|‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚ñà‚ñà‚ñí‚ñí‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚ñà‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñà');
-				this.add('c|@Dell|‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚ñà‚ñà‚ñà‚ñí‚ñí‚îÄ‚îÄ‚îÄ‚ñà‚ñà‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñà');
-				this.add('c|@Dell|‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚ñà‚ñà‚ñà‚ñí‚ñí‚îÄ‚îÄ‚îÄ‚ñà‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñà‚îÄ');
-				this.add('c|@Dell|‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚ñà‚ñà‚ñÄ‚ñà‚ñí‚ñí‚îÄ‚îÄ‚îÄ‚îÄ‚ñà‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñà‚ñà‚îÄ‚îÄ');
-				this.add('c|@Dell|‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚ñà‚ñà‚ñÄ‚ñà‚ñà‚ñí‚ñí‚ñí‚îÄ‚îÄ‚îÄ‚îÄ‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚îÄ‚îÄ‚îÄ‚îÄ');
-				this.add('c|@Dell|‚îÄ‚îÄ‚îÄ‚îÄ‚ñà‚ñà‚ñÄ‚ñà‚ñà‚ñà‚ñí‚ñí‚ñí‚ñí‚îÄ‚îÄ‚îÄ‚îÄ‚ñà‚ñí‚ñí‚ñà‚ñà‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ');
-				this.add('c|@Dell|‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñí‚ñí‚ñí‚ñí‚ñí‚ñà‚îÄ‚îÄ‚îÄ‚ñà‚ñà‚îÄ‚îÄ‚ñà‚ñà‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ');
-				this.add('c|@Dell|‚ñà‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñà‚ñí‚ñí‚ñí‚ñí‚ñí‚ñà‚îÄ‚îÄ‚îÄ‚îÄ‚ñà‚ñà‚ñà‚ñà‚ñí‚ñí‚ñà‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ');
-				this.add('c|@Dell|‚ñà‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñà‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñà‚îÄ‚îÄ‚îÄ‚ñà‚ñà‚ñà‚ñí‚ñí‚ñí‚ñà‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ');
-				this.add('c|@Dell|‚ñà‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñà‚ñí‚ñí‚ñí‚ñí‚ñí‚ñà‚îÄ‚îÄ‚îÄ‚îÄ‚ñà‚ñí‚ñí‚ñí‚ñí‚ñí‚ñà‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ');
-				this.add('c|@Dell|‚ñà‚ñà‚ñí‚ñí‚ñí‚ñí‚ñí‚ñà‚ñí‚ñí‚ñí‚ñí‚ñí‚ñí‚ñà‚îÄ‚îÄ‚îÄ‚ñà‚ñí‚ñí‚ñí‚ñà‚ñà‚ñà‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ');
-				this.add('c|@Dell|‚îÄ‚ñà‚ñà‚ñí‚ñí‚ñí‚ñí‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚îÄ‚îÄ‚îÄ‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ');
-				this.add('c|@Dell|‚îÄ‚îÄ‚ñà‚ñà‚ñí‚ñí‚ñí‚ñí‚ñí‚ñà‚ñà‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚ñà‚ñà‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ');
-				this.add('c|@Dell|‚îÄ‚îÄ‚îÄ‚ñà‚ñà‚ñí‚ñí‚ñí‚ñà‚ñà‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚ñà‚ñà‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ');
-				this.add('c|@Dell|‚îÄ‚îÄ‚îÄ‚îÄ‚ñà‚ñà‚ñà‚ñà‚ñà‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚ñà‚ñà‚ñà‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ');
-				this.add('c|@Dell|‚îÄ‚îÄ‚îÄ‚îÄ‚ñà‚ñà‚ñà‚ñà‚ñà‚ñÑ‚îÄ‚îÄ‚îÄ‚ñà‚ñà‚ñà‚ñà‚ñà‚ñÑ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ');
-				this.add('c|@Dell|‚îÄ‚îÄ‚ñÑ‚ñà‚ñì‚ñì‚ñì‚ñì‚ñì‚ñà‚ñÑ‚îÄ‚ñà‚ñì‚ñì‚ñì‚ñì‚ñì‚ñà‚ñÑ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ');
-				this.add('c|@Dell|‚îÄ‚îÄ‚ñà‚ñì‚ñì‚ñì‚ñì‚ñì‚ñì‚ñì‚ñì‚ñà‚ñà‚ñì‚ñì‚ñì‚ñì‚ñì‚ñì‚ñì‚ñà‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ');
-				this.add('c|@Dell|‚îÄ‚îÄ‚ñà‚ñì‚ñì‚ñì‚ñì‚ñì‚ñì‚ñì‚ñì‚ñà‚ñà‚ñì‚ñì‚ñì‚ñì‚ñì‚ñì‚ñì‚ñà‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ');
-				this.add('c|@Dell|‚îÄ‚îÄ‚ñÄ‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñÄ‚ñÄ‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ');
+				this.add('c|@Dell|---------------¶¶¶¶-¶¶¶--------');
+				this.add('c|@Dell|--------------¶¶¶¶¶¶¶¶¶¶-------');
+				this.add('c|@Dell|-------------¶¶¶--------¶------');
+				this.add('c|@Dell|---------¶¶¶¶¶¶--¶¶-¶¶--¶------');
+				this.add('c|@Dell|--------¶¶¶¶¶¶---¶¶-¶¶--¶------');
+				this.add('c|@Dell|--------¶¶¶¶¶¶----------¶¶¶----');
+				this.add('c|@Dell|--------¶¶¶¶¶¶¶¶---¶--¶¶¶¶¶¶---');
+				this.add('c|@Dell|-------¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶-');
+				this.add('c|@Dell|------¶¶¶¶¶¶-----¶¶¶¶¶¶¶¶¶¶¶¶¶-');
+				this.add('c|@Dell|------¶¶¶¶¶-------¶¶¶¶¶¶¶¶¶¶¶¶¶');
+				this.add('c|@Dell|-------¶¶¶¶-------¶¶¶¶¶¶¶¶¶¶¶¶¶');
+				this.add('c|@Dell|--------¶¶¶¶-----¶¶¶¶¶¶¶¶¶¶¶¶¶¶');
+				this.add('c|@Dell|--------¶¶¶¶¶---¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶');
+				this.add('c|@Dell|---------¶¶¶¶¶---¶¶¶¶¶¶¶¶¶¶¶¶¶-');
+				this.add('c|@Dell|--------¶¶Ø¶¶¶----¶¶¶¶¶¶¶¶¶¶¶--');
+				this.add('c|@Dell|------¶¶Ø¶¶¶¶¶----¶¶¶¶¶¶¶¶¶----');
+				this.add('c|@Dell|----¶¶Ø¶¶¶¶¶¶¶----¶¶¶¶¶--------');
+				this.add('c|@Dell|¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶---¶¶--¶¶-------');
+				this.add('c|@Dell|¶¶¶¶¶¶¶¶¶¶¶¶¶¶----¶¶¶¶¶¶¶------');
+				this.add('c|@Dell|¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶---¶¶¶¶¶¶¶------');
+				this.add('c|@Dell|¶¶¶¶¶¶¶¶¶¶¶¶¶¶----¶¶¶¶¶¶¶------');
+				this.add('c|@Dell|¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶---¶¶¶¶¶¶¶------');
+				this.add('c|@Dell|-¶¶¶¶¶¶¶¶¶¶¶¶¶---¶¶¶¶¶¶--------');
+				this.add('c|@Dell|--¶¶¶¶¶¶¶¶¶-----¶¶-------------');
+				this.add('c|@Dell|---¶¶¶¶¶¶¶-----¶¶--------------');
+				this.add('c|@Dell|----¶¶¶¶¶-----¶¶¶--------------');
+				this.add('c|@Dell|----¶¶¶¶¶_---¶¶¶¶¶_------------');
+				this.add('c|@Dell|--_¶¶¶¶¶¶¶_-¶¶¶¶¶¶¶_-----------');
+				this.add('c|@Dell|--¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶----------');
+				this.add('c|@Dell|--¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶----------');
+				this.add('c|@Dell|--Ø¶¶¶¶¶¶¶¶ØØ¶¶¶¶¶¶¶Ø----------');
 			}
 			if (name === 'eeveegeneral') {
 				this.add('c|@Eevee General|' + ['Retreat!', 'You may have won the battle, but you haven\'t won the war!', 'I salute you o7'][this.random(3)]);
@@ -1806,27 +1782,27 @@ exports.Formats = [
 				this.add('c|@Enguarde|I let my guard down...');
 			}
 			if (name === 'eos') {
-				this.add('c|@EoS|ÿç‡ºº‡≤•_‡≤•‡ºΩ·åã');
+				this.add('c|@EoS|???_???');
 			}
 			if (name === 'formerhope') {
 				this.add('c|@Former Hope|This is why we can\'t have nice things.');
 			}
 			if (name === 'genesect') {
 				if (pokemon.phraseIndex === 5 || pokemon.phraseIndex === 3 || pokemon.phraseIndex === 1) {
-					this.add('-message', '‚ñÑ‚ñà‚ñà‚ñà‚ñà‚ñÑ‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë');
-					this.add('-message', '‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñÑ‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñÑ‚ñÑ‚ñÑ‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë');
-					this.add('-message', '‚ñë‚ñà‚ñà‚ñà‚ñÄ‚ñÄ‚ñÄ‚ñÑ‚ñÑ‚ñÑ‚ñÄ‚ñÄ‚ñÄ‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë');
-					this.add('-message', '‚ñë‚ñë‚ñë‚ñÑ‚ñÄ‚ñÄ‚ñÄ‚ñÑ‚ñë‚ñë‚ñë‚ñà‚ñÄ‚ñÄ‚ñÑ‚ñë‚ñÑ‚ñÄ‚ñÄ‚ñÑ‚ñë‚ñà‚ñÑ‚ñë‚ñà‚ñë');
-					this.add('-message', '‚ñë‚ñë‚ñë‚ñÑ‚ñÑ‚ñà‚ñà‚ñà‚ñà‚ñë‚ñë‚ñà‚ñÄ‚ñÄ‚ñÑ‚ñë‚ñà‚ñÑ‚ñÑ‚ñà‚ñë‚ñà‚ñÄ‚ñÑ‚ñà‚ñë');
-					this.add('-message', '‚ñë‚ñë‚ñë‚ñë‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñë‚ñà‚ñÑ‚ñÑ‚ñÄ‚ñë‚ñà‚ñë‚ñë‚ñà‚ñë‚ñà‚ñë‚ñÄ‚ñà‚ñë');
-					this.add('-message', '‚ñë‚ñë‚ñë‚ñë‚ñë‚ñÄ‚ñÄ‚ñÄ‚ñÄ‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë‚ñë');
+					this.add('-message', '_¶¶¶¶_¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶');
+					this.add('-message', '¶¶¶¶¶¶_¶¶¶¶¶¶___¶¶¶¶¶¶¶¶¶¶');
+					this.add('-message', '¶¶¶¶ØØØ___ØØØ¶¶¶¶¶¶¶¶¶¶¶¶¶');
+					this.add('-message', '¶¶¶_ØØØ_¶¶¶¶ØØ_¶_ØØ_¶¶_¶¶¶');
+					this.add('-message', '¶¶¶__¶¶¶¶¶¶¶ØØ_¶¶__¶¶¶Ø_¶¶');
+					this.add('-message', '¶¶¶¶¶¶¶¶¶¶¶¶__Ø¶¶¶¶¶¶¶¶Ø¶¶');
+					this.add('-message', '¶¶¶¶¶ØØØØ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶');
 				} else if (pokemon.phraseIndex === 4) {
 					this.add('c|@Genesect|Well, if that\'s what you want');
-					this.add('c|@Genesect|‚î¨‚î¥‚î¨‚î¥‚î§ ï‚Ä¢·¥•‚îú‚î¨‚î¥‚î¨‚î¥');
-					this.add('c|@Genesect|‚î¨‚î¥‚î¨‚î¥‚î§  ï‚Ä¢‚îú‚î¨‚î¥‚î¨‚î¥');
-					this.add('c|@Genesect|‚î¨‚î¥‚î¨‚î¥‚î§   ï‚îú‚î¨‚î¥‚î¨‚î¥');
+					this.add('c|@Genesect|----¶?ï?+----');
+					this.add('c|@Genesect|----¶ ?ï+----');
+					this.add('c|@Genesect|----¶  ?+----');
 				} else {
-					sentences = ["The darkside cannot be extinguished, when you fight...", "ÿç‡ºº‡≤•_‡≤•‡ºΩ·åã lament your dongers ÿç‡ºº‡≤•_‡≤•‡ºΩ·åã", "Y·µí·µò O·∂∞À° ∏ L·∂§·µõ·µâ O·∂∞·∂ú·µâ", "„ÇÑ„Çå„ÇÑ„Çå„Å†„Åú", " ‡≠ß‡ºº‡≤†Áõä‡≤†‡ºΩ‡≠® MRGLRLRLR ‡≠ß‡ºº‡≤†Áõä‡≤†‡ºΩ‡≠®"].randomize();
+					sentences = ["The darkside cannot be extinguished, when you fight...", "???_??? lament your dongers ???_???", "Y?? O??? L??? O???", "??????", " ??????? MRGLRLRLR ???????"].randomize();
 					this.add('c|@Genesect|' + sentences[0]);
 				}
 			}
@@ -1839,22 +1815,19 @@ exports.Formats = [
 			if (name === 'hydroimpact') {
 				this.add('c|@HYDRO IMPACT|Well done, you\'ve gone beyond your limits and have gained my trust. Now go and write your own destiny, don\'t let fate write it for you.');
 			}
-			if (name === 'imanalt') {
-				this.add('c|@imanalt|bshax imo');
-			}
 			if (name === 'innovamania') {
-				sentences = ['Did you rage quit?', 'How\'d you lose with this set?', 'Pm Nani Man to complain about this set ( Õ°¬∞ Õú ñ Õ°¬∞)'];
+				sentences = ['Did you rage quit?', 'How\'d you lose with this set?', 'Pm Nani Man to complain about this set ( ?∞ ?? ?∞)'];
 				this.add('c|@innovamania|' + sentences[this.random(3)]);
 			}
 			if (name === 'jac') {
 				this.add('c|@Jac|bruh');
 			}
 			if (name === 'jinofthegale') {
-				sentences = ['„ÉΩ‡ºº‡∫àŸÑÕú‡∫à‡ºΩÔæâ You\'ve upped your game „ÉΩ‡ºº‡∫àŸÑÕú‡∫à‡ºΩÔæâ?', 'Please don\'t steal my bit-beast!', 'Should have used Black'];
+				sentences = ['???????? You\'ve upped your game ?????????', 'Please don\'t steal my bit-beast!', 'Should have used Black'];
 				this.add('c|@jin of the gale|' + sentences[this.random(3)]);
 			}
 			if (name === 'kostitsynkun') {
-				this.add('c|@Kostitsyn-kun|Kyun ‚òÖ Kyun~');
+				this.add('c|@Kostitsyn-kun|Kyun ? Kyun~');
 			}
 			if (name === 'kupo') {
 				this.add('c|@kupo|:C');
@@ -1893,7 +1866,7 @@ exports.Formats = [
 				this.add('c|@qtrx|' + sentences[this.random(3)]);
 			}
 			if (name === 'queez') {
-				this.add('c|@Queez|(‚óï‚Äø‚óï‚úø)');
+				this.add('c|@Queez|(????)');
 			}
 			if (name === 'rekeri') {
 				this.add('c|@rekeri|lucky af :[');
@@ -1912,8 +1885,8 @@ exports.Formats = [
 				this.add('-message', 'scalarmotion was banned by Nani Man. (spangj)');
 			}
 			if (name === 'scotteh') {
-				this.add('-message', '‚ñÑ‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñÑ.‚ñ≤.‚ñ≤.‚ñ≤.‚ñ≤.‚ñ≤.‚ñ≤');
-				this.add('-message', '‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñà‚ñÄ‚ñÄ');
+				this.add('-message', '_¶¶¶¶¶¶¶_.?.?.?.?.?.?');
+				this.add('-message', '¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶ØØ');
 			}
 			if (name === 'shamethat') {
 				sentences = ["ok agree to disagree", "rematch, don't attack this time", "i blame beowulf"];
@@ -1957,7 +1930,7 @@ exports.Formats = [
 				this.add('c|@Timbuktu|' + ['</3', 'broken'][this.random(2)]);
 			}
 			if (name === 'trickster') {
-				sentences = ['RIP in pepperoni cappuccino pistachio.', 'El psy congroo.', 'W-wow! Hacker!', '‚ÄúThis guy\'s team is CRAZY!‚Äù ‚òë ‚ÄúMy team can\'t win against a team like that‚Äù ‚òë "He NEEDED precisely those two crits to win" ‚òë ‚ÄúHe led with the only Pokemon that could beat me‚Äù ‚òë "He got the perfect hax" ‚òë ‚ÄúThere was nothing I could do‚Äù ‚òë ‚ÄúI played that perfectly‚Äù', '(‚äôÔπè‚äô‚úø)'];
+				sentences = ['RIP in pepperoni cappuccino pistachio.', 'El psy congroo.', 'W-wow! Hacker!', 'ìThis guy\'s team is CRAZY!î ? ìMy team can\'t win against a team like thatî ? "He NEEDED precisely those two crits to win" ? ìHe led with the only Pokemon that could beat meî ? "He got the perfect hax" ? ìThere was nothing I could doî ? ìI played that perfectlyî', '(????)'];
 				this.add('c|@Trickster|' + sentences[this.random(5)]);
 			}
 			if (name === 'waterbomb') {
@@ -1979,7 +1952,7 @@ exports.Formats = [
 
 			// Drivers.
 			if (name === 'acedia') {
-				this.add('c|%Acedia|My dad smoked his whole life. One day my mom told him "If you want to see your children graduate, you have to stop". 3 years later he died of lung cancer. My mom told me "Dont smoke; dont put your family through this". At 24, I have never touched a cigarette. I must say, I feel a sense of regret, because watching you play Pokemon gave me cancer anyway ( Õù¬∞ Õú ñÕ°¬∞)');
+				this.add('c|%Acedia|My dad smoked his whole life. One day my mom told him "If you want to see your children graduate, you have to stop". 3 years later he died of lung cancer. My mom told me "Dont smoke; dont put your family through this". At 24, I have never touched a cigarette. I must say, I feel a sense of regret, because watching you play Pokemon gave me cancer anyway ( ?∞ ???∞)');
 			}
 			if (name === 'aelita') {
 				sentences = ['Oh no, the Scyphozoa\'s here!', 'Devirtualized...', 'Stones. Aelita Stones. Like the rock group. I\'m Odd\'s cousin from Canada.'];
@@ -1994,8 +1967,8 @@ exports.Formats = [
 				this.add('c|%Articuno|' + sentences[this.random(3)]);
 			}
 			if (name === 'astara') {
-				sentences = ['/me twerks into oblivion', 'good night ‚ô•', 'Astara Vista Baby'];
-				this.add('c|%Ast‚òÜarA|' + sentences[this.random(3)]);
+				sentences = ['/me twerks into oblivion', 'good night ?', 'Astara Vista Baby'];
+				this.add('c|%Ast?arA|' + sentences[this.random(3)]);
 			}
 			if (name === 'astyanax') {
 				this.add('c|%Astyanax|:^( Bottom kek');
@@ -2031,7 +2004,7 @@ exports.Formats = [
 				this.add('c|%LJDarkrai|:<');
 			}
 			if (name === 'majorbling') {
-				this.add('c|%Majorbling|There is literally no way to make this pokemon good...(„Çû‡πëT  À≥Ã´T\'‡πë) ');
+				this.add('c|%Majorbling|There is literally no way to make this pokemon good...(??T  ??T\'?) ');
 			}
 			if (name === 'raseri') {
 				this.add('c|%raseri|banned');
@@ -2066,7 +2039,10 @@ exports.Formats = [
 				this.add('c|+Cathy|I was being facetious');
 			}
 			if (name === 'diatom' && !pokemon.hasBeenThanked) {
-				this.add('c|‚òÖ' + pokemon.side.foe.name + '|Thanks Diatom...');
+				this.add('c|?' + pokemon.side.foe.name + '|Thanks Diatom...');
+			}
+			if (name === 'imanalt') {
+				this.add('c|+imanalt|bshax imo');
 			}
 			if (name === 'mattl') {
 				this.add('c|+MattL|Finish him! You used "Finals week!" Fatality!');
@@ -2731,12 +2707,6 @@ exports.Formats = [
 				delete move.self;
 				move.onHit = function (target, source) {
 					this.directDamage(source.maxhp * 0.35, source, source);
-				};
-			}
-			if (move.id === 'naturepower' && name === 'imanalt') {
-				move.name = 'FREE GENV BH';
-				move.onHit = function (target, source) {
-					this.useMove('earthquake', source, target);
 				};
 			}
 			if (move.id === 'splash' && name === 'innovamania') {
@@ -3691,6 +3661,12 @@ exports.Formats = [
 					};
 				}
 			}
+			if (move.id === 'naturepower' && name === 'imanalt') {
+				move.name = 'FREE GENV BH';
+				move.onHit = function (target, source) {
+					this.useMove('earthquake', source, target);
+				};
+			}
 			if (move.id === 'growl' && name === 'limi') {
 				move.name = 'Resilience';
 				move.onTryHit = function (target, source) {
@@ -3814,7 +3790,7 @@ exports.Formats = [
 			'Xerneas', 'Yveltal', 'Zekrom', 'Focus Sash', 'Kangaskhanite', 'Soul Dew'
 		],
 		validateTeam: function (team, format) {
-			if (team.length > 3) return ['You may only bring up to three Pok√©mon.'];
+			if (team.length > 3) return ['You may only bring up to three PokÈmon.'];
 		},
 		onBegin: function () {
 			this.p1.pokemon = this.p1.pokemon.slice(0, 1);
@@ -3828,9 +3804,9 @@ exports.Formats = [
 		section: "Other Metagames",
 
 		ruleset: ['Pokemon', 'Standard', 'Baton Pass Clause', 'Swagger Clause', 'Same Type Clause', 'Team Preview'],
-		banlist: ['Arceus', 'Blaziken', 'Darkrai', 'Deoxys', 'Deoxys-Attack', 'Dialga', 'Giratina', 'Giratina-Origin', 'Groudon', 'Ho-Oh',
+		banlist: ['Arceus', 'Blaziken', 'Darkrai', 'Deoxys', 'Deoxys-Attack', 'Dialga', 'Giratina', 'Giratina-Origin', 'Greninja', 'Groudon', 'Ho-Oh',
 			'Kyogre', 'Kyurem-White', 'Lugia', 'Mewtwo', 'Palkia', 'Rayquaza', 'Reshiram', 'Talonflame', 'Xerneas', 'Yveltal', 'Zekrom',
-			'Gengarite', 'Kangaskhanite', 'Lucarionite', 'Mawilite', 'Salamencite', 'Shaymin-Sky', 'Slowbronite', 'Soul Dew'
+			'Gengarite', 'Kangaskhanite', 'Lucarionite', 'Mawilite', 'Metagrossite', 'Salamencite', 'Shaymin-Sky', 'Slowbronite', 'Soul Dew'
 		]
 	},
 	{
@@ -3885,7 +3861,7 @@ exports.Formats = [
 				for (var i in template.abilities) {
 					if (set.ability === template.abilities[i]) legalAbility = true;
 				}
-				if (!legalAbility) return ['The ability ' + set.ability + ' is banned on Pok√©mon that do not naturally have it.'];
+				if (!legalAbility) return ['The ability ' + set.ability + ' is banned on PokÈmon that do not naturally have it.'];
 			}
 		}
 	},
@@ -3982,7 +3958,7 @@ exports.Formats = [
 		validateSet: function (set) {
 			var template = this.getTemplate(set.species || set.name);
 			if (!template.evos || template.evos.length === 0 || !template.prevo) {
-				return [set.species + " is not the middle Pok√©mon in an evolution chain."];
+				return [set.species + " is not the middle PokÈmon in an evolution chain."];
 			}
 		},
 		ruleset: ['Pokemon', 'Standard', 'Team Preview'],

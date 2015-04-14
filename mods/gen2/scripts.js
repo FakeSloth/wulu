@@ -47,7 +47,7 @@ exports.BattleScripts = {
 			if ((this.species in {'Cubone':1, 'Marowak':1} && this.item === 'thickclub' && statName === 'atk') || (this.species === 'Pikachu' && this.item === 'lightball' && statName === 'spa')) {
 				stat *= 2;
 			} else if (this.species === 'Ditto' && this.item === 'metalpowder' && statName in {'def':1, 'spd':1}) {
-				// what. the. fuck. stop playing pokÃ©mon
+				// what. the. fuck. stop playing pokémon
 				stat *= 1.5;
 			}
 
@@ -294,7 +294,7 @@ exports.BattleScripts = {
 
 		// Is it an OHKO move?
 		if (move.ohko) {
-			// If it is, move hits if the PokÃ©mon is more level.
+			// If it is, move hits if the Pokémon is more level.
 			if (target.level > pokemon.level) {
 				this.add('-failed', target);
 				return false;
@@ -920,7 +920,7 @@ exports.BattleScripts = {
 			var set = this.randomSet(template, i);
 			pokemon.push(set);
 
-			// Now let's increase the counters. First, the PokÃ©mon left.
+			// Now let's increase the counters. First, the Pokémon left.
 			pokemonLeft++;
 
 			// Type counter.
@@ -965,6 +965,16 @@ exports.BattleScripts = {
 
 		var j = 0;
 		do {
+			// Keep track of all moves we have:
+			hasMove = {};
+			for (var k = 0; k < moves.length; k++) {
+				if (moves[k].substr(0, 11) === 'hiddenpower') {
+					hasMove['hiddenpower'] = true;
+				} else {
+					hasMove[moves[k]] = true;
+				}
+			}
+
 			// Choose next 4 moves from learnset/viable moves and add them to moves list:
 			while (moves.length < 4 && moveKeys.length) {
 				var moveid = this.sampleNoReplace(moveKeys);
@@ -1008,8 +1018,8 @@ exports.BattleScripts = {
 					for (var iv in HPivs) {
 						ivs[iv] = HPivs[iv];
 					}
+					moveid = 'hiddenpower';
 				}
-				if (hasMove[moveid]) rejected = true;
 				if (!template.essentialMove || moveid !== template.essentialMove) {
 					var isSetup = false;
 
@@ -1108,9 +1118,12 @@ exports.BattleScripts = {
 					case 'sleeptalk':
 						if (!hasMove['rest']) rejected = true;
 						break;
+					case 'rest':
+						if (hasMove['roar']) rejected = true;
+						break;
 					} // End of switch for moveid
 				}
-				if (rejected && j < moveKeys.length) {
+				if (rejected && j < moveKeys.length - 1) {
 					moves.splice(k, 1);
 					break;
 				}

@@ -368,14 +368,14 @@ exports.BattleFormats = {
 	speciesclause: {
 		effectType: 'Rule',
 		onStart: function () {
-			this.add('rule', 'Species Clause: Limit one of each PokÃ©mon');
+			this.add('rule', 'Species Clause: Limit one of each Pokémon');
 		},
 		validateTeam: function (team, format) {
 			var speciesTable = {};
 			for (var i = 0; i < team.length; i++) {
 				var template = this.getTemplate(team[i].species);
 				if (speciesTable[template.num]) {
-					return ["You are limited to one of each PokÃ©mon by Species Clause.", "(You have more than one " + template.name + ")"];
+					return ["You are limited to one of each Pokémon by Species Clause.", "(You have more than one " + template.name + ")"];
 				}
 				speciesTable[template.num] = true;
 			}
@@ -390,7 +390,7 @@ exports.BattleFormats = {
 				if (name) {
 					if (name === team[i].species) continue;
 					if (nameTable[name]) {
-						return ["Your PokÃ©mon must have different nicknames.",  "(You have more than one " + name + ")"];
+						return ["Your Pokémon must have different nicknames.",  "(You have more than one " + name + ")"];
 					}
 					nameTable[name] = true;
 				}
@@ -513,7 +513,7 @@ exports.BattleFormats = {
 		effectType: 'Banlist',
 		name: 'Baton Pass Clause',
 		onStart: function () {
-			this.add('rule', 'Baton Pass Clause: Limit one PokÃ©mon knowing Baton Pass');
+			this.add('rule', 'Baton Pass Clause: Limit one Pokémon knowing Baton Pass');
 		},
 		validateTeam: function (team, format) {
 			var problems = [];
@@ -521,7 +521,7 @@ exports.BattleFormats = {
 			for (var i = 0; i < team.length; i++) {
 				if (team[i].moves.indexOf('Baton Pass') > -1) BPcount++;
 				if (BPcount > 1) {
-					problems.push("You are limited to one PokÃ©mon with the move Baton Pass by the Baton Pass Clause.");
+					problems.push("You are limited to one Pokémon with the move Baton Pass by the Baton Pass Clause.");
 					break;
 				}
 			}
@@ -595,7 +595,7 @@ exports.BattleFormats = {
 	sametypeclause: {
 		effectType: 'Rule',
 		onStart: function () {
-			this.add('rule', 'Same Type Clause: PokÃ©mon in a team must share a type');
+			this.add('rule', 'Same Type Clause: Pokémon in a team must share a type');
 		},
 		validateTeam: function (team, format, teamHas) {
 			if (!team[0]) return;
@@ -613,6 +613,9 @@ exports.BattleFormats = {
 				// Very complex bans
 				if (typeTable.length > 1) return;
 				switch (typeTable[0]) {
+				case 'Flying':
+					if (teamHas['zapdos']) return ["Zapdos is banned from Flying monotype teams."];
+					break;
 				case 'Psychic':
 					if (teamHas['galladite']) return ["Galladite is banned from Psychic monotype teams."];
 					break;
