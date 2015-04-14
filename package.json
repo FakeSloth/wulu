@@ -28,7 +28,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "mocha && eslint wulu/src",
+    "test": "eslint wulu/src",
     "lint": "eslint wulu/src"
   },
   "bin": "./app.js",
