@@ -1,6 +1,6 @@
 {
   "name": "wulu",
-  "version": "1.10.0-beta",
+  "version": "2.0.0",
   "description": "Extentions and plugins for Pokemon Showdown",
   "dependencies": {
     "chalk": "^1.0.0",
@@ -28,7 +28,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "gulp && mocha && eslint wulu/src",
+    "test": "mocha && eslint wulu/src",
     "lint": "eslint wulu/src"
   },
   "bin": "./app.js",

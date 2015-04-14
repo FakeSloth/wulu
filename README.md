@@ -1,6 +1,6 @@
 # wulu [![Version][version]][changelog] [![Build Status][travis-img]][travis-link] [![Dependency Status][deps-img]][deps-link] [![devDependency Status][dev-img]][dev-link]
 
-[version]: https://img.shields.io/badge/version-1.9.3-blue.svg
+[version]: https://img.shields.io/badge/version-2.0.0-blue.svg
 [changelog]: https://github.com/FakeSloth/wulu/blob/master/CHANGELOG.md
 [travis-img]: https://travis-ci.org/FakeSloth/wulu.svg?branch=master
 [travis-link]: https://travis-ci.org/FakeSloth/wulu
@@ -34,21 +34,16 @@ The easiest way to get started is to clone the repository:
 
 ```bash
 $ git clone https://github.com/FakeSloth/wulu.git
-$ cd wulu
-$ npm install
 ```
+
+You can plug in and replace the revelant files to start up the server with wulu
+using Pokemon-Showdown.
 
 wulu requires [MongoDB](http://www.mongodb.com). Open up
 another command prompt or terminal:
 
 ```bash
 $ mongod
-```
-
-Then go back to the other terminal or command prompt to start up the server:
-
-```bash
-$ node app.js
 ```
 
 Documentation
@@ -164,7 +159,7 @@ Versioning
 
 ### 2.x.x
 
-Stable Release of wulu. Most features implemented. Should work 100% with few 
+Stable Release of wulu. Most features implemented. Should work with few 
 or no bugs.
 
 ### 1.x.x

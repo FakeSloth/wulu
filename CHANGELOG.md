@@ -1,4 +1,4 @@
-1.10.0
+2.0.0 / 2015-04-13
 ==================
 
   * Add permanent custom symbol
@@ -10,6 +10,7 @@
   * Fix emoticons parsing when using commands
   * Fix regdate
   * Fix message transfermoney sending to the wrong user
+  * Remove uncessary stuff
   * Seperate users Mongo collections into users and usergroups
     - usernames are now userids in the users collections
   * dev-deps: eslint@^0.19.0
